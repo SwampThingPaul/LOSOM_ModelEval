@@ -400,6 +400,38 @@ Percent difference of average flow-weighted mean relative to the FWO (LSM25B) al
 ]
 
 ---
+name: Acknowledgments
+
+### Acknowledgments
+
+```{r ,out.width="8%"}
+knitr::include_graphics("https://www.sfwmd.gov/sites/default/files/documents/sfwmd-seal-hq.png")
+```
+South Florida Water Management District ([DBHYDRO](https://www.sfwmd.gov/science-data/dbhydro))
+
+
+```{r, out.width="8%"}
+knitr::include_graphics("https://www.publications.usace.army.mil/Portals/76/Publications/EngineerStandardsGraphics/gs-03.gif")
+```
+US Army Corps of Engineers ([USACE LOSOM](https://www.saj.usace.army.mil/LOSOM/))
+
+  * Interagency Modeling Center
+
+[HTML Slide deck](https://sccf-tech.github.io/slides/LOSOM/iter1/SCCF_iter1_LOSOM_ENLMrslt.html) | [PDF Slide deck](https://sccf-tech.github.io/slides/LOSOM/iter1/SCCF_iter1_LOSOM_ENLMrslt.pdf) | [RMarkdown Source](https://github.com/SwampThingPaul/LOSOM_ModelEval) &copy; Julian (2021) [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
+
+.pull-left[
+```{r ,fig.align="center",out.width="35%"}
+knitr::include_graphics('./Plots/SCCF Logo knockout_c.png')
+```
+]
+
+.pull-right[
+```{r ,fig.align="center",out.width="45%"}
+knitr::include_graphics('./Plots/ConSWFL.jpeg')
+```
+]
+
+---
 name: refs
 
 ### References
