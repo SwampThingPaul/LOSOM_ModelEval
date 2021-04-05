@@ -168,6 +168,56 @@ ln(TN Load_{S80}) = 1.76\times 10^{-2} + (6.60\times 10^{-8} Q_{C44 Basin}) + (1
   * Model as [.RData file](https://github.com/SwampThingPaul/LOSOM_ENLM/blob/3fc1caa72640217bbf8646f5bf503f1b474d5247/Export/SLE_mods.RData)
 
 ---
+name: files
+
+### Metadata
+```{r,echo=F}
+dat=read.csv("C:/Julian_LaCie/_GitHub/LOSOM_ModelEval/Export/RSMBN_iter1_load_CRE.csv")
+dat$WY=as.numeric(dat$WY)
+```
+
+<!--
+```{r,echo=T}
+head(dat,2)
+```
+-->
+
+```{r,echo=F}
+flextable(head(dat,3))%>%
+  colformat_double(j=c(2:5,7:12),big.mark="",digits=0)%>%
+  colformat_double(j=6,big.mark="",digits=2)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=8,part="body")%>%
+  fontsize(size=9,part="header")%>%
+  autofit()%>%
+  theme_box()%>%
+  padding(padding=0.1,padding.left = 2,padding.right=2,part="all")%>%
+  align(align="center",part="all")%>%
+  footnote(i=1,j=1,
+           part="header",value=as_paragraph("only the first two rows of data"),ref_symbols =c(" 1 "))
+  # width(width=c(0.5,0.5,0.75,0.75,))
+```
+
+```{r}
+data.frame(Column=c("Alt", "WY", "Q.S77/Q.S308", "Q.S79/Q.80", "Q.C43/Q.C44", "mean.stg", "TPLoad.kg.fit", 
+"TPLoad.kg.95LCI", "TPLoad.kg.95UCI", "TNLoad.kg.fit", "TNLoad.kg.95LCI", 
+"TNLoad.kg.95UCI"),
+Units=c(NA,NA,"Ac-Ft WY\u207B\u00B9","Ac-Ft WY\u207B\u00B9","Ac-Ft WY\u207B\u00B9","Ft, NGVD",rep("kg WY\u207B\u00B9",6)),Des=c("Model Alternative","Florida Water Year (May - April)","Annual Discharge S77/S308 (depending on file)","Annual Discharge S79/S80 (depending on file)","Annual Discharge C43/C44 (depending on file)","Annual (WY) average Lake Okeechobee Stage","Predicted TP load","Predicted 95% lower CI TP load","Predicted 95% upper CI TP load","Predicted TN load","Predicted 95% lower CI TN load","Predicted 95% upper CI TN load"))%>%
+  flextable()%>%
+  width(width=c(1,1.25,3))%>%
+  merge_v(j=2)%>%
+  fix_border_issues()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=11,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%
+  set_header_labels("Des"="Description")%>%
+  footnote(i=1,j=1,
+           part="header",value=as_paragraph("TP = Total Phosphorus; TN = Total Nitrogen; WY = Florida Water Year; Ac-Ft = Acre-foot; kg = kilogram; CI = Confidence Interval; NGVD = National Geodetic Vertical Datum"),ref_symbols =c(" "))
+```
+
+---
 name: criticalload
 
 ### Critical Loads
