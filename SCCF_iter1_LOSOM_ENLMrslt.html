@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM iter1</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt; DRAFT &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+.pull-left[
+#### Iteration 1 Modeling -&lt;br&gt;Estuary Nutrient Loading Models
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+**DRAFT** - April 05, 2021
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+name: alternatives
+
+### Iteration 1 - Model runs
+
+
+&lt;template id="35bb6c79-15e2-4e80-9c8f-48a03ebfba31"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-c1608f0e{border-collapse:collapse;}.cl-c1589e16{font-family:'Times New Roman';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c1589e17{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c1589e18{font-family:'Times New Roman';font-size:5.4pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:2.7pt;}.cl-c1589e19{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-c1589e1a{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-c158ec0e{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-c158ec0f{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-c158ec10{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-c15939f2{width:252pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f3{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f4{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f5{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f6{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f7{width:252pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f8{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939f9{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939fa{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939fb{width:252pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15939fc{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15960e4{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15960e5{width:252pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15960e6{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-c15960e7{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-c1608f0e'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15960e4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e16"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15960e5"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e16"&gt;Category&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15960e6"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e16"&gt;P Index&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15960e7"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e16"&gt;Model Index&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;LCMECB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;LOSOM Existing Condition Baseline 2019&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;LCM25B&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;LOSOM No Action 2025 (FWO)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;ABNE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Algal Bloom Risk for Northern Estuaries&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;6329&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;1C-1_8086&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;ECRE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Ecology - Caloosahatchee Estuary&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;7023&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;2C_2193&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;ELOK&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Ecology - Lake Okeechobee&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;601&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;LORS08flex_2827&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;ESFL&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Ecology - South Florida&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;18729 (mode 2)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;4BC-2_6132&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;ESLE&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Ecology - St. Lucie Estuary&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;22448&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;4C-1_3307&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;WAS&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Water Supply&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;15122&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;4BC-1_5423&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;REC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Recreation&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;20814&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;4C-1_687&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;NAV&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Navigation&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;15617&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;4BC-1_7802&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;WRDC&lt;/span&gt;&lt;span class="cl-c1589e18"&gt; 1 &lt;/span&gt;&lt;span class="cl-c1589e18"&gt; a &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Alternative to address WRDA2020 requirements for Caloosahatchee&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;WRDS&lt;/span&gt;&lt;span class="cl-c1589e18"&gt; 2 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Alternative to address WRDA2020 requirements for St Luice&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;SPAS&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Stakeholder Plan - Audubon&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f4"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;SPEF&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f2"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Stakeholder Plan - Everglades Foundation&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f5"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f3"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-c15939f6"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;SPLC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f7"&gt;&lt;p class="cl-c158ec0e"&gt;&lt;span class="cl-c1589e17"&gt;Stakeholder Plan - Lakeside Communities&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f8"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-c15939f9"&gt;&lt;p class="cl-c158ec0f"&gt;&lt;span class="cl-c1589e17"&gt;---&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="4"class="cl-c15939fa"&gt;&lt;p class="cl-c158ec10"&gt;&lt;span class="cl-c1589e19"&gt; 1 &lt;/span&gt;&lt;span class="cl-c1589e1a"&gt;Prohibiting high volume releases S77,S78,S79&lt;/span&gt;&lt;span class="cl-c1589e1a"&gt;; &lt;/span&gt;&lt;span class="cl-c1589e19"&gt; a &lt;/span&gt;&lt;span class="cl-c1589e1a"&gt;Does not satisfy Dam Saftey criteria.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="4"class="cl-c15939fa"&gt;&lt;p class="cl-c158ec10"&gt;&lt;span class="cl-c1589e19"&gt; 2 &lt;/span&gt;&lt;span class="cl-c1589e1a"&gt;Prohibiting high volume releases S308,S80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="eb292601-540d-48ed-a51a-ba9122e3d623"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("eb292601-540d-48ed-a51a-ba9122e3d623");
+var template = document.getElementById("35bb6c79-15e2-4e80-9c8f-48a03ebfba31");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+---
+name: stat101
+
+### Quick 101
+
+.pull-left[
+
+* How to read box-and-whisker plots or boxplots
+
+&lt;img src="./Plots/boxplot_explain.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+* Duration curves are based on cumulative distribution functions. 
+
+&lt;img src="./Plots/ecdf_explain.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+* *Example:* What is the data value 50% (or 0.5) of the time?
+  * Follow the red dashed lines and you get a value of -0.04.
+
+More reading on empirical CDF at this [link](https://towardsdatascience.com/what-why-and-how-to-read-empirical-cdf-123e2b922480).
+]
+
+---
+name: methods
+
+### The Models
+
+Caloosahatchee River Estuary (S-79) - [Model Presentation](https://owper-tech.github.io/slides/LOSOM/ENLM/Julian_LOSOM_CRE_ENLM_ad1) - FDEP (2021a)
+
+`\begin{align*}
+TP Load_{S79} = 127156 + 0.20 Q_{C43 Basin} + 0.08 Q_{S77} - 7689 Mean  Lake  Stage
+\end{align*}`
+
+`\begin{align*}
+TN Load_{S79} = 27561 + 1.53 Q_{C43 Basin} + 1.58 Q_{S77} + 20813 Mean  Lake  Stage
+\end{align*}`
+
+   * Model as [.RData file](https://github.com/SwampThingPaul/LOSOM_ENLM/blob/3fc1caa72640217bbf8646f5bf503f1b474d5247/Export/CRE_mods.RData)
+
+
+&lt;br&gt;
+
+St Lucie River Estuary (S-80) - [Model Presentation](https://owper-tech.github.io/slides/LOSOM/ENLM/Julian_LOSOM_SLE_ENLM) - FDEP (2021b)
+
+.center[
+.small[
+`\begin{align*}
+ln(TP Load_{S80}) = -2.49 - (2.85x10^{-7}\times Q_{C44 Basin}) - (5.29x10^{-8}\times Q_{S308}) + (1.22\times ln(Q_{S80}))\\- (0.13\times Mean Stage)
+\end{align*}`
+]
+]
+
+.small[
+`\begin{align*}
+ln(TN Load_{S80}) = 1.76\times 10^{-2} + (6.60\times 10^{-8} Q_{C44 Basin}) + (1.99\times 10^{-7} Q_{S308}) + (1.06\times 10^{-2} ln(Q_{S80}))\\ - (1.70x10^{-2} Mean  Stage)
+\end{align*}`
+]
+
+  * Model as [.RData file](https://github.com/SwampThingPaul/LOSOM_ENLM/blob/3fc1caa72640217bbf8646f5bf503f1b474d5247/Export/SLE_mods.RData)
+
+---
+name: criticalload
+
+### Critical Loads
+
+* The concept of critical loads was proposed as a way to evaluate the modeled loads across alternatives.
+  * Janicki (2003)
+
+&lt;img src="./Plots/Janicki2003_Fig4_1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.small[
+* Janicki Environmental (2003) Development of Critical Loads for the C-43 Basin, Caloosahatchee River. Prepared for: Florida Department of Environmental Protection, Tallahassee, FL.
+
+]
+
+---
+name: criticalload2
+
+### Critical Loads
+
+* However, when attempting to verify this relationship for purposes of this evaluation the relationship (based on available data) were not congruent with prior efforts (Janicki 2003) or were not consistent with temporal resolution of the models (Doering et al. 2006).
+  
+&lt;img src="./Plots/Iteration_1/C43_CriticalLoad.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[S-79 TP and TN annual loads compared to spatially averaged annual geometric mean Chlorophyll-a concentration for each segment.]
+
+* The effects of season, color (CDOM), biology, and hydrodynamics affect the chlorophyll-load relationship across the estuary.
+
+---
+name: CRE
+class: middle, center
+
+## Caloosahatchee River Estuary
+
+---
+name: ldc-TP
+
+### Total Phosphorus Load Duration Curve
+
+
+&lt;img src="./Plots/Iteration_1/S79_TPLoadDuration.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[Cumulative distribution/load duration curve comparison of S-79 TP loads for each alternative relative to FWO and ECB.]
+
+* Relative to FWO - REC, WRDS and ESLE results in generally higher loads
+
+---
+name: bxp TP
+
+### Total Phosphorus Load
+
+&lt;img src="./Plots/Iteration_1/S79_TPLoad_bxp.png" width="75%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing annual TP loads during the simulation period across alternatives. Black-dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: ldc-TN
+
+### Total Nitrogen Load Duration Curve
+
+&lt;img src="./Plots/Iteration_1/S79_TNLoadDuration.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[Cumulative distribution/load duration curve comparison of S-79 TN loads for each alternative relative to FWO and ECB.]
+
+* Relative to FWO - REC, WRDS and ESLE results in generally higher loads
+
+---
+name: bxp TN
+
+### Total Nitrogen Load 
+
+&lt;img src="./Plots/Iteration_1/S79_TNLoad_bxp.png" width="75%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing annual TN loads during the simulation period across alternatives. Black-dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: loadsum
+
+### S-79 Load Summary
+
+.pull-left[
+&lt;img src="./Plots/Iteration_1/S79_Load_PerDiff.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average load relative to the FWO (LSM25B) alternative over the entire simulation period for total phosphorus (left) and total nitrogen (right) loads.
+
+* ABNE, ECRE, ESFL and *WRDC* provide load benefit (negative % difference).
+
+* ESLE, WRDC, and REC provide load impact (positive % difference).
+
+* Remaining alternatives result in minor changes (±) to loading.
+
+]
+
+
+---
+name: FWM
+
+### S-79 FWM Concentration
+
+&lt;img src="./Plots/Iteration_1/S79_FWM_bxp.png" width="70%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing annual TP (top) and TN (bottom) flow-weighted mean concentration during the simulation period across alternatives. Black-dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: fwmsum
+
+### S-79 FWM Summary
+
+.pull-left[
+&lt;img src="./Plots/Iteration_1/S79_FWM_PerDiff.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average flow-weighted mean relative to the FWO (LSM25B) alternative over the entire simulation period for total phosphorus (left) and total nitrogen (right) loads.
+
+]
+
+---
+name: SLE
+class: middle, center
+
+## St Lucie River Estuary
+
+---
+name: ldc-TP SLE
+
+### Total Phosphorus Load Duration Curve
+
+
+&lt;img src="./Plots/Iteration_1/S80_TPLoadDuration.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[Cumulative distribution/load duration curve comparison of S-80 TP loads for each alternative relative to FWO and ECB.]
+
+---
+name: ldc-TN SLE
+
+### Total Nitrogen Load Duration Curve
+
+&lt;img src="./Plots/Iteration_1/S80_TNLoadDuration.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[Cumulative distribution/load duration curve comparison of S-80 TN loads for each alternative relative to FWO and ECB.]
+
+---
+name: bxp TN sle
+
+### Total Nitrogen Load 
+
+&lt;img src="./Plots/Iteration_1/S80_TNLoad_bxp.png" width="75%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing annual TN loads during the simulation period across alternatives. Black-dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: loadsum
+
+### S-80 Load Summary
+
+.pull-left[
+&lt;img src="./Plots/Iteration_1/S80_Load_PerDiff.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average load relative to the FWO (LSM25B) alternative over the entire simulation period for total phosphorus (left) and total nitrogen (right) loads.
+
+
+]
+
+
+---
+name: FWM
+
+### S-80 FWM Concentration
+
+&lt;img src="./Plots/Iteration_1/S80_FWM_bxp.png" width="60%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing annual TP (top) and TN (bottom) flow-weighted mean concentration during the simulation period across alternatives. Black-dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+.small[FWMC during years with &lt;80 ac-ft WY&lt;sup&gt;-1&lt;/sup&gt; were excluded. See original presentation - [link](https://owper-tech.github.io/slides/LOSOM/ENLM/Julian_LOSOM_SLE_ENLM#43).]
+
+---
+name: fwmsum
+
+### S-80 FWM Summary
+
+.pull-left[
+&lt;img src="./Plots/Iteration_1/S80_FWM_PerDiff.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average flow-weighted mean relative to the FWO (LSM25B) alternative over the entire simulation period for total phosphorus (left) and total nitrogen (right) loads.
+
+]
+
+---
+name: refs
+
+### References
+
+* Doering et al (2006) Chlorophyll-a and its use as an indicator of eutrophication in the Caloosahatchee Estuary, Florida. Florida Scientist 69:51–72
+
+* FDEP (2021a) Lake Okeechobee System Operating Manual (WQ Subteam) DRAFT - Caloosahatchee River Estuary Nutrient Loading Model. Presented January 13, 2021.
+
+* FDEP (2021b) Lake Okeechobee System Operating Manual (WQ Subteam) DRAFT - St Lucie Estuary Nutrient Loading Model. Presented January 13, 2021.
+
+* Janicki Environmental (2003) Development of Critical Loads for the C-43 Basin, Caloosahatchee River. Prepared for: Florida Department of Environmental Protection, Tallahassee, FL.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
