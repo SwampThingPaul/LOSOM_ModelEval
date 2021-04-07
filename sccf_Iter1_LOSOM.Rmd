@@ -28,7 +28,7 @@ library(magrittr)
 wd="C:/Julian_LaCie/_Github/LOSOM_ModelEval"
 
 plot.path="C:/Julian_LaCie/_Github/LOSOM_ModelEval/Plots/"
-
+export.path="C:/Julian_LaCie/_GitHub/LOSOM_ModelEval/Export/"
 ```
 
 layout: true
@@ -162,6 +162,12 @@ More reading on empirical CDF at this [link](https://towardsdatascience.com/what
 ]
 
 ---
+name: Lake
+class: middle, center
+
+## Lake Okeechobee
+
+---
 name: sdc
 
 ### Lake Stage Duration Curves
@@ -171,15 +177,72 @@ name: sdc
 knitr::include_graphics('./Plots/Iteration_1/LO_StageDuration.png')
 ```
 
+
+---
+name: LOFreq
+
+### High/Low Stages 
+```{r ,fig.align="center",out.width="75%"}
+knitr::include_graphics('./Plots/Iteration_1/LO_iter1_freq_bxp.png')
+```
+.center[Boxplot representing the frequency of low (<10 Ft NGVD) and high (>17 Ft NGVD) stage elevations during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: LOFreq2
+
+### High/Low Stages 
+.pull-left[
+```{r}
+
+cap.val="Proportion of time during the simulation period where stage elevations \u2265 17 and 10 feet NGVD29 (see stage duration curves)."
+read.csv(paste0(export.path,"highlow_ecdf_rslt.csv"))%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=3,na_str="---")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  bold(part="header")%>%
+  set_header_labels("Alt"="Alternative",
+                    "high.prop"="Proportion of Time\n\u2265 17 Ft NGVD",
+                    "low.prop"="Proportion of Time\n\u2265 10 Ft NGVD")%>%
+  align(j=2:3,part="all",align="center")%>%
+  width(width=c(1,1,1))%>%
+  font(fontname="Times New Roman",part="all")%>%
+  padding(padding=0.5,part="all")%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")
+```
+
+]
+
+.pull-right[
+```{r}
+cap.val="Average frequency of high (>17 Ft NGVD) and low (<10 Ft NGVD) stage occurances across the simulation period (see boxplots)."
+read.csv(paste0(export.path,"highlow_meanfreq_rslt.csv"))[,c(1,3,2)]%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=1,na_str="---")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  bold(part="header")%>%
+  set_header_labels("Alt"="Alternative",
+                    "freqLow"="Avg Freq of\nLow Stage\n(Days Yr\u207B\u00B9)",
+                    "freqHigh"="Avg Freq of\nHigh Stage\n(Days Yr\u207B\u00B9)")%>%
+  align(j=2:3,part="all",align="center")%>%
+  width(width=c(1,1,1))%>%
+  font(fontname="Times New Roman",part="all")%>%
+  padding(padding=0.5,part="all")%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")
+```
+]
+
 ---
 name: envelope
 
 ### Lake Envelope Score
 
-```{r ,fig.align="center",out.width="60%",fig.cap="Boxplot representing the annual normal and recovery total stage envelope score during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+```{r ,fig.align="center",out.width="75%"}
 
 knitr::include_graphics('./Plots/Iteration_1/LakeO_EnvScore_bxp.png')
 ```
+.center[Boxplot representing the annual normal and recovery total stage envelope score during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
 
 ---
 name: envelope2
@@ -196,6 +259,12 @@ knitr::include_graphics('./Plots/Iteration_1/LakeO_EnvScore_sum.png')
 Percent difference of average score relative to the FWO (LSM25B) alternative over the entire simulation period. Both Normal (left) and Recovery (right) envelope scores are presented.
 
 ]
+---
+name: CRE
+class: middle, center
+
+## Caloosahatchee River Estuary
+
 ---
 name: fdc
 
@@ -226,26 +295,28 @@ name: freq
 
 ### Flow Categories
 
-```{r ,fig.align="center",out.width="55%",fig.cap="Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation annual mean." }
+```{r ,fig.align="center",out.width="80%"}
 knitr::include_graphics('./Plots/Iteration_1/CRE_iter1_freq_bxp.png')
 ```
-
+.center[Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
 ---
 name: DrySeason2
 
 ### Dry Season Discharges
-```{r ,fig.align="center",out.width="60%",fig.cap="Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+```{r ,fig.align="center",out.width="60%"}
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentDryQ_bxp.png')
 ```
-
+.center[Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
 ---
 name: Source
 
 ### Source of Discharges
-```{r ,fig.align="center",out.width="50%",fig.cap="Boxplot representing the percent of S-79 discharges originating from the C-43 Basin (top) and Lake Okeechobee (bottom). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+```{r ,fig.align="center",out.width="60%" }
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentBasinQ_bxp.png')
 ```
-
+.center[
+Boxplot representing the percent of S-79 discharges originating from the C-43 Basin (top) and Lake Okeechobee (bottom). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
 ---
 name: Bloom
 
@@ -254,3 +325,49 @@ name: Bloom
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentBloomQ_bxp.png')
 ```
 
+---
+name: SLE
+class: middle, center
+
+## St Lucie Estuary
+
+---
+name: fdcSLE
+
+### Estuary Flow Duration Curves
+
+#### St Lucie Estuary
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/S80_FlowDuration.png')
+```
+
+---
+name: fdc2
+
+### Flow Duration Curves
+
+#### C-44 Canal
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/S308_FlowDuration.png')
+```
+
+---
+name: freqSLE
+
+### Flow Categories
+
+```{r ,fig.align="center",out.width="55%",fig.cap="Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation annual mean." }
+knitr::include_graphics('./Plots/Iteration_1/SLE_iter1_freq_bxp.png')
+```
+
+---
+name: DrySeasonSLE
+
+### Dry Season Discharges
+```{r ,fig.align="center",out.width="60%",fig.cap="Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+knitr::include_graphics('./Plots/Iteration_1/S80_PercentDryQ_bxp.png')
+```

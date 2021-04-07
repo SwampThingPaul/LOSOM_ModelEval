@@ -1,0 +1,107 @@
+---
+title: "LOSOM - Iteration 1 Modeling"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+### Lake Okeechobee Stage Duration Curves 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
+
+## Libraries
+#devtools::install_github("SwampThingPaul/AnalystHelper")
+library(AnalystHelper);
+library(openxlsx)
+library(plyr)
+library(reshape)
+library(dssrip)
+library(zoo)
+library(classInt)
+#
+library(magrittr)
+library(flextable)
+library(ggplot2)
+
+library(plotly)
+## Paths
+wd="C:/Julian_LaCie/_GitHub/LOSOM_ModelEval"
+
+paths=paste0(wd,c("/Plots/","/Export/","/Data/","/src/"))
+# Folder.Maker(paths);#One and done. Creates folders in working directory.
+plot.path=paths[1]
+export.path=paths[2]
+data.path=paths[3]
+
+# -------------------------------------------------------------------------
+WYs=seq(1966,2016,1)
+alts=list.files(paste0(data.path,"Iteration_1/Model_Output/"))
+# alts=alts[!(alts%in%c("SPEF","SPAS","SPLC"))];# removed the Everglades Foundation, Audubon and Lake Commnuities alteratives
+n.alts=length(alts)
+alts.sort=c("LSM25B", "LSMECB","ABNE", "ECRE", "ELOK","ESFL", "ESLE", "WAS","WRDC","WRDS","NAV","REC","SPAS","SPEF","SPLC")
+cols=c("grey50","grey50",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+
+# Lake Stage --------------------------------------------------------------
+lakeO.stage=data.frame()
+for(i in 1:n.alts){
+  dss_out=opendss(paste0(data.path,"Iteration_1/Model_Output/",alts[i],"/RSMBN/RSMBN_output.dss"))  
+  paths=paste0("/RSMBN/LOK/STAGE/01JAN1965 - 01JAN2016/1DAY/SIMULATED/")
+  tmp=data.frame(getFullTSC(dss_out,paths))
+  tmp$Date=date.fun(rownames(tmp))
+  tmp$Alt=alts[i]
+  lakeO.stage=rbind(tmp,lakeO.stage)
+  print(i)
+}
+```
+
+
+
+```{r,out.width = '100%', out.height='650px'}
+
+FWO=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[1])$STAGE)
+FWO$proportion=round(1-FWO$proportion,3)
+FWO$value=round(FWO$value,2)
+ECB=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[2])$STAGE)
+ECB$proportion=round(1-ECB$proportion,3)
+ECB$value=round(ECB$value,2)
+for(i in 3:n.alts){
+  showleg <- F
+  if(i == 3)
+    showleg <- T
+  ecdf.alt=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[i])$STAGE)
+  ecdf.alt$proportion=round(1-ecdf.alt$proportion,3)
+  ecdf.alt$value=round(ecdf.alt$value,2)
+
+p=plot_ly(FWO)%>%
+  add_trace(x=~proportion,y=~value,
+        data=FWO,
+        type="scatter",mode="lines",color=I(adjustcolor('grey',1)),name=alts.sort[1],
+        line=list(width=1), showlegend = showleg)%>%
+  add_trace(x=~proportion,y=~value,
+            data=ECB,
+            color=I("grey"),
+            type="scatter",mode='lines',name=alts.sort[2],
+            line=list(width=1,dash="dash"), showlegend = showleg)%>%
+  add_trace(x=~proportion,y=~value,
+            data=ecdf.alt,
+            color=I(cols[i]),
+            type="scatter",mode='lines',name=alts.sort[i],
+            line=list(width=3))%>%
+  layout(yaxis=list(title="Stage Elevation (Ft, NGVD29)",
+                    titlefont=list(size=8),
+                    range=c(8,18)),
+         xaxis=list(title="Proportion of Time \u2265 Stage Elevation",
+                    titlefont=list(size=8),
+                    range=c(0,1)))
+
+nm <- paste0('p', i-2)
+
+assign(nm,p)
+}
+
+subplot(p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,p11,p12,p13,nrows =4,titleX=T,shareY=T,shareX = T)%>%
+  layout(legend=list(title="Alternatives"))
+
+```
