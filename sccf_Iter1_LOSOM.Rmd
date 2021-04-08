@@ -303,7 +303,7 @@ knitr::include_graphics('./Plots/Iteration_1/CRE_iter1_freq_bxp.png')
 name: DrySeason2
 
 ### Dry Season Discharges
-```{r ,fig.align="center",out.width="60%"}
+```{r ,fig.align="center",out.width="80%"}
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentDryQ_bxp.png')
 ```
 .center[Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
@@ -311,7 +311,7 @@ knitr::include_graphics('./Plots/Iteration_1/S79_PercentDryQ_bxp.png')
 name: Source
 
 ### Source of Discharges
-```{r ,fig.align="center",out.width="60%" }
+```{r ,fig.align="center",out.width="70%" }
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentBasinQ_bxp.png')
 ```
 .center[
@@ -321,9 +321,11 @@ Boxplot representing the percent of S-79 discharges originating from the C-43 Ba
 name: Bloom
 
 ### Bloom Period Discharges
-```{r ,fig.align="center",out.width="55%",fig.cap="Boxplot representing the percent of S-79 discharges during the July to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+```{r ,fig.align="center",out.width="80%" }
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentBloomQ_bxp.png')
 ```
+.center[Boxplot representing the percent of S-79 discharges during the July to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.]
+
 
 ---
 name: SLE
@@ -360,20 +362,25 @@ name: freqSLE
 
 ### Flow Categories
 
-```{r ,fig.align="center",out.width="55%",fig.cap="Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation annual mean." }
+```{r ,fig.align="center",out.width="55%" }
 knitr::include_graphics('./Plots/Iteration_1/SLE_iter1_freq_bxp.png')
 ```
-
+.center[
+Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
 ---
 name: DrySeasonSLE
 
 ### Dry Season Discharges
-```{r ,fig.align="center",out.width="60%",fig.cap="Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
+```{r ,fig.align="center",out.width="80%" }
 knitr::include_graphics('./Plots/Iteration_1/S80_PercentDryQ_bxp.png')
 ```
+.center[
+Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
 
 ---
-name: Lake
+name: LakeOutflow
 class: middle, center
 
 ## Flows South<br>(S351, S352 & S354)
@@ -392,6 +399,32 @@ knitr::include_graphics('./Plots/Iteration_1/EAA_FlowDuration.png')
 
 Flow Duration Curves for [S-354](#S354FDC), [S-351](#S351FDC), [S-352](#S352FDC)
 
+---
+name: EAAQ 
+
+### EAA (S-354 + S-351 + S352)
+```{r ,fig.align="center",out.width="80%" }
+knitr::include_graphics('./Plots/Iteration_1/EAA_discharge_bxp.png')
+```
+.center[
+Boxplot representing the annual discharge volume from Lake Okeechoee to the EAA via S-354, S-351 and S-352 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: EAAQ2
+
+### EAA (S-354 + S-351 + S352)
+.pull-left[
+```{r ,fig.align="center",out.width="80%"}
+
+knitr::include_graphics('./Plots/Iteration_1/EAA_discharge_sum.png')
+```
+]
+
+.pull-right[
+Percent difference of average discharge volume score relative to the FWO (LSM25B) alternative over the entire simulation period.
+
+]
 ---
 class: inverse
 
