@@ -177,7 +177,7 @@ name: sdc
 knitr::include_graphics('./Plots/Iteration_1/LO_StageDuration.png')
 ```
 
-
+[Interative Plots Here](https://sccf-tech.github.io/DataReports/LOSOM/Iteration1_stagecurve.html)
 ---
 name: LOFreq
 
@@ -371,3 +371,68 @@ name: DrySeasonSLE
 ```{r ,fig.align="center",out.width="60%",fig.cap="Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean." }
 knitr::include_graphics('./Plots/Iteration_1/S80_PercentDryQ_bxp.png')
 ```
+
+---
+name: Lake
+class: middle, center
+
+## Flows South<br>(S351, S352 & S354)
+
+---
+name: fdcEAA
+
+### EAA Flow Duration Curves
+
+#### EAA (S-354 + S-351 + S352)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/EAA_FlowDuration.png')
+```
+
+Flow Duration Curves for [S-354](#S354FDC), [S-351](#S351FDC), [S-352](#S352FDC)
+
+---
+class: inverse
+
+---
+name: S354FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-354)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/S354_FlowDuration.png')
+```
+
+[EAA Flow Duration Curves](#fdcEAA)
+
+---
+name: S351FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-351)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/S351_FlowDuration.png')
+```
+
+[EAA Flow Duration Curves](#fdcEAA)
+
+---
+name: S352FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-352)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/S352_FlowDuration.png')
+```
+
+[EAA Flow Duration Curves](#fdcEAA)

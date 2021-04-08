@@ -1,12 +1,22 @@
 ---
-title: "LOSOM - Iteration 1 Modeling"
-output: html_document
+title: "LOSOM - Iteration 1 Modeling Evaluation Tools"
+output: 
+  html_document: 
+    toc: yes
+    includes:
+      after_body: footer.html
 editor_options: 
   chunk_output_type: console
 ---
 
+***
+`r paste("Updated: ",as.POSIXct(Sys.time(),"%Y-%m-%d %H:%M",tz=""))`
 
-### Lake Okeechobee Stage Duration Curves 
+<mark> Still in Development </mark>
+
+The interactive tools presented here were intended for exploration of the current Lake Okeechobee System Operating Manual (LOSOM) development. Presented here are  Iteration 1 model results as provided by USACE.
+
+***
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
@@ -56,6 +66,34 @@ for(i in 1:n.alts){
 }
 ```
 
+### Model Alternatives 
+
+```{r}
+data.frame(Alternative=c("LCMECB","LCM25B","ABNE","ECRE","ELOK","ESFL","ESLE","WAS","REC","NAV","WRDC","WRDS","SPAS","SPEF","SPLC"),
+           Category=c("LOSOM Existing Condition Baseline 2019", "LOSOM No Action 2025 (FWO)", "Algal Bloom Risk for Northern Estuaries","Ecology - Caloosahatchee Estuary", "Ecology - Lake Okeechobee","Ecology - South Florida", "Ecology - St. Lucie Estuary","Water Supply","Recreation","Navigation","Alternative to address WRDA2020 requirements for Caloosahatchee","Alternative to address WRDA2020 requirements for St Luice","Stakeholder Plan - Audubon","Stakeholder Plan - Everglades Foundation","Stakeholder Plan - Lakeside Communities"),
+           Pindex=c(NA,NA,6329,7023,601,"18729 (mode 2)",22448,15122,20814,15617,NA,NA,NA,NA,NA),
+           ModelIndex=c(NA,NA,"1C-1_8086","2C_2193","LORS08flex_2827","4BC-2_6132","4C-1_3307","4BC-1_5423","4C-1_687","4BC-1_7802",NA,NA,NA,NA,NA))%>%
+  flextable()%>%
+  colformat_char(na_str="---")%>%
+  width(width=c(1,3.5,1.5,1))%>%
+  padding(padding=0.5,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  bold(part="header")%>%
+  set_header_labels("Pindex"="P Index",
+                    "ModelIndex"="Model Index")%>%
+  align(j=3:4,part="all",align="center")%>%
+  footnote(i=~Alternative=="WRDC",j=~Alternative,
+           part="body",value=as_paragraph("Prohibiting high volume releases S77,S78,S79"),ref_symbols =c(" 1 "))%>%
+  footnote(i=~Alternative=="WRDS",j=~Alternative,
+           part="body",value=as_paragraph("Prohibiting high volume releases S308,S80"),ref_symbols =c(" 2 "))
+
+```
+
+***
+
+### Lake Okeechobee Stage Duration Curves 
 
 
 ```{r,out.width = '100%', out.height='650px'}
@@ -89,11 +127,11 @@ p=plot_ly(FWO)%>%
             color=I(cols[i]),
             type="scatter",mode='lines',name=alts.sort[i],
             line=list(width=3))%>%
-  layout(yaxis=list(title="Stage Elevation (Ft, NGVD29)",
-                    titlefont=list(size=8),
+  layout(yaxis=list(title="Stage Elevation\n(Ft, NGVD29)",
+                    titlefont=list(size=12),
                     range=c(8,18)),
-         xaxis=list(title="Proportion of Time \u2265 Stage Elevation",
-                    titlefont=list(size=8),
+         xaxis=list(title="Proportion of Time\n\u2265 Stage Elevation",
+                    titlefont=list(size=12),
                     range=c(0,1)))
 
 nm <- paste0('p', i-2)
