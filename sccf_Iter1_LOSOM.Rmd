@@ -234,6 +234,18 @@ read.csv(paste0(export.path,"highlow_meanfreq_rslt.csv"))[,c(1,3,2)]%>%
 ]
 
 ---
+name: LOFreq3
+
+### High/Low Stages 
+
+```{r ,fig.align="center",out.width="50%"}
+
+knitr::include_graphics('./Plots/Iteration_1/LO_totalDays.png')
+```
+
+.center[Total number of days during the simulation period where (Top) stage elevations were `r paste("\u2264")` 11 or `r paste("\u003E")` 16 Ft NGVD29 and (Bottom) `r paste("\u2264")` 10 or `r paste("\u2265")` 17 Ft NGVD29.]
+
+---
 name: envelope
 
 ### Lake Envelope Score
@@ -299,6 +311,16 @@ name: freq
 knitr::include_graphics('./Plots/Iteration_1/CRE_iter1_freq_bxp.png')
 ```
 .center[Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+
+---
+name: freq2
+
+
+```{r ,fig.align="center",out.width="80%"}
+knitr::include_graphics('./Plots/Iteration_1/CRE_FlowCat.png')
+```
+
 ---
 name: DrySeason2
 
