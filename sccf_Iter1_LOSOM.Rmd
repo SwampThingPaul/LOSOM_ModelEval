@@ -316,8 +316,7 @@ knitr::include_graphics('./Plots/Iteration_1/CRE_iter1_freq_bxp.png')
 ---
 name: freq2
 
-
-```{r ,fig.align="center",out.width="80%"}
+```{r ,fig.align="center",out.width="85%"}
 knitr::include_graphics('./Plots/Iteration_1/CRE_FlowCat.png')
 ```
 
