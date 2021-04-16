@@ -411,7 +411,7 @@ name: fdcEAA
 
 ### EAA Flow Duration Curves
 
-#### EAA (S-354 + S-351 + S352)
+#### EAA (S-354 + S-351 + S-352)
 
 ```{r ,fig.align="center",out.width="79%"}
 
@@ -423,7 +423,7 @@ Flow Duration Curves for [S-354](#S354FDC), [S-351](#S351FDC), [S-352](#S352FDC)
 ---
 name: EAAQ 
 
-### EAA (S-354 + S-351 + S352)
+### EAA (S-354 + S-351 + S-352)
 ```{r ,fig.align="center",out.width="80%" }
 knitr::include_graphics('./Plots/Iteration_1/EAA_discharge_bxp.png')
 ```
@@ -434,7 +434,7 @@ Boxplot representing the annual discharge volume from Lake Okeechoee to the EAA 
 ---
 name: EAAQ2
 
-### EAA (S-354 + S-351 + S352)
+### EAA (S-354 + S-351 + S-352)
 .pull-left[
 ```{r ,fig.align="center",out.width="80%"}
 
