@@ -321,13 +321,27 @@ knitr::include_graphics('./Plots/Iteration_1/CRE_FlowCat.png')
 ```
 
 ---
+name: TotalQ
+
+### Annual Discharge
+
+```{r ,fig.align="center",out.width="85%"}
+knitr::include_graphics('./Plots/Iteration_1/S79_WYQ_bxp.png')
+```
+
+.center[
+Boxplot representing the annual discharge volume from S-79 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+
+---
 name: DrySeason2
 
 ### Dry Season Discharges
 ```{r ,fig.align="center",out.width="80%"}
 knitr::include_graphics('./Plots/Iteration_1/S79_PercentDryQ_bxp.png')
 ```
-.center[Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+.center[Boxplot representing the annual percent dry (May - October) season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
 ---
 name: Source
 
@@ -383,12 +397,34 @@ name: freqSLE
 
 ### Flow Categories
 
-```{r ,fig.align="center",out.width="55%" }
+```{r ,fig.align="center",out.width="80%" }
 knitr::include_graphics('./Plots/Iteration_1/SLE_iter1_freq_bxp.png')
 ```
 .center[
 Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
 ]
+
+---
+name: freq2SLE
+
+```{r ,fig.align="center",out.width="85%"}
+knitr::include_graphics('./Plots/Iteration_1/SLE_FlowCat.png')
+```
+
+---
+name: TotalQSLE
+
+### Annual Discharge
+
+```{r ,fig.align="center",out.width="85%"}
+knitr::include_graphics('./Plots/Iteration_1/S80_WYQ_bxp.png')
+```
+
+.center[
+Boxplot representing the annual discharge volume from S-80 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+
 ---
 name: DrySeasonSLE
 
@@ -446,6 +482,62 @@ knitr::include_graphics('./Plots/Iteration_1/EAA_discharge_sum.png')
 Percent difference of average discharge volume score relative to the FWO (LSM25B) alternative over the entire simulation period.
 
 ]
+---
+name: WCA3
+class: middle, center
+
+## Southern Everglades (WCA3)
+
+---
+name: sdc_wca3_1
+
+### Stage Duration Curves
+
+#### WCA-3 (3-62 and 3-63 Average)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/WCA3_6263_StageDuration.png')
+```
+
+---
+name: sdc_wca3_2
+
+### Stage Duration Curves
+
+#### WCA-3 (3-63, 3-64 and 3-65 Average)
+
+```{r ,fig.align="center",out.width="79%"}
+
+knitr::include_graphics('./Plots/Iteration_1/WCA3_636465_StageDuration.png')
+```
+
+
+
+---
+name: WCA3_freqclose
+
+### WCA-3
+.pull-left[
+```{r ,fig.align="center",out.width="100%"}
+
+knitr::include_graphics('./Plots/Iteration_1/WCA_6263_perdiff.png')
+```
+]
+
+.pull-right[
+#### WCA-3 Closure Criteria
+
+* FWC High and Low water closure criteria 
+  * 2-Gauge Average (3-62 and 3-63)
+  * High Water Closure: 11.6 Ft NGVD29
+  * Low Water Closure: 9.3 Ft NGVD29
+
+
+Percent difference of the frequency of daily low (left) and high (right) closure criteria exceedances relative to the FWO (LSM25B) alternative over the entire simulation period.
+
+]
+
 ---
 class: inverse
 
