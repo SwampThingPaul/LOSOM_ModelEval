@@ -489,6 +489,19 @@ class: middle, center
 ## Southern Everglades (WCA3)
 
 ---
+class: WCA3Q
+
+### Annual Discharge
+
+```{r ,fig.align="center",out.width="70%"}
+knitr::include_graphics('./Plots/Iteration_1/WCA3_WYQ_bxp.png')
+```
+
+.center[
+Boxplot representing the annual discharge volume in and out of WCA-3A during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
 name: sdc_wca3_1
 
 ### Stage Duration Curves
@@ -535,6 +548,73 @@ knitr::include_graphics('./Plots/Iteration_1/WCA_6263_perdiff.png')
 
 
 Percent difference of the frequency of daily low (left) and high (right) closure criteria exceedances relative to the FWO (LSM25B) alternative over the entire simulation period.
+
+]
+
+---
+name: WCA3_zoneA
+
+### WCA-3
+.pull-left[
+```{r ,fig.align="center",out.width="80%"}
+
+knitr::include_graphics('./Plots/Iteration_1/WCA_636465_perdiff.png')
+```
+]
+
+.pull-right[
+#### WCA-3 
+
+* 3-Gauge Average (3-63, 3-64 and 3-65)
+* Bottom of Zone A: 9.5 Ft NGVD29
+
+Percent difference of the frequency of daily low (left) and high (right) closure criteria exceedances relative to the FWO (LSM25B) alternative over the entire simulation period.
+
+]
+
+---
+name: ENP
+class: middle, center
+
+## Everglades National Park
+
+---
+name: ENP_methods
+
+### Everglades National Park - Water Quality
+
+- Annual (Federal WY 1966 - 2016) Flow-Weighted Mean TP concentrations were modeled using predictive tools developed during Combined Operations (COP) Planning 
+    - Predictive tools use upstream stage (3-gauge average, stage gradient, stage increase, etc.)
+
+- Relative differences in annual FWM TP were assess.
+
+---
+name: ENP_SRS
+
+### Everglades National Park - Water Quality
+
+```{r ,fig.align="center",out.width="80%" }
+knitr::include_graphics('./Plots/Iteration_1/SRS_FWM_bxp.png')
+```
+.center[
+Boxplot representing the Shark River Slough annual flow-weighted mean TP concentration the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: ENP_SRS2
+
+### Everglades National Park - Water Quality
+
+.pull-left[
+```{r ,fig.align="center",out.width="80%"}
+
+knitr::include_graphics('./Plots/Iteration_1/SRS_FWM_perdiff.png')
+```
+]
+
+.pull-right[
+
+Average percent difference of SRS annual TP FWM concentrations relative to the FWO (LSM25B) alternative over the simulation period.
 
 ]
 
