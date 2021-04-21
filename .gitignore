@@ -36,6 +36,8 @@ vignettes/*.pdf
 rsconnect/
 
 /Export/Pareto_Reeval/
+/Export/
+*.RDataTmp
 /Data/
 /_presentations/
 /src/
