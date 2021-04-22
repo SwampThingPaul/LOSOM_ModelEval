@@ -619,6 +619,200 @@ Average percent difference of SRS annual TP FWM concentrations relative to the F
 ]
 
 ---
+name: MCDA
+class: middle, center
+
+## Multi Criteria Descision Analysis
+### Draft Analysis
+Based on USACE presentation
+
+Includes re-analysis and additional key metrics
+
+---
+name: MCDA_CRE
+
+### Caloosahathcee Estuary Key Metrics
+
+.pull-left[
+
+*USACE presented metrics (12 April 2021)*
+
+```{r}
+data.frame(Metric=c("S79 < 457 cfs","S79 > 6500 cfs", "RECOVER Optimal Events","S79 4500 - 6500 cfs","S79 2600 - 4500 cfs"),Weight=c(0.25,0.25,0.20,0.20,0.10))%>%
+  flextable()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%autofit()
+
+```
+
+*Revised metrics*
+```{r}
+data.frame(Metric=c("S79 30-Day Avg. < 457 cfs","S79 14-Day Avg. RECOVER Optimal Events","S79 >2600 cfs"),Weight=c(0.25,0.50,0.25))%>%
+  flextable()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%autofit()
+```
+
+- Initial metrics seem to skew weighting towards lower flow events.
+
+- While paired down, these metrics put an emphasis on optimal flow events.
+
+]
+
+.pull-right[
+
+```{r}
+alts.sort=c("LSM25B", "LSMECB","ABNE", "ECRE", "ELOK","ESFL", "ESLE", "WAS","WRDC","WRDS","NAV","REC","SPAS","SPEF","SPLC")
+CE.vals=read.csv(paste0(export.path,"CE.MCDA.csv"))
+CE.vals=CE.vals[match(alts.sort,CE.vals$Alt),]
+
+cap.val="MCDA analysis for Ecology - Caloosahatchee River Estuary."
+CE.vals%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=1)%>%
+  set_header_labels("Alt"="Alternatives",
+                    "Score2"="Score\nInitial Metrics",
+                    "Alt.score"="Score\nRevise Metrics")%>%
+  padding(padding=0.5,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%
+  width(width=c(1,1,1))%>%
+  bg(i=~Alt%in%c("ESLE","SPEF","WRDS"),j=2,bg="yellow")%>%
+  footnote(j=2,
+           part="header",value=as_paragraph("Highlighted values differ from initial USACE analysis (rounding?). "),ref_symbols =c(" 1 "))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=2:3,align="center",part="all")
+```
+
+]
+
+---
+name: MCDA_ESFL
+
+### South Florida Key Metrics
+
+.pull-left[
+
+*USACE presented metrics (12 April 2021)*
+```{r}
+data.frame(Metric=c("Dry Season Flows South from Lake Okeechobee (S351 & S354)","Wet Season Flows South from Lake Okeechobee (S351 & S354)","Total STA 2 & STA 3/4 outflow"),Weight=c(0.5,0.25,0.25))%>%
+  flextable()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%width(width=c(2.75,0.5))
+
+```
+
+*Revised metrics*
+```{r}
+data.frame(Metric=c("Dry Season Flows South from Lake Okeechobee (S351 & S354)","Wet Season Flows South from Lake Okeechobee (S351 & S354)","Total STA 2 & STA 3/4 outflow","Freq. WCA-3A low water closure","Freq. WCA-3A high water closure"),Weight=c(0.4,0.10,0.10,0.20,0.20))%>%
+  flextable()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%width(width=c(2.75,0.5))
+
+```
+
+- Added Low and High water closure criteria to assess potential . 
+
+]
+
+.pull-right[
+```{r}
+SFL.vals=read.csv(paste0(export.path,"SFL.MCDA.csv"))
+SFL.vals=SFL.vals[match(alts.sort,SFL.vals$Alt),]
+
+cap.val="MCDA analysis for Ecology - South Florida."
+SFL.vals%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=1)%>%
+  set_header_labels("Alt"="Alternatives",
+                    "Score2"="Score\nInitial Metrics",
+                    "Alt.score"="Score\nRevise Metrics")%>%
+  padding(padding=0.5,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%
+  width(width=c(1,1,1))%>%
+  bg(i=~Alt%in%c("ELOK","ECRE","ABNE","WRDS"),j=2,bg="yellow")%>%
+  footnote(j=2,
+           part="header",value=as_paragraph("Highlighted values differ from initial USACE analysis (rounding?). "),ref_symbols =c(" 1 "))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=2:3,align="center",part="all")
+```
+
+]
+
+---
+name: MCDA_HAB
+
+### Northern Estuaries Algal Bloom - DRAFT Metrics
+
+.pull-left[
+
+*USACE presented metrics (12 April 2021)*
+```{r}
+data.frame(Metric=c("Caloosahatchee Estuary Algal Bloom risk score","St. Lucie Estuary Algal Bloom risk score" ),Weight=c(0.5,0.5))%>%
+  flextable()%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
+  bold(part="header")%>%width(width=c(2.5,0.5))
+
+```
+
+.small[
+* No flows from lake to estuaries May - August: 1.0
+* Flows May - August from lake to estuaries > FWO: 0.0
+* Flows May - August from lake to estuaries < FWO: 0.5
+]
+
+* **Discussion during WQ Subteam**
+  * Changing CRE bloom period to June - August 
+  * Flow from the lake (i.e. QFC tag) versus to estuary
+]
+
+.pull-right[
+
+```{r}
+HAB.vals=read.csv(paste0(export.path,"HAB.MCDA.csv"))
+HAB.vals=HAB.vals[match(alts.sort,HAB.vals$Alt),]
+HAB.vals[HAB.vals$Alt=="LSM25B",2:3]<-NA
+
+cap.val="MCDA analysis for Northern Estuaries Algal Bloom."
+HAB.vals%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=1,na_str="---")%>%
+  set_header_labels("Alt"="Alternatives",
+                    "Score.QFC.RS"="Score\nS77/S308 Reg. Flows",
+                    "Score.est.RS"="Score\nS79/S80 Flows")%>%
+  padding(padding=0.1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  bold(part="header")%>%
+  width(width=c(1,0.75,0.75))%>%
+  footnote(j=1,
+           part="header",value=as_paragraph("Uses May - Aug for SLE; June - Aug for CRE"),ref_symbols =c(" "))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=2:3,align="center",part="all")
+```
+]
+---
 class: inverse
 
 ---
