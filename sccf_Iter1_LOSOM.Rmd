@@ -622,7 +622,7 @@ Average percent difference of SRS annual TP FWM concentrations relative to the F
 name: MCDA
 class: middle, center
 
-## Multi Criteria Descision Analysis
+## Multi Criteria Decision Analysis
 ### Draft Analysis
 Based on USACE presentation
 
@@ -631,7 +631,7 @@ Includes re-analysis and additional key metrics
 ---
 name: MCDA_CRE
 
-### Caloosahathcee Estuary Key Metrics
+### Caloosahatchee Estuary Key Metrics
 
 .pull-left[
 

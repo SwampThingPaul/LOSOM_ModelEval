@@ -188,19 +188,124 @@ screen[1:5,]%>%
            ref_symbols =c(" 3 "))%>%
   footnote(part="header",j=6,
            value=as_paragraph("Number of times 14-day moving average >= 150 and < 1400 cfs."),
-           ref_symbols =c(" 4 "))%>%print(preview="docx")
+           ref_symbols =c(" 4 "))# %>%print(preview="docx")
   
 
 #### 
 ## Lee County Team screening
+plans.model.index=c("3_5602","1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823")
 subset(rslt,Pindex%in%c(6329,25731,26803,26597,26516,26803))
 lee.screen=subset(rslt,Model_Index%in%c("1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823","3_5602"))
 
 lee.screen=lee.screen[match(c("1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823","3_5602"),lee.screen$Model_Index),]
 
 vars=c("Pindex","Model_Index",paste0("PM",c(48,49,51,14,52,53,54,55,56,61,12,13,46,6:10)))
-lee.screen[,vars]%>%write.csv(paste0(export.path,"lee.screen.csv"),row.names = F)
-rslt.basline[,vars]%>%write.csv(paste0(export.path,"lee.screen.base.csv"),row.names = F)
+lee.screen[,vars]# %>%write.csv(paste0(export.path,"lee.screen.csv"),row.names = F)
+rslt.basline[,vars]# %>%write.csv(paste0(export.path,"lee.screen.base.csv"),row.names = F)
+
+
+### MCDA
+# CRE
+wts=c(0.25,0.25,0.2,0.2,0.1)
+vars=paste0("PM",c(48,54,51,53,52))
+length(vars)==length(wts)
+sum(wts)
+CRE.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=lee.screen[,vars[i]]/max(lee.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  CRE.MCDA=cbind(CRE.MCDA,tmp)
+}
+CRE.MCDA$PM48.RS=1-CRE.MCDA$PM48.RS;# lower the better
+CRE.MCDA$PM54.RS=1-CRE.MCDA$PM54.RS;# lower the better
+CRE.MCDA$PM53.RS=1-CRE.MCDA$PM53.RS;# lower the better
+CRE.MCDA$PM52.RS=1-CRE.MCDA$PM52.RS;# lower the better
+CRE.MCDA$CRE.score=apply(CRE.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+CRE.MCDA$CRE.score=round(CRE.MCDA$CRE.score/max(CRE.MCDA$CRE.score),1)
+
+# SLE
+wts=c(0.5,0.3,0.2)
+vars=paste0("PM",c(61,60,17))
+length(vars)==length(wts)
+sum(wts)
+SLE.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=1-(lee.screen[,vars[i]]/max(lee.screen[,vars[i]])))# lower the better for all
+  colnames(tmp)<-paste0(vars[i],".RS")
+  SLE.MCDA=cbind(SLE.MCDA,tmp)
+}
+SLE.MCDA$SLE.score=apply(SLE.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+SLE.MCDA$SLE.score=round(SLE.MCDA$SLE.score/max(SLE.MCDA$SLE.score),1)
+
+# LO
+wts=c(0.3,0.3,0.3,0.1)
+vars=paste0("PM",c(12,45,43,39))
+length(vars)==length(wts)
+sum(wts)
+LO.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=lee.screen[,vars[i]]/max(lee.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  LO.MCDA=cbind(LO.MCDA,tmp)
+}
+LO.MCDA$PM12.RS=1-LO.MCDA$PM12.RS
+LO.MCDA$PM45.RS=1-LO.MCDA$PM45.RS
+LO.MCDA$PM43.RS=1-LO.MCDA$PM43.RS
+LO.MCDA$LO.score=apply(LO.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+LO.MCDA$LO.score=round(LO.MCDA$LO.score/max(LO.MCDA$LO.score),1)
+
+# SFL
+wts=c(0.75,0.25)
+vars=paste0("PM",c(46,47))
+length(vars)==length(wts)
+sum(wts)
+SFL.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=lee.screen[,vars[i]]/max(lee.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  SFL.MCDA=cbind(SFL.MCDA,tmp)
+}
+SFL.MCDA$SFL.score=apply(SFL.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+SFL.MCDA$SFL.score=round(SFL.MCDA$SFL.score/max(SFL.MCDA$SFL.score),1)
+
+## Still trying to figure out
+# WSLOSA
+wts=c(0.50,0.25,0.25)
+vars=paste0("PM",c(8,20,10))
+length(vars)==length(wts)
+sum(wts)
+WSLOSA.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=1-(lee.screen[,vars[i]]/max(lee.screen[,vars[i]])))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  WSLOSA.MCDA=cbind(WSLOSA.MCDA,tmp)
+}
+WSLOSA.MCDA$WSLOSA.score=apply(WSLOSA.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+WSLOSA.MCDA$WSLOSA.score=round(WSLOSA.MCDA$WSLOSA.score/max(WSLOSA.MCDA$WSLOSA.score),1)
+
+
+# WSSOTF
+wts=c(0.50,0.50)
+vars=paste0("PM",c(6,7))
+length(vars)==length(wts)
+sum(wts)
+WSSOTF.MCDA=lee.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=1-(lee.screen[,vars[i]]/max(lee.screen[,vars[i]])))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  WSSOTF.MCDA=cbind(WSSOTF.MCDA,tmp)
+}
+WSSOTF.MCDA$WSSOTF.score=apply(WSSOTF.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+WSSOTF.MCDA$WSSOTF.score=round(WSSOTF.MCDA$WSSOTF.score/max(WSSOTF.MCDA$WSSOTF.score),1)
+
+lee.screen.MCDA=merge(lee.screen[,1:2],LO.MCDA[,c("Model_Index","LO.score")],"Model_Index")
+lee.screen.MCDA=merge(lee.screen.MCDA,CRE.MCDA[,c("Model_Index","CRE.score")],"Model_Index")
+lee.screen.MCDA=merge(lee.screen.MCDA,SLE.MCDA[,c("Model_Index","SLE.score")],"Model_Index")
+lee.screen.MCDA=merge(lee.screen.MCDA,SFL.MCDA[,c("Model_Index","SFL.score")],"Model_Index")
+
+
+lee.screen.MCDA=lee.screen.MCDA[match(plans.model.index,lee.screen.MCDA$Model_Index),]
+lee.screen.MCDA#%>%write.csv(paste0(export.path,"lee.screen.mcda.csv"),row.names = F)
 ## Peters sorting
 # PM61 Average annual flow for S308 regulatory flow discharge.
 # PM48 <457
