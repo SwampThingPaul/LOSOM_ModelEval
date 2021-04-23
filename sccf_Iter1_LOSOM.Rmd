@@ -791,25 +791,28 @@ data.frame(Metric=c("Caloosahatchee Estuary Algal Bloom risk score","St. Lucie E
 ```{r}
 HAB.vals=read.csv(paste0(export.path,"HAB.MCDA.csv"))
 HAB.vals=HAB.vals[match(alts.sort,HAB.vals$Alt),]
-HAB.vals[HAB.vals$Alt=="LSM25B",2:3]<-NA
+HAB.vals[HAB.vals$Alt=="LSM25B",2:5]<-NA
+HAB.vals=HAB.vals[,c("Alt","S308_QFC.RS","S80.RS","S77_QFC.RS","S79.RS")]
 
-cap.val="MCDA analysis for Northern Estuaries Algal Bloom."
 HAB.vals%>%
   flextable()%>%
-  colformat_double(j=2:3,digits=1,na_str="---")%>%
+  colformat_double(j=2:5,digits=1,na_str="---")%>%
   set_header_labels("Alt"="Alternatives",
-                    "Score.QFC.RS"="Score\nS77/S308 Reg. Flows",
-                    "Score.est.RS"="Score\nS79/S80 Flows")%>%
+                    "S308_QFC.RS"="Score\nS308 Reg. Flows",
+                    "S80.RS"="Score\nS80 Flows",
+                    "S77_QFC.RS"="Score\nS77 Reg. Flows",
+                    "S79.RS"="Score\nS79 Flows")%>%
   padding(padding=0.1,part="all")%>%
-  font(fontname="Times New Roman",part="all")%>%
+  #font(fontname="Times New Roman",part="all")%>%
   fontsize(size=9,part="body")%>%
   fontsize(size=10,part="header")%>%
   bold(part="header")%>%
-  width(width=c(1,0.75,0.75))%>%
+  width(width=c(1,0.75,0.75,0.75,0.75))%>%
   footnote(j=1,
            part="header",value=as_paragraph("Uses May - Aug for SLE; June - Aug for CRE"),ref_symbols =c(" "))%>%
-  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
-  align(j=2:3,align="center",part="all")
+  add_header(S308_QFC.RS="SLE",S80.RS="SLE",S77_QFC.RS="CRE",S79.RS="CRE",top=T)%>%
+  merge_h(part="header")%>%align(align="center",part="header")%>%font(fontname="Times New Roman",part="all")%>%align(j=2:5,align="center",part="all")
+  
 ```
 ]
 ---
