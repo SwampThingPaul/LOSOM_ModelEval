@@ -193,14 +193,14 @@ screen[1:5,]%>%
 
 #### 
 ## Lee County Team screening
-plans.model.index=c("3_5602","1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823")
+plans.model.index=c("3_5602","2C_2193","1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823")
 subset(rslt,Pindex%in%c(6329,25731,26803,26597,26516,26803))
-lee.screen=subset(rslt,Model_Index%in%c("1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823","3_5602"))
+lee.screen=subset(rslt,Model_Index%in%plans.model.index)
 
-lee.screen=lee.screen[match(c("1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823","3_5602"),lee.screen$Model_Index),]
+lee.screen=lee.screen[match(plans.model.index,lee.screen$Model_Index),]
 
 vars=c("Pindex","Model_Index",paste0("PM",c(48,49,51,14,52,53,54,55,56,61,12,13,46,6:10)))
-lee.screen[,vars]# %>%write.csv(paste0(export.path,"lee.screen.csv"),row.names = F)
+lee.screen[,vars]#%>%write.csv(paste0(export.path,"lee.screen.csv"),row.names = F)
 rslt.basline[,vars]# %>%write.csv(paste0(export.path,"lee.screen.base.csv"),row.names = F)
 
 
@@ -239,7 +239,7 @@ SLE.MCDA$SLE.score=round(SLE.MCDA$SLE.score/max(SLE.MCDA$SLE.score),1)
 
 # LO
 wts=c(0.3,0.3,0.3,0.1)
-vars=paste0("PM",c(12,45,43,39))
+vars=paste0("PM",c(13,45,43,39))
 length(vars)==length(wts)
 sum(wts)
 LO.MCDA=lee.screen[,1:2]
@@ -248,7 +248,7 @@ for(i in 1:length(vars)){
   colnames(tmp)<-paste0(vars[i],".RS")
   LO.MCDA=cbind(LO.MCDA,tmp)
 }
-LO.MCDA$PM12.RS=1-LO.MCDA$PM12.RS
+LO.MCDA$PM13.RS=1-LO.MCDA$PM13.RS
 LO.MCDA$PM45.RS=1-LO.MCDA$PM45.RS
 LO.MCDA$PM43.RS=1-LO.MCDA$PM43.RS
 LO.MCDA$LO.score=apply(LO.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))

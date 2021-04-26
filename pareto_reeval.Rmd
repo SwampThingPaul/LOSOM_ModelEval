@@ -1,0 +1,429 @@
+---
+title:  "LOSOM - Pareto Re-Evaluation <img src='./Plots/ConSWFL.jpeg' align='right' height = '100'/><img src='./Plots/SCCF Logo knockout_c.png' align='right' height = '100'/>"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<style type="text/css">
+body{
+  font-family: serif;
+  }
+</style>
+
+***
+Site Update `r Sys.Date()`
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# Libraries
+library(AnalystHelper);
+library(openxlsx)
+library(plyr)
+
+library(flextable)
+library(magrittr)
+
+wd="C:/Julian_LaCie/_Github/LOSOM_ModelEval"
+
+export.path="C:/Julian_LaCie/_GitHub/LOSOM_ModelEval/Export/"
+data.path=paste0(wd,"/Data/")
+
+## 27k Pareto runs
+rslt.basline=read.xlsx(paste0(data.path,"Conceptual_Plan/LOSOM_CPA_PARETO_27k_2020Nov10.xlsx"),sheet=2,startRow = 13)[1:2,1:64]
+rslt.basline[,3:64]=apply(rslt.basline[,3:64],2,as.numeric)
+colnames(rslt.basline)<-c("Pindex","Model_Index",paste0("PM",1:62))
+
+rslt=read.xlsx(paste0(data.path,"Conceptual_Plan/LOSOM_CPA_PARETO_27k_2020Nov10.xlsx"),sheet=2,startRow = 16)[,1:64]
+
+## selected plans
+plans.model.index=c("3_5602","2C_2193","1C-1_8086","4C-3_1310","4C-3_4418","4C-3_3822","4C-3_3593","3_3823")
+
+rslt.screen=subset(rslt,Model_Index%in%plans.model.index)
+rslt.screen=rslt.screen[match(plans.model.index,rslt.screen$Model_Index),]
+PMs=c(paste0("PM",c(48,49,51,14,52,53,54,55,56,61,12,13,46,6:10)))
+vars=c("Pindex","Model_Index",PMs)
+# rslt.screen[,vars]
+# rslt.basline[,vars]
+
+
+```
+
+### The Data
+The data presented here is a subset of the 27k Pareto runs (file: _LOSOM_CPA_PARETO_27k_2020Nov10.xlsx_) produced to select potential plans for the LOSOM effort. 
+
+The data contains the RSM-BN input parameters, output performance measures, and describes methods used to select the best performing simulation(s). The original worksheet was produced in the fall of 202 by the SFWMD H&H Modeling Section and the Interagency Modeling Center, as directed by the USACE for the LOSOM project.
+
+* Team: Pattie Fulton, Walter Wilcox, Cal Neidrauer, Alaa Ali, Raul Novoa, Randy VanZee, Hal Correa, Sashi Nair, Jenifer Barnes, Maliha Ahmed, Danielle Morancy, Clay Brown, Sandeep Dabral
+
+***
+
+### Selected Plans
+
+An array of balanced plans were considered and presented below. For informational purposes the plan used in Iteration 1 modeling was also provided (_Model_Index_ 2C_2193).
+
+<br>
+
+<b><p style="font-size: 16px;">Metrics specific to Caloosahatchee River Estuary (CRE), Regulatory discharges (to CRE and St Lucie Estuary), Lake Okeechobee Stage envelope and flow south.</p></b>
+
+```{r}
+rslt.basline$Model_Index=rslt.basline$Pindex
+rslt.basline$Pindex=NA
+all.plans=rbind(rslt.basline[,vars],rslt.screen[,vars])
+
+all.plans[,c(paste0("PM",c(6:9)))]=all.plans[,c(paste0("PM",c(6:9)))]*100
+
+per.diff=all.plans[,1:2]
+for(i in 3:20){
+rslt=data.frame(tmp=round(((all.plans[,i]- all.plans[2,i])/ all.plans[2,i])*100,2))
+colnames(rslt)<-names(all.plans)[i]
+per.diff=cbind(per.diff,rslt)
+
+}
+per.diff[1,3:20]<-NA
+
+all.plans[,names(all.plans)[names(all.plans)!=paste0("PM",6:10)]]%>%
+  flextable()%>%
+  colformat_double(j=1,na_str="---",big.mark="",digits=0)%>%
+  colformat_double(j=11:15,digits=0,big.mark="")%>%
+  set_header_labels(PM48="< 457 cfs\n(PM48)",
+                    PM49="457-750 cfs\n(PM49)",
+                    PM51="750-2100 cfs\n(PM51)",
+                    PM14="2100-2600 cfs\n(PM14)",
+                    PM52="2600-4500 cfs\n(PM52)",
+                    PM53="4500-6500 cfs\n(PM53)",
+                    PM54=">6500 cfs\n(PM54)",
+                    PM55="MFL Exceed\n(PM55)",
+                    PM56="S77 Reg Flow\n(PM56)",
+                    PM61="S380 Reg Flow\n(PM61)",
+                    PM12="Lower Stg Env Pen\n(PM12)",
+                    PM13="Upper Stg Env Pen\n(PM13)",
+                    PM46="Flow South\n(PM46)")%>%
+    add_header(
+      PM48="CRE",PM49="CRE",PM51="CRE",PM14="CRE",PM52="CRE",PM53="CRE",PM54="CRE",PM55="CRE",
+      PM12="Lake Okeechobee",PM13="Lake Okeechobee")%>%
+  merge_h(part="header")%>%
+  fontsize(size=10)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  align(align="center",part="all")%>%
+  bg(i=~Model_Index=="LSMECB",bg=rgb(248/255,203/255,173/255,0.75))%>%
+  bg(i=~Model_Index=="LSM25B",bg=rgb(146/255,208/255,80/255,0.75))%>%
+  bg(i=~Model_Index=="2C_2193",bg=rgb(142/255,169/255,219/255,0.75))%>%
+  hline(i=2)%>%
+  autofit()%>%
+  footnote(i=~Model_Index=="3_5602",j=2,value=as_paragraph("Selected balanced plan for iteration 2 modeling"),ref_symbols = c("1"))%>%
+  footnote(i=~Model_Index=="2C_2193",j=2,value=as_paragraph("Plan selected for iteration 1 modeling (ECRE)"),ref_symbols = c("2"))
+
+```
+
+<br>
+
+<b><p style="font-size: 16px;">Water Supply Specific Metric.</p></b>
+```{r}
+all.plans[,c("Pindex","Model_Index",paste0("PM",c(6:10)))]%>%
+  flextable()%>%
+  colformat_double(j=1,na_str="---",big.mark="",digits=0)%>%
+  set_header_labels(
+                    PM6="SEM BCYP not met\n(PM6)",
+                    PM7="SEM BR not met\n(PM7)",
+                    PM8="LOSA Cutback\n(PM8)",
+                    PM9="LOSA 4in1\n(PM9)",
+                    PM10="LOSA Rec\n(PM10")%>%
+    add_header(
+      PM6="Water Supply",PM7="Water Supply",PM8="Water Supply",PM9="Water Supply",PM10="Water Supply"
+    )%>%
+  merge_h(part="header")%>%
+  fontsize(size=10)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  bg(i=~Model_Index=="LSMECB",bg=rgb(248/255,203/255,173/255,0.75))%>%
+  bg(i=~Model_Index=="LSM25B",bg=rgb(146/255,208/255,80/255,0.75))%>%
+  bg(i=~Model_Index=="2C_2193",bg=rgb(142/255,169/255,219/255,0.75))%>%
+  hline(i=2)%>%
+  align(align="center",part="all")%>%width(width=c(1,1,1,1,1,1,1))%>%
+  footnote(i=~Model_Index=="3_5602",j=2,value=as_paragraph("Selected balanced plan for iteration 2 modeling"),ref_symbols = c("1"))%>%
+  footnote(i=~Model_Index=="2C_2193",j=2,value=as_paragraph("Plan selected for iteration 1 modeling (ECRE)"),ref_symbols = c("2"))
+
+```
+
+<br>
+
+<b><p style="font-size: 16px;">Percent difference relative to FWO (LSM25B) for selected performance measures.</p></b>
+
+```{r}
+colmat1=ifelse(per.diff[,c(3,4,6:20)]<0,rgb(198/255,239/255,206/255,0.75),ifelse(per.diff[,c(3,4,6:20)]>0,rgb(255/255,199/255,206/255,0.75),NA))
+colmat2=ifelse(per.diff[,5]<0,rgb(255/255,199/255,206/255,0.75),ifelse(per.diff[,5]>0,rgb(198/255,239/255,206/255,0.75),NA))
+
+
+per.diff%>%
+  flextable()%>%
+  colformat_double(j=1,na_str="---",big.mark="",digits=0)%>%
+  colformat_double(j=3:20,na_str="---",big.mark="",digits=2)%>%
+  fontsize(size=10)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  bg(i=~Model_Index=="2C_2193",bg=rgb(142/255,169/255,219/255,0.75))%>%
+  bg(j=c(3,4,6:20),bg=colmat1)%>%
+  bg(j=5,bg=colmat2)%>%
+  bg(i=~Model_Index=="LSMECB",bg=rgb(248/255,203/255,173/255,0.75))%>%
+  bg(i=~Model_Index=="LSM25B",bg=rgb(146/255,208/255,80/255,0.75))%>%
+  hline(i=2)%>%
+  padding(padding.left=0.01,padding.right=0.01)%>%
+  align(align="center",part="all")%>%
+  footnote(i=~Model_Index=="3_5602",j=2,value=as_paragraph("Selected balanced plan for iteration 2 modeling"),ref_symbols = c("1"))%>%
+  footnote(i=~Model_Index=="2C_2193",j=2,value=as_paragraph("Plan selected for iteration 1 modeling (ECRE)"),ref_symbols = c("2"))
+```
+
+<br>
+
+```{r,echo=F,fig.align="center"}
+
+library(downloadthis)
+
+all.plans%>%
+  download_this(
+    output_name = "all_plans",
+    output_extension = ".xlsx",
+    button_label = "Selected Plans",
+    button_type = "primary",
+    has_icon = TRUE,
+    icon = "fa fa-file-excel")
+
+per.diff%>%
+  download_this(
+    output_name = "all_plans_diff",
+    output_extension = ".xlsx",
+    button_label = "Percent Difference Values",
+    button_type = "primary",
+    has_icon = TRUE,
+    icon = "fa fa-file-excel")
+
+```
+
+<br>
+
+***
+
+### Multi Criteria Decision Analysis
+
+* Multi-Criteria Decision Analysis (MCDA) presented by USACE PDT to evaluate iteration 1 plans. 
+
+* Methodology to synthesize sub-objective performance for each alternative based on key performance metrics identified by sub-teams.
+
+* Used here to evaluate the selected plans and only focuses on Caloosahatchee Estuary, Lake Okeechobee, South Florida Ecology and St Lucie Estuary metrics as presented by USACE (12-April 2021 - PDT workshop).
+
+```{r,echo=F}
+### MCDA
+# CRE
+wts=c(0.25,0.25,0.2,0.2,0.1)
+vars=paste0("PM",c(48,54,51,53,52))
+# length(vars)==length(wts)
+# sum(wts)
+CRE.MCDA=rslt.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=rslt.screen[,vars[i]]/max(rslt.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  CRE.MCDA=cbind(CRE.MCDA,tmp)
+}
+CRE.MCDA$PM48.RS=1-CRE.MCDA$PM48.RS;# lower the better
+CRE.MCDA$PM54.RS=1-CRE.MCDA$PM54.RS;# lower the better
+CRE.MCDA$PM53.RS=1-CRE.MCDA$PM53.RS;# lower the better
+CRE.MCDA$PM52.RS=1-CRE.MCDA$PM52.RS;# lower the better
+CRE.MCDA$CRE.score=apply(CRE.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+CRE.MCDA$CRE.score=round(CRE.MCDA$CRE.score/max(CRE.MCDA$CRE.score),1)
+
+# SLE
+wts=c(0.5,0.3,0.2)
+vars=paste0("PM",c(61,60,17))
+# length(vars)==length(wts)
+# sum(wts)
+SLE.MCDA=rslt.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=1-(rslt.screen[,vars[i]]/max(rslt.screen[,vars[i]])))# lower the better for all
+  colnames(tmp)<-paste0(vars[i],".RS")
+  SLE.MCDA=cbind(SLE.MCDA,tmp)
+}
+SLE.MCDA$SLE.score=apply(SLE.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+SLE.MCDA$SLE.score=round(SLE.MCDA$SLE.score/max(SLE.MCDA$SLE.score),1)
+
+# LO
+wts=c(0.3,0.3,0.3,0.1)
+vars=paste0("PM",c(13,45,43,39))
+# length(vars)==length(wts)
+# sum(wts)
+LO.MCDA=rslt.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=rslt.screen[,vars[i]]/max(rslt.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  LO.MCDA=cbind(LO.MCDA,tmp)
+}
+LO.MCDA$PM13.RS=1-LO.MCDA$PM13.RS
+LO.MCDA$PM45.RS=1-LO.MCDA$PM45.RS
+LO.MCDA$PM43.RS=1-LO.MCDA$PM43.RS
+LO.MCDA$LO.score=apply(LO.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+LO.MCDA$LO.score=round(LO.MCDA$LO.score/max(LO.MCDA$LO.score),1)
+
+# SFL
+wts=c(0.75,0.25)
+vars=paste0("PM",c(46,47))
+# length(vars)==length(wts)
+# sum(wts)
+SFL.MCDA=rslt.screen[,1:2]
+for(i in 1:length(vars)){
+  tmp=data.frame(val=rslt.screen[,vars[i]]/max(rslt.screen[,vars[i]]))
+  colnames(tmp)<-paste0(vars[i],".RS")
+  SFL.MCDA=cbind(SFL.MCDA,tmp)
+}
+SFL.MCDA$SFL.score=apply(SFL.MCDA[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts))
+SFL.MCDA$SFL.score=round(SFL.MCDA$SFL.score/max(SFL.MCDA$SFL.score),1)
+
+rslt.screen.MCDA=merge(rslt.screen[,1:2],LO.MCDA[,c("Model_Index","LO.score")],"Model_Index")
+rslt.screen.MCDA=merge(rslt.screen.MCDA,CRE.MCDA[,c("Model_Index","CRE.score")],"Model_Index")
+rslt.screen.MCDA=merge(rslt.screen.MCDA,SLE.MCDA[,c("Model_Index","SLE.score")],"Model_Index")
+rslt.screen.MCDA=merge(rslt.screen.MCDA,SFL.MCDA[,c("Model_Index","SFL.score")],"Model_Index")
+
+rslt.screen.MCDA=rslt.screen.MCDA[match(plans.model.index,rslt.screen.MCDA$Model_Index),c(2,1,3:6)]
+
+#rslt.screen.MCDA
+
+```
+
+<div class="row">
+<div class="col-md-6">
+
+```{r}
+
+cap.val="Lake Okeechobee Key Metric."
+data.frame(PM=c(13,45,43,39),Metric=c("Upper Lake Stage penalties","Lake MFL Exccedances","% of time lake stage >17Ft","% within lake stage envelope"),
+           Weight=c(30,30,30,10))%>%
+  flextable()%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  bold(part="header")%>%
+  width(width=c(0.5,2,0.5))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=1:2,align="left",part="body")%>%
+  align(j=3,align="center",part="all")
+
+```
+
+```{r}
+
+cap.val="Caloosahatchee Estuary Metric."
+data.frame(PM=c(48,54,51,53,52),
+           Metric=c("\u2264 457 cfs","\u2265 6500 cfs","RECOVER Optimal Events","4500 - 6500 cfs","2600 - 4500 cfs"),
+           Weight=c(25,25,20,20,10))%>%
+  flextable()%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  bold(part="header")%>%
+  width(width=c(0.5,2,0.5))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=1:2,align="left",part="body")%>%
+  align(j=3,align="center",part="all")
+
+```
+
+</div>
+<div class="col-md-6">
+
+```{r}
+
+cap.val="St Lucie Estuary Metric."
+data.frame(PM=c(61,60,17),
+           Metric=c("S308 Flows","Damaging Flow Event counts triggered from LOK","High Flow Event counts triggered from LOK"),
+           Weight=c(50,30,20))%>%
+  flextable()%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  bold(part="header")%>%
+  width(width=c(0.5,2,0.5))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=1:2,align="left",part="body")%>%
+  align(j=3,align="center",part="all")
+
+```
+
+```{r}
+
+cap.val="South Florida Metric."
+data.frame(PM=c(46,47),
+           Metric=c("Average annual flow south","Average annual STA 2 and 3/4 outflow"),
+           Weight=c(50,50))%>%
+  flextable()%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=10,part="body")%>%
+  bold(part="header")%>%
+  width(width=c(0.5,2,0.5))%>%
+  add_header_lines(values=cap.val)%>%align(align="left",part="header")%>%
+  align(j=1:2,align="left",part="body")%>%
+  align(j=3,align="center",part="all")%>%
+  footnote(i=1,j=1,value=as_paragraph("Slighly different than originall presented by USACE. Wet and Dry season discharges are not seggregated for flows south in Pareto evaluation."),ref_symbols = c(" 1 "))
+
+```
+
+</div>
+</div>
+
+<br>
+
+***
+
+<b><p style="font-size: 16px;">MCDA Score for selected plans specific to environmental/ecological considerations of Lake Okeechobee, the estuaries and south Florida.</p></b>
+
+```{r}
+
+rslt.screen.MCDA%>%
+  flextable()%>%
+  colformat_double(j=1,na_str="---",big.mark="",digits=0)%>%
+  set_header_labels(LO.score="Lake Okeechobee",
+                    CRE.score="Caloosahatchee\nEstuary",
+                    SLE.score="St Lucie\nEstuary",
+                    SFL.score="South Florida")%>%
+    add_header(
+      LO.score="MCDA Score",CRE.score="MCDA Score",SLE.score="MCDA Score",SFL.score="MCDA Score")%>%
+  merge_h(part="header")%>%
+  fontsize(size=10)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  bg(i=~Model_Index=="LSMECB",bg=rgb(248/255,203/255,173/255,0.75))%>%
+  bg(i=~Model_Index=="LSM25B",bg=rgb(146/255,208/255,80/255,0.75))%>%
+  bg(i=~Model_Index=="2C_2193",bg=rgb(142/255,169/255,219/255,0.75))%>%
+  hline(i=2)%>%
+  align(align="center",part="all")%>%autofit()%>%#width(width=c(1,1,1.5,1.5,1,1.5))%>%
+  footnote(i=~Model_Index=="3_5602",j=2,value=as_paragraph("Selected balanced plan for iteration 2 modeling"),ref_symbols = c("1"))%>%
+  footnote(i=~Model_Index=="2C_2193",j=2,value=as_paragraph("Plan selected for iteration 1 modeling (ECRE)"),ref_symbols = c("2"))
+
+```
+
+```{r}
+rslt.screen.MCDA%>%
+  download_this(
+    output_name = "MCDA_results",
+    output_extension = ".xlsx",
+    button_label = "MCDA Scores",
+    button_type = "primary",
+    has_icon = TRUE,
+    icon = "fa fa-file-excel")
+```
+
+<br>
+
+***
+
+<b><p style="font-size: 16px;">Performance measures used in this analysis with definitions and abbreviations.</p></b>
+
+```{r}
+pm.def=read.xlsx(paste0(data.path,"Conceptual_Plan/LOSOM_CPA_PARETO_27k_2020Nov10.xlsx"),sheet=6)
+colnames(pm.def)<-c("PM", "Abbreviation", "Sample.Value", "Units", "Description","X6")
+
+pm.def[pm.def$PM%in%PMs,c(1,2,4,5)]%>%
+  flextable()%>%
+  fontsize(size=10)%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  padding(padding.left=0.01,padding.right=0.01)%>%autofit()
+```
