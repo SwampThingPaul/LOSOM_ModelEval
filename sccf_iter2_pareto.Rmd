@@ -193,7 +193,7 @@ all.plans[,c("PlanName","Model_Index",paste0("PM",c(6:10)))]%>%
                     PM7="SEM BR not met\n(PM7)",
                     PM8="LOSA Cutback\n(PM8)",
                     PM9="LOSA 4in1\n(PM9)",
-                    PM10="LOSA Rec\n(PM10")%>%
+                    PM10="LOSA Rec\n(PM10)")%>%
     add_header(
       PM6="Water Supply",PM7="Water Supply",PM8="Water Supply",PM9="Water Supply",PM10="Water Supply"
     )%>%

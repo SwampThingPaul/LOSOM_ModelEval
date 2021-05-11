@@ -131,7 +131,7 @@ all.plans[,c("Pindex","Model_Index",paste0("PM",c(6:10)))]%>%
                     PM7="SEM BR not met\n(PM7)",
                     PM8="LOSA Cutback\n(PM8)",
                     PM9="LOSA 4in1\n(PM9)",
-                    PM10="LOSA Rec\n(PM10")%>%
+                    PM10="LOSA Rec\n(PM10)")%>%
     add_header(
       PM6="Water Supply",PM7="Water Supply",PM8="Water Supply",PM9="Water Supply",PM10="Water Supply"
     )%>%
@@ -154,8 +154,8 @@ all.plans[,c("Pindex","Model_Index",paste0("PM",c(6:10)))]%>%
 <b><p style="font-size: 16px;">Percent difference relative to FWO (LSM25B) for selected performance measures.</p></b>
 
 ```{r}
-colmat1=ifelse(per.diff[,c(3,4,6:20)]<0,rgb(198/255,239/255,206/255,0.75),ifelse(per.diff[,c(3,4,6:20)]>0,rgb(255/255,199/255,206/255,0.75),NA))
-colmat2=ifelse(per.diff[,5]<0,rgb(255/255,199/255,206/255,0.75),ifelse(per.diff[,5]>0,rgb(198/255,239/255,206/255,0.75),NA))
+colmat1=ifelse(per.diff[,c(3,4,6:14,16:20)]<0,rgb(198/255,239/255,206/255,0.75),ifelse(per.diff[,c(3,4,6:20)]>0,rgb(255/255,199/255,206/255,0.75),NA))
+colmat2=ifelse(per.diff[,c(5,15)]<0,rgb(255/255,199/255,206/255,0.75),ifelse(per.diff[,c(5,15)]>0,rgb(198/255,239/255,206/255,0.75),NA))
 
 
 per.diff%>%
@@ -166,8 +166,8 @@ per.diff%>%
   font(fontname="Times New Roman",part="all")%>%
   bold(part="header")%>%
   bg(i=~Model_Index=="2C_2193",bg=rgb(142/255,169/255,219/255,0.75))%>%
-  bg(j=c(3,4,6:20),bg=colmat1)%>%
-  bg(j=5,bg=colmat2)%>%
+  bg(j=c(3,4,6:14,16:20),bg=colmat1)%>%
+  bg(j=c(5,15),bg=colmat2)%>%
   bg(i=~Model_Index=="LSMECB",bg=rgb(248/255,203/255,173/255,0.75))%>%
   bg(i=~Model_Index=="LSM25B",bg=rgb(146/255,208/255,80/255,0.75))%>%
   hline(i=2)%>%
