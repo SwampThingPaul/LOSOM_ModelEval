@@ -441,3 +441,14 @@ subset(rslt,Model_Index%in%subset(test,N.val>3)$value)[,c("Model_Index",paste0("
   fontsize(size=12,part="header")%>%
   padding(padding=0.5,part="all")%>%
   font(fontname="Times New Roman",part="all")%>%autofit()#%>%print(preview="docx")
+
+
+
+###
+
+subset(rslt,PM48==55&PM51>=729&PM52>=355&PM53>=136)
+subset(rslt,PM48==71&PM51>=794&PM52>=227&PM53>=81&PM54>=65&PM46>=162.55)
+subset(rslt,PM48==71&PM51>=584&PM52>=291&PM53>=169&PM54>=57&PM46>=89.94)
+
+subset(rslt,PM48==195)
+subset(rslt,PM51==628)
