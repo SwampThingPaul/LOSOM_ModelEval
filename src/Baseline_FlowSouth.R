@@ -113,6 +113,17 @@ south.out=merge(south.out,data.frame(WY=2008:2020,LORS08mean=mean(subset(south.o
 mean(subset(south.out,WY%in%seq(2016,2020,1))$TFlow)/1000
 mean(subset(south.out,WY%in%seq(2008,2020,1))$TFlow)/1000
 
+
+
+plot(TFlow~WY,south.out,type="l")
+with(subset(EAA.q.WY,Alt=="LSM25B"),lines(WY,TFlow,col="red"))
+with(subset(EAA.q.WY,Alt=="LSMECB"),lines(WY,TFlow,col="blue"))
+
+
+
+
+
+
 ##
 south.out_POR=subset(south.out,WY%in%c(1979:2020))
 south.out_POR$Alt="Obs.7920"

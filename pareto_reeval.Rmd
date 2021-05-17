@@ -154,9 +154,8 @@ all.plans[,c("Pindex","Model_Index",paste0("PM",c(6:10)))]%>%
 <b><p style="font-size: 16px;">Percent difference relative to FWO (LSM25B) for selected performance measures.</p></b>
 
 ```{r}
-colmat1=ifelse(per.diff[,c(3,4,6:14,16:20)]<0,rgb(198/255,239/255,206/255,0.75),ifelse(per.diff[,c(3,4,6:20)]>0,rgb(255/255,199/255,206/255,0.75),NA))
+colmat1=ifelse(per.diff[,c(3,4,6:14,16:20)]<0,rgb(198/255,239/255,206/255,0.75),ifelse(per.diff[,c(3,4,6:14,16:20)]>0,rgb(255/255,199/255,206/255,0.75),NA))
 colmat2=ifelse(per.diff[,c(5,15)]<0,rgb(255/255,199/255,206/255,0.75),ifelse(per.diff[,c(5,15)]>0,rgb(198/255,239/255,206/255,0.75),NA))
-
 
 per.diff%>%
   flextable()%>%
