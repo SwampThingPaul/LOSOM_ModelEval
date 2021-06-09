@@ -1505,7 +1505,7 @@ box(lwd=1)
 mtext(side=3, adj=0,"SRS (S12s+[(S333s+S355AB+S356)-S334])")
 mtext(side=2,line=2.25,"TP FWM (\u03BCg L\u207B\u00B9)")
 mtext(side=1,line=4,"Model Alternatives")
-mtext(side=3, adj=1,"FLWY 1966 - 2016")
+mtext(side=3, adj=1,"Fed WY 1966 - 2016")
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/SRS_FWM_perdiff.png"),width=3,height=5,units="in",res=200,type="windows",bg="white")
@@ -1521,7 +1521,7 @@ axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"SRS FWM",cex=1,col="black",line=1)
 mtext(side=1,line=2,"Average Percent\nDifference to FWO")
 mtext(side=2,line=4,'Model Alternative')
-mtext(side=3, adj=0,"FLWY 1966 - 2016",cex=0.75)
+mtext(side=3, adj=0,"Fed WY 1966 - 2016",cex=0.75)
 dev.off()
 
 
