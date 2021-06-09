@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM iter2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+.pull-left[
+#### Iteration 2 Modeling - Evaluation
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+**DRAFT** - June 09, 2021
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+name: alternatives
+
+### Iteration 1 - Model runs
+
+
+&lt;template id="01cde453-a337-4083-bf19-7779c17f2d53"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-df62178c{border-collapse:collapse;}.cl-df5a06a0{font-family:'Times New Roman';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-df5a06a1{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-df5a06a2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-df5a5484{width:432pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df5a5485{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df5a5486{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df5a5487{width:432pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df5a5488{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df5a5489{width:432pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-df62178c'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5488"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a0"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5489"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a0"&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;LOSOM Existing Condition Baseline 2019&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;LOSOM No Action 2025 (FWO)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;ESLE Framework. Enhances SLE ecology.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;SPLC Framework. Improve water supply to pre-LORS08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;Pareto Plan D Framework. Enhances CRE ecology and improves water supply&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;Pareto Plan A Framework. Incremental improvement over LORS.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5485"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5484"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;Stage Target Operation Framework. Improve water supply performance by reducing flows south.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-df5a5486"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-df5a5487"&gt;&lt;p class="cl-df5a06a2"&gt;&lt;span class="cl-df5a06a1"&gt;Stage Target Operations Framework. Reduce flows to SLE by reducing Zone B release rate.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="ea7a4f90-1beb-45a6-8636-c62e481e18d4"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("ea7a4f90-1beb-45a6-8636-c62e481e18d4");
+var template = document.getElementById("01cde453-a337-4083-bf19-7779c17f2d53");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+---
+name: Lake
+class: middle, center
+
+## Lake Okeechobee
+
+---
+name: sdc
+
+### Lake Stage Duration Curves
+
+&lt;img src="./Plots/Iteration_2/LO_StageDuration.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+name: LOFreq
+
+### High/Low Stages 
+&lt;img src="./Plots/Iteration_2/LO_iter2_freq_bxp.png" width="75%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing the frequency of low (&lt;10 Ft NGVD) and high (&gt;17 Ft NGVD) stage elevations during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: LOFreq3
+
+### High/Low Stages 
+
+&lt;img src="./Plots/Iteration_2/LO_totalDays.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.center[Total number of days during the simulation period where (Top) stage elevations were ≤ 11 or &gt; 16 Ft NGVD29 and (Bottom) ≤ 10 or ≥ 17 Ft NGVD29.]
+
+---
+name: envelope
+
+### Lake Envelope Score
+
+&lt;img src="./Plots/Iteration_2/LakeO_EnvScore_bxp.png" width="75%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing the annual normal and recovery total stage envelope score during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+---
+name: envelope2
+
+### Lake Envelope Score Summary
+.pull-left[
+&lt;img src="./Plots/Iteration_2/LakeO_EnvScore_sum.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average score relative to the FWO (NA25) alternative over the entire simulation period. Both Normal (left) and Recovery (right) envelope scores are presented.
+
+]
+---
+name: CRE
+class: middle, center
+
+## Caloosahatchee River Estuary
+
+---
+name: fdc
+
+### Estuary Flow Duration Curves
+
+#### Caloosahatchee River Estuary
+
+&lt;img src="./Plots/Iteration_2/S79_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+---
+name: fdc2
+
+### Flow Duration Curves
+
+#### C-43 Canal
+
+&lt;img src="./Plots/Iteration_2/S77_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+
+---
+name: freq
+
+### Flow Categories
+
+&lt;img src="./Plots/Iteration_2/CRE_iter2_freq_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+
+
+---
+name: freq2
+class: middle
+
+&lt;img src="./Plots/Iteration_2/CRE_FlowCat.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+name: TotalQ
+
+### Annual Discharge
+
+&lt;img src="./Plots/Iteration_2/S79_WYQ_bxp.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.center[
+Boxplot representing the annual discharge volume from S-79 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+
+---
+name: DrySeason2
+
+### Dry Season Discharges
+&lt;img src="./Plots/Iteration_2/S79_PercentDryQ_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing the annual percent dry (May - October) season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
+---
+name: Source
+
+### Source of Discharges
+&lt;img src="./Plots/Iteration_2/S79_PercentBasinQ_bxp.png" width="70%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the percent of S-79 discharges originating from the C-43 Basin (top) and Lake Okeechobee (bottom). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+---
+name: Bloom
+
+### Bloom Period Discharges
+&lt;img src="./Plots/Iteration_2/CRE_BloomQ_bxp.png" width="70%" style="display: block; margin: auto;" /&gt;
+.center[Boxplot representing the S-77 and S-79 discharges during the June to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.]
+
+
+---
+name: SLE
+class: middle, center
+
+## St Lucie Estuary
+
+---
+name: fdcSLE
+
+### Estuary Flow Duration Curves
+
+#### St Lucie Estuary
+
+&lt;img src="./Plots/Iteration_2/S80_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+---
+name: fdc2
+
+### Flow Duration Curves
+
+#### C-44 Canal
+
+&lt;img src="./Plots/Iteration_2/S308_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+---
+name: freqSLE
+
+### Flow Categories
+
+&lt;img src="./Plots/Iteration_2/SLE_iter2_freq_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the frequency of low, optimum and damaging flow events during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: freq2SLE
+class: middle
+
+&lt;img src="./Plots/Iteration_2/SLE_FlowCat.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+name: TotalQSLE
+
+### Annual Discharge
+
+&lt;img src="./Plots/Iteration_2/S80_WYQ_bxp.png" width="85%" style="display: block; margin: auto;" /&gt;
+
+.center[
+Boxplot representing the annual discharge volume from S-80 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+
+---
+name: DrySeasonSLE
+
+### Dry Season Discharges
+&lt;img src="./Plots/Iteration_2/S80_PercentDryQ_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the annual percent dry season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: WetSeasonSLE
+
+### Wet Season Discharges
+&lt;img src="./Plots/Iteration_2/S80_PercentWetQ_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the annual percent wet season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: estuarycompare
+
+### FWO Discharge Comparison
+&lt;img src="./Plots/Iteration_2/Estuary_FWOCompare.png" width="100%" style="display: block; margin: auto;" /&gt;
+.center[
+Percent Difference from FWO (LSM25B) for low, optimal and high discharges for Caloosahatchee River Estuary and St Lucie Estuary (CRE and SLE, respectively).
+]
+
+* Compared annual average number of events over the FLWY 1966 - 2016 simulation period
+---
+name: LakeOutflow
+class: middle, center
+
+## Flows South&lt;br&gt;(S351, S352 &amp; S354)
+
+---
+name: fdcEAA
+
+### EAA Flow Duration Curves
+
+#### EAA (S-354 + S-351 + S-352)
+
+&lt;img src="./Plots/Iteration_2/EAA_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+Flow Duration Curves for [S-354](#S354FDC), [S-351](#S351FDC), [S-352](#S352FDC)
+
+---
+name: EAAQ 
+
+### EAA (S-354 + S-351 + S-352)
+&lt;img src="./Plots/Iteration_2/EAA_discharge_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the annual discharge volume from Lake Okeechoee to the EAA via S-354, S-351 and S-352 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: EAAQ2
+
+### EAA (S-354 + S-351 + S-352)
+.pull-left[
+&lt;img src="./Plots/Iteration_2/EAA_discharge_sum.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+Percent difference of average discharge volume score relative to the FWO (NA25) alternative over the entire simulation period.
+
+]
+---
+name: WCA3
+class: middle, center
+
+## Southern Everglades (WCA3)
+
+---
+class: WCA3Q
+
+### Annual Discharge
+
+&lt;img src="./Plots/Iteration_2/WCA3_WYQ_bxp.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.center[
+Boxplot representing the annual discharge volume in and out of WCA-3A during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: sdc_wca3_1
+
+### Stage Duration Curves
+
+#### WCA-3 (3-62 and 3-63 Average)
+
+&lt;img src="./Plots/Iteration_2/WCA3_6263_StageDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+---
+name: sdc_wca3_2
+
+### Stage Duration Curves
+
+#### WCA-3 (3-63, 3-64 and 3-65 Average)
+
+&lt;img src="./Plots/Iteration_2/WCA3_636465_StageDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+name: WCA3_freqclose
+
+### WCA-3
+.pull-left[
+&lt;img src="./Plots/Iteration_2/WCA_6263_perdiff.png" width="100%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+#### WCA-3 Closure Criteria
+
+* FWC High and Low water closure criteria 
+  * 2-Gauge Average (3-62 and 3-63)
+  * High Water Closure: 11.6 Ft NGVD29
+  * Low Water Closure: 9.3 Ft NGVD29
+
+
+Percent difference of the frequency of daily low (left) and high (right) closure criteria exceedances relative to the FWO (NA25) alternative over the entire simulation period.
+
+]
+
+---
+name: WCA3_zoneA
+
+### WCA-3
+.pull-left[
+&lt;img src="./Plots/Iteration_2/WCA_636465_perdiff.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+#### WCA-3 
+
+* 3-Gauge Average (3-63, 3-64 and 3-65)
+* Bottom of Zone A: 9.5 Ft NGVD29
+
+Percent difference of the frequency of daily low (left) and high (right) closure criteria exceedances relative to the FWO (NA25) alternative over the entire simulation period.
+
+]
+
+---
+name: ENP
+class: middle, center
+
+## Everglades National Park
+
+---
+name: ENP_methods
+
+### Everglades National Park - Water Quality
+
+- Annual (Federal WY 1966 - 2016) Flow-Weighted Mean TP concentrations were modeled using predictive tools developed during Combined Operations (COP) Planning 
+    - Predictive tools use upstream stage (3-gauge average, stage gradient, stage increase, etc.)
+
+- Relative differences in annual FWM TP were assess.
+
+---
+name: ENP_SRS
+
+### Everglades National Park - Water Quality
+
+&lt;img src="./Plots/Iteration_2/SRS_FWM_bxp.png" width="80%" style="display: block; margin: auto;" /&gt;
+.center[
+Boxplot representing the Shark River Slough annual flow-weighted mean TP concentration the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: ENP_SRS2
+
+### Everglades National Park - Water Quality
+
+.pull-left[
+&lt;img src="./Plots/Iteration_2/SRS_FWM_perdiff.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+Average percent difference of SRS annual TP FWM concentrations relative to the FWO (NA25) alternative over the simulation period.
+
+]
+
+---
+class: inverse
+
+---
+name: S354FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-354)
+
+&lt;img src="./Plots/Iteration_2/S354_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+[EAA Flow Duration Curves](#fdcEAA)
+
+---
+name: S351FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-351)
+
+&lt;img src="./Plots/Iteration_2/S351_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+[EAA Flow Duration Curves](#fdcEAA)
+
+---
+name: S352FDC
+
+### EAA Flow Duration Curves
+
+#### EAA (S-352)
+
+&lt;img src="./Plots/Iteration_2/S352_FlowDuration.png" width="79%" style="display: block; margin: auto;" /&gt;
+
+[EAA Flow Duration Curves](#fdcEAA)
+
+---
+
+---
+---
+name: eval-methods
+class: middle
+
+
+#### Lake Okeechobee 
+
+* Evaluate lake stage consistent with RECOVER - Lake Okeechobee Stage Performance Measure.
+  * PM documentation - [link](https://usace.contentdm.oclc.org/utils/getfile/collection/p16021coll7/id/14096)
+  * R-package - [link](https://github.com/SwampThingPaul/LORECOVER)
+
+#### Estuaries
+
+* Evaluate estuary discharges consistent with RECOVER thresholds
+  * PM documentation - [link](https://usace.contentdm.oclc.org/utils/getfile/collection/p16021coll7/id/14793)
+
+
+&lt;template id="4e15ec0d-143e-461e-b22e-572ac2b3b5d2"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-dfb12a34{border-collapse:collapse;}.cl-dfaa77fc{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dfaa77fd{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-dfaa77fe{font-family:'Times New Roman';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dfaa77ff{font-family:'Times New Roman';font-size:6.6pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-dfaa7800{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-dfaa9eee{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dfaa9eef{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.5pt;padding-top:0.5pt;padding-left:0.5pt;padding-right:0.5pt;line-height: 1;background-color:transparent;}.cl-dfaa9ef0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-dfaac5f4{width:108pt;background-clip: padding-box;background-color:rgba(229, 229, 229, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5f5{width:72pt;background-clip: padding-box;background-color:rgba(229, 229, 229, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5f6{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5f7{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5f8{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5f9{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5fa{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5fb{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5fc{width:108pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-dfaac5fd{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-dfb12a34'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="4"class="cl-dfaac5fa"&gt;&lt;p class="cl-dfaa9eee"&gt;&lt;span class="cl-dfaa77fc"&gt;Flow Envelopes determined as optimum, stressful, and damaging for the corresponding Salinity Envelopes of all indicator species in the Northern Estuaries.&lt;/span&gt;&lt;span class="cl-dfaa77fd"&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dfaac5fd"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa77fe"&gt;Estuary&lt;/span&gt;&lt;span class="cl-dfaa77ff"&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5fc"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa77fe"&gt;Optimum&lt;/span&gt;&lt;span class="cl-dfaa77ff"&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5fc"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa77fe"&gt;Stress&lt;/span&gt;&lt;span class="cl-dfaa77ff"&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5fd"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa77fe"&gt;Damaging&lt;/span&gt;&lt;span class="cl-dfaa77ff"&gt; &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dfaac5f5"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;St. Lucie&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f4"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;150 - 1400 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f4"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;1400 - 1700 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f5"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;&amp;gt;1700 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-dfaac5f6"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;Caloosahatchee&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f7"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;750 - 2100 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f7"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;2100 - 2600 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-dfaac5f6"&gt;&lt;p class="cl-dfaa9eef"&gt;&lt;span class="cl-dfaa7800"&gt;&amp;gt;2600 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="4"class="cl-dfaac5f8"&gt;&lt;p class="cl-dfaa9ef0"&gt;&lt;span class="cl-dfaa77fd"&gt; &lt;/span&gt;&lt;span class="cl-dfaa77fc"&gt;Source: RECOVER Northern Estuaries Performance Measure: Salinity Envelope&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="6236328c-b7f2-4c8f-9ebc-0991d83a2d19"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("6236328c-b7f2-4c8f-9ebc-0991d83a2d19");
+var template = document.getElementById("4e15ec0d-143e-461e-b22e-572ac2b3b5d2");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+* Frequency of low (below optimum), optimum and damaging flow events were evaluated for each water year (May - April) and alternative.
+
+
+---
+name: stat101
+
+### Quick 101
+
+.pull-left[
+
+* How to read box-and-whisker plots or boxplots
+
+&lt;img src="./Plots/boxplot_explain.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[
+
+* Stage and flow duration curves are based on cumulative distribution functions. 
+
+&lt;img src="./Plots/ecdf_explain.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+* *Example:* What is the data value 50% (or 0.5) of the time?
+  * Follow the red dashed lines and you get a value of -0.04.
+
+More reading on empirical CDF at this [link](https://towardsdatascience.com/what-why-and-how-to-read-empirical-cdf-123e2b922480).
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
