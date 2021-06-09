@@ -1334,7 +1334,7 @@ mtext(side=1,line=1,outer=T,"Proportion of Time \u2265 Stage Elevation")
 dev.off()
 
 
-# png(filename=paste0(plot.path,"Iteration_2/WCA_6263_perdiff.png"),width=4.5,height=5.25,units="in",res=200,type="windows",bg="white")
+# png(filename=paste0(plot.path,"Iteration_2/WCA_6263_perdiff.png"),width=5,height=5.25,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1.5,0.7,1,1),oma=c(2,5,1,0.25));
 layout(matrix(1:2,1,2,byrow=T))
 

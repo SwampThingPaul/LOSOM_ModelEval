@@ -69,7 +69,7 @@ knitr::include_graphics('./Plots/ConSWFL.jpeg')
 ---
 name: alternatives
 
-### Iteration 1 - Model runs
+### Iteration 2 - Model runs
 
 ```{r}
 
@@ -77,11 +77,11 @@ data.frame(Alternative=c("ECBr","NA25","AA","BB","CC","DD","EE1","EE2"),
            Description=c("LOSOM Existing Condition Baseline 2019", "LOSOM No Action 2025 (FWO)", "ESLE Framework. Enhances SLE ecology.","SPLC Framework. Improve water supply to pre-LORS08","Pareto Plan D Framework. Enhances CRE ecology and improves water supply","Pareto Plan A Framework. Incremental improvement over LORS.","Stage Target Operation Framework. Improve water supply performance by reducing flows south.","Stage Target Operations Framework. Reduce flows to SLE by reducing Zone B release rate."))%>%
   flextable()%>%
   colformat_char(na_str="---")%>%
-  width(width=c(1,6))%>%
+  width(width=c(1,5))%>%
   padding(padding=0.1,part="all")%>%
   font(fontname="Times New Roman",part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
+  fontsize(size=10,part="body")%>%
+  fontsize(size=12,part="header")%>%
   bold(part="header")
   
 ```
@@ -327,6 +327,15 @@ knitr::include_graphics('./Plots/Iteration_2/S80_PercentWetQ_bxp.png')
 .center[
 Boxplot representing the annual percent wet season discharge during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
 ]
+
+---
+name: BloomSLE
+
+### Bloom Period Discharges
+```{r ,fig.align="center",out.width="70%" }
+knitr::include_graphics('./Plots/Iteration_2/SLE_BloomQ_bxp.png')
+```
+.center[Boxplot representing the S-308 and S-80 discharges during the May to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.]
 
 ---
 name: estuarycompare
