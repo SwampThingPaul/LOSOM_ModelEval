@@ -24,11 +24,15 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
 ##
 library(flextable)
 library(magrittr)
+library(plyr)
 
 wd="C:/Julian_LaCie/_Github/LOSOM_ModelEval"
 
 plot.path="C:/Julian_LaCie/_Github/LOSOM_ModelEval/Plots/"
 export.path="C:/Julian_LaCie/_GitHub/LOSOM_ModelEval/Export/"
+
+##
+alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2")
 ```
 
 layout: true
@@ -50,7 +54,7 @@ class: left, middle
 
 *Conservancy of Southwest Florida*
 
-**DRAFT** - `r format(as.Date(Sys.Date()),"%B %d, %Y")`
+**DRAFT** - `r paste(format(as.Date("2021-06-09"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
 
 ]
 <!-- this ends up being the title slide since seal = FALSE-->
@@ -241,7 +245,74 @@ knitr::include_graphics('./Plots/Iteration_2/CRE_BloomQ_bxp.png')
 ```
 .center[Boxplot representing the S-77 and S-79 discharges during the June to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.]
 
+---
+name: S77perchange
 
+### S77 Discharge Percent Change
+
+```{r}
+est.allPOS.sum=read.csv(paste0(export.path,"POS_eststruct_sum.csv"))
+S77.sum=subset(est.allPOS.sum,SITE=="S77")
+S77.sum=S77.sum[match(alts.sort,S77.sum$Alt),]
+
+S77.sum$NA25_perchange=with(S77.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100,2))
+S77.sum$ECBr_perchange=with(S77.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[2])/Avg.TQ.kacft[2])*100,2))
+
+S77.sum[,2:5]%>%
+  flextable()%>%
+  colformat_double(j=2,digits=2)%>%
+  set_header_labels("Alt"="Alternative",
+                    "Avg.TQ.kacft"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+                    "NA25_perchange"="% Change Compared to FWO",
+                    "ECBr_perchange"="% Change Compared to ECB")%>%
+  width(width=c(0.5,1.5,1.5,1.5))%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:4,align="center",part="all")%>%
+  footnote(j=3,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "),inline=T)%>%
+  footnote(j=4,
+           part="header",value=as_paragraph("ECB = ECBr"),ref_symbols =c(" 2 "),inline=T)%>%
+  set_caption(caption="S77 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+  
+
+```
+
+---
+name: S79perchange
+
+### S79 Discharge Percent Change
+
+```{r}
+S79.sum=subset(est.allPOS.sum,SITE=="S79")
+S79.sum=S79.sum[match(alts.sort,S79.sum$Alt),]
+
+S79.sum$NA25_perchange=with(S79.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100,2))
+S79.sum$ECBr_perchange=with(S79.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[2])/Avg.TQ.kacft[2])*100,2))
+
+S79.sum[,2:5]%>%
+  flextable()%>%
+  colformat_double(j=2,digits=2)%>%
+  set_header_labels("Alt"="Alternative",
+                    "Avg.TQ.kacft"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+                    "NA25_perchange"="% Change Compared to FWO",
+                    "ECBr_perchange"="% Change Compared to ECB")%>%
+  width(width=c(0.5,1.5,1.5,1.5))%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:4,align="center",part="all")%>%
+  footnote(j=3,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "),inline=T)%>%
+  footnote(j=4,
+           part="header",value=as_paragraph("ECB = ECBr"),ref_symbols =c(" 2 "),inline=T)%>%
+  set_caption(caption="S79 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+  
+
+```
 ---
 name: SLE
 class: middle, center
@@ -277,7 +348,7 @@ name: freqSLE
 
 ### Flow Categories
 
-```{r ,fig.align="center",out.width="80%" }
+```{r ,fig.align="center",out.width="75%" }
 knitr::include_graphics('./Plots/Iteration_2/SLE_iter2_freq_bxp.png')
 ```
 .center[
@@ -338,6 +409,73 @@ knitr::include_graphics('./Plots/Iteration_2/SLE_BloomQ_bxp.png')
 .center[Boxplot representing the S-308 and S-80 discharges during the May to August (bloom period). Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.]
 
 ---
+name: S308perchange
+
+### S308 Discharge Percent Change 
+
+```{r}
+S308.sum=subset(est.allPOS.sum,SITE=="S308")
+S308.sum=S308.sum[match(alts.sort,S308.sum$Alt),]
+
+S308.sum$NA25_perchange=with(S308.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100,2))
+S308.sum$ECBr_perchange=with(S308.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[2])/Avg.TQ.kacft[2])*100,2))
+
+S308.sum[,2:5]%>%
+  flextable()%>%
+  colformat_double(j=2,digits=2)%>%
+  set_header_labels("Alt"="Alternative",
+                    "Avg.TQ.kacft"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+                    "NA25_perchange"="% Change Compared to FWO",
+                    "ECBr_perchange"="% Change Compared to ECB")%>%
+  width(width=c(0.5,1.5,1.5,1.5))%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:4,align="center",part="all")%>%
+  footnote(j=3,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "),inline=T)%>%
+  footnote(j=4,
+           part="header",value=as_paragraph("ECB = ECBr"),ref_symbols =c(" 2 "),inline=T)%>%
+  set_caption(caption="S308 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+  
+
+```
+
+---
+name: S80perchange
+
+### S80 Discharge Percent Change 
+
+```{r}
+S80.sum=subset(est.allPOS.sum,SITE=="S80")
+S80.sum=S80.sum[match(alts.sort,S80.sum$Alt),]
+
+S80.sum$NA25_perchange=with(S80.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100,2))
+S80.sum$ECBr_perchange=with(S80.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[2])/Avg.TQ.kacft[2])*100,2))
+
+S80.sum[,2:5]%>%
+  flextable()%>%
+  colformat_double(j=2,digits=2)%>%
+  set_header_labels("Alt"="Alternative",
+                    "Avg.TQ.kacft"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+                    "NA25_perchange"="% Change Compared to FWO",
+                    "ECBr_perchange"="% Change Compared to ECB")%>%
+  width(width=c(0.5,1.5,1.5,1.5))%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:4,align="center",part="all")%>%
+  footnote(j=3,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "),inline=T)%>%
+  footnote(j=4,
+           part="header",value=as_paragraph("ECB = ECBr"),ref_symbols =c(" 2 "),inline=T)%>%
+  set_caption(caption="S80 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+  
+
+```
+---
 name: estuarycompare
 
 ### FWO Discharge Comparison
@@ -345,10 +483,11 @@ name: estuarycompare
 knitr::include_graphics('./Plots/Iteration_2/Estuary_FWOCompare.png')
 ```
 .center[
-Percent Difference from FWO (LSM25B) for low, optimal and high discharges for Caloosahatchee River Estuary and St Lucie Estuary (CRE and SLE, respectively).
+Percent Difference from FWO (NA25) for low, optimal and high discharges for Caloosahatchee River Estuary and St Lucie Estuary (CRE and SLE, respectively).
 ]
 
 * Compared annual average number of events over the FLWY 1966 - 2016 simulation period
+
 ---
 name: LakeOutflow
 class: middle, center
@@ -394,6 +533,96 @@ knitr::include_graphics('./Plots/Iteration_2/EAA_discharge_sum.png')
 .pull-right[
 Percent difference of average discharge volume score relative to the FWO (NA25) alternative over the entire simulation period.
 
+]
+
+---
+name: Southperchange
+
+### S351 + S354 Discharge Percent Change 
+
+```{r}
+FlowSouth.sum=ddply(subset(est.allPOS.sum,SITE%in%c("S351","S354")),"Alt",summarise,Avg.TQ.kacft=sum(Avg.TQ.kacft))
+FlowSouth.sum=FlowSouth.sum[match(alts.sort,FlowSouth.sum$Alt),]
+
+FlowSouth.sum$NA25_perchange=with(FlowSouth.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100,2))
+FlowSouth.sum$ECBr_perchange=with(FlowSouth.sum,round(((Avg.TQ.kacft-Avg.TQ.kacft[2])/Avg.TQ.kacft[2])*100,2))
+
+FlowSouth.sum%>%
+  flextable()%>%
+  colformat_double(j=2,digits=2)%>%
+  set_header_labels("Alt"="Alternative",
+                    "Avg.TQ.kacft"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+                    "NA25_perchange"="% Change Compared to FWO",
+                    "ECBr_perchange"="% Change Compared to ECB")%>%
+  width(width=c(0.5,1.5,1.5,1.5))%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:4,align="center",part="all")%>%
+  footnote(j=3,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "),inline=T)%>%
+  footnote(j=4,
+           part="header",value=as_paragraph("ECB = ECBr"),ref_symbols =c(" 2 "),inline=T)%>%
+  set_caption(caption="Flow south (S-351 and S-354) average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+  
+
+```
+
+---
+name: southcompare
+
+### FWO Discharge Comparison
+```{r ,fig.align="center",out.width="100%" }
+knitr::include_graphics('./Plots/Iteration_2/FlowSouth_FWOCompare.png')
+```
+.center[
+Percent Difference from FWO (NA25) for total discharges south (S-351 and S-354).
+]
+
+* Compared annual average number of events over the FLWY 1966 - 2016 simulation period
+
+---
+name: PCA
+
+## Principal Component Analysis
+
+.pull-left[
+**Parameters**
+
+* Q<sub>S79</sub>, Q<sub>S80</sub>, Q<sub>S77</sub> & Q<sub>S308</sub>: Total annual discharge.
+* S79<sub>Low, Opt, Dam</sub>: Frequency of low, optimum and damaging events at S79 (based on 14-day moving average).
+* S80<sub>Low, Opt, Dam</sub>: Frequency of low, optimum and damaging events at S80 (based on 14-day moving average).
+* Stg <11Ft: Frequency of daily stage < 11 Ft.
+* Stg >16Ft: Frequency of daily stage < 16 Ft.
+
+]
+
+.pull-right[
+**PCA Data Suitability**
+
+* Kaiser-Meyer-Olkin Statistics (Measure of Sampling Adequacy)
+  * KMO-Criterion: 0.78
+
+* Bartlett's Test Of Sphericity
+ * `r paste("\u03C7\u00B2 = 9832.7; DF = 75; \u03C1 <0.01")`
+
+
+]
+
+---
+name: PCA
+
+## Principal Component Analysis
+
+```{r ,fig.align="center",out.width="85%" }
+knitr::include_graphics('./Plots/Iteration_2/Iter2_PCA_Alts.png')
+```
+.small[
+* Occurrence of optimum flow events and flows south is positively loaded w/ CC and EE plans
+* Stg >16 Ft correlated with total discharge and damaging flow events
+* Stg <11 Ft correlated with low flow event
+* Despite having higher Flows south AA is pulled to the bottom left (driven by higher freq stag <11 Ft).
 ]
 ---
 name: WCA3

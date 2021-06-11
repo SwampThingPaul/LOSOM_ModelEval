@@ -55,7 +55,7 @@ for(i in 1:n.alts){
   lakeO.stage=rbind(tmp,lakeO.stage)
   print(i)
 }
-
+lakeO.stage1=lakeO.stage
 # # Sanity Check
 # plot(STAGE~Date,lakeO.stage,type="n")
 # with(subset(lakeO.stage,Alt==alts[1]),lines(Date,STAGE,col="red"))
@@ -209,14 +209,116 @@ highlow.ecdf$high.prop[is.infinite(highlow.ecdf$high.prop)==T]<-NA
 
 # RECOVER Stage Envelope --------------------------------------------------
 ## 
+lakeO.stage1$Data.Value=lakeO.stage$STAGE
+test.ECBr=subset(lakeO.stage1,Alt=='ECBr')
+
+AprSep=seq(date.fun("1965-04-15"),date.fun("1965-09-15"),"1 days")
+MayAug=seq(date.fun("1965-05-01"),date.fun("1965-09-01"),"1 days")
+
+test.ECBr$CY=as.numeric(format(test.ECBr$Date,"%Y"))
+test.ECBr$month_day=as.character(format(test.ECBr$Date,"%m_%d"))
+test.ECBr$JJ.period=with(test.ECBr,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
+test.ECBr$AprSep.period=with(test.ECBr,ifelse(month_day%in%as.character(format(AprSep,"%m_%d")),1,0))
+test.ECBr$MayAug.period=with(test.ECBr,ifelse(month_day%in%as.character(format(MayAug,"%m_%d")),1,0))
+
+test=ddply(test.ECBr,"CY",summarise,
+      max.stg=max(Data.Value),
+      LT13=sum(ifelse(JJ.period==1&Data.Value<=13,1,0)),
+      LT11.5=sum(ifelse(MayAug.period==1&Data.Value<11.5,1,0)),
+      LT12=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)))
+
+# 1 = Normal
+# 2 = Recovery
+test$env=with(lag(as.zoo(test),-1,na.pad=T),
+              ifelse(max.stg>17|LT13<30,2,
+                     ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,1)))
+# test$env=1
+# test$env=with(lag(as.zoo(test),-1,na.pad=T),switch(1,
+#               ifelse(max.stg>17|LT13<30,2,env),
+#               ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,env)
+#               ))
+
+
+# test$env=with(test,ifelse(lag(as.zoo(max.stg),-1,na.pad=T)>17|lag(as.zoo(LT13),-1,na.pad=T)<30,2,
+#                           ifelse(lag(as.zoo(max.stg),-1,na.pad=T)<=16&lag(as.zoo(LT11.5),-1,na.pad=T)>=60|lag(as.zoo(LT12),-1,na.pad=T)>=90,1,1)))
+test$env[1]=1
+test$env2=with(test,ifelse(env==2,0,1))
+
+xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+plot(env2~CY,test,type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
+abline(v=xmaj,lwd=0.5)
+with(test,lines(env2~CY,type="s",col="grey20",lwd=2.5))
+axis_fun(1,xmaj,xmin,xmaj)
+box(lwd=1)
+
+
+
+
+## too slow! 
+## Like the spreadsheet 
+# for(i in 366:nrow(test.ECBr)){
+#   test.ECBr$Envelope[i]=with(test.ECBr,
+#                              ifelse(as.numeric(format(Date,'%m'))==1&as.numeric(format(Date,'%d'))==1,
+#                                                switch(Envelope[i-1],
+#                                                       ifelse(max(Data.Value[(i-365):i])>17|sum(LT13[(i-214):i])<30,2,Envelope[i-1]),
+#                                                       ifelse(max(Data.Value[(i-153):i])<=16&sum(LT11[(i-245):i])>=30|sum(LT12[(i-261):i])>=90,1,Envelope[i-1])),
+#                                     Envelope[i-1]
+#                                                ))
+# print(i)
+#   }
+
+stg.env.years=lakeO.stage1
+stg.env.years$CY=as.numeric(format(stg.env.years$Date,"%Y"))
+stg.env.years$month_day=as.character(format(stg.env.years$Date,"%m_%d"))
+stg.env.years$JJ.period=with(stg.env.years,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
+stg.env.years$AprSep.period=with(stg.env.years,ifelse(month_day%in%as.character(format(AprSep,"%m_%d")),1,0))
+stg.env.years$MayAug.period=with(stg.env.years,ifelse(month_day%in%as.character(format(MayAug,"%m_%d")),1,0))
+
+stg.env.years=ddply(stg.env.years,c("Alt","CY"),summarise,
+           max.stg=max(Data.Value),
+           LT13=sum(ifelse(JJ.period==1&Data.Value<=13,1,0)),
+           LT11.5=sum(ifelse(MayAug.period==1&Data.Value<11.5,1,0)),
+           LT12=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)))
+
+env.rslt=data.frame()
+for(i in 1:length(alts.sort)){
+  tmp=subset(stg.env.years,Alt==alts.sort[i])
+  tmp$env=as.numeric(with(lag(as.zoo(tmp),-1,na.pad=T),
+                ifelse(max.stg>17|LT13<30,2,
+                       ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,1))))
+  tmp$env[1]=1
+  env.rslt=rbind(env.rslt,tmp)
+  
+}
+env.rslt$env2=with(env.rslt,ifelse(env==2,0,1))
+env.rslt=merge(env.rslt,data.frame(Alt=alts.sort,PlotOffset=rev(seq(2,16,2))),"Alt")
+env.rslt$env.plt=with(env.rslt,env2+PlotOffset)
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeO_Env.png"),width=8,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,2,1.75,0.5),oma=c(2,2,1,0.25));
+
+ylim.val=c(2,17)
+xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+plot(env2~CY,env.rslt,type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i",ylim=ylim.val)
+abline(v=c(xmaj,xmin),lty=c(1,3),lwd=0.5,col=c("black","grey"))
+for(i in 1:length(alts.sort)){
+  with(subset(env.rslt,Alt==alts.sort[i]),lines(env.plt~CY,type="s",col=cols[i],lwd=2.5))
+}
+axis_fun(1,xmaj,xmin,xmaj,line=-0.8,cex=0.6)
+axis_fun(2,seq(3,17,2),seq(3,17,2),rev(alts.sort))
+box(lwd=1)
+mtext(side=3,adj=1,"Upper Step = Normal Envelope\nLower Step = Recovery Envelope",font=3)
+mtext(side=1,line=1.25,"Simulation Years")
+dev.off()
+##
 library(LORECOVER)
 
 head(lakeO.stage)
-lakeO.stage$Data.Value=lakeO.stage$STAGE
+lakeO.stage1$Data.Value=lakeO.stage$STAGE
 
 norm.lakeO.stage.scr=data.frame()
 for(i in 1:n.alts){
-  tmp=subset(lakeO.stage,Alt==alts[i])
+  tmp=subset(lakeO.stage1,Alt==alts[i])
   rslt=norm_env(tmp)
   rslt$Alt=alts[i]
   norm.lakeO.stage.scr=rbind(norm.lakeO.stage.scr,rslt)
@@ -224,7 +326,7 @@ for(i in 1:n.alts){
 }
 norm.lakeO.stage.scr=rename(norm.lakeO.stage.scr,c("score"="norm.score"))
 norm.lakeO.stage.scr$WY=WY(norm.lakeO.stage.scr$Date)
-norm.lakeO.stage.scr=subset(norm.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
+# norm.lakeO.stage.scr=subset(norm.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
 
 head(norm.lakeO.stage.scr)
 norm.lakeO.stage.scr.WY=ddply(norm.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(norm.score,na.rm=T))
@@ -235,10 +337,9 @@ norm.lakeO.stage.scr.WY.sum$FWO.diff=with(norm.lakeO.stage.scr.WY.sum,(mean.val-
 
 boxplot(TScore~Alt,norm.lakeO.stage.scr.WY,outline=F)
 
-
 rec.lakeO.stage.scr=data.frame()
 for(i in 1:n.alts){
-  tmp=subset(lakeO.stage,Alt==alts[i])
+  tmp=subset(lakeO.stage1,Alt==alts[i])
   rslt=rec_env(tmp)
   rslt$Alt=alts[i]
   rec.lakeO.stage.scr=rbind(rec.lakeO.stage.scr,rslt)
@@ -246,25 +347,54 @@ for(i in 1:n.alts){
 }
 rec.lakeO.stage.scr=rename(rec.lakeO.stage.scr,c("score"="rec.score"))
 rec.lakeO.stage.scr$WY=WY(rec.lakeO.stage.scr$Date)
-rec.lakeO.stage.scr=subset(rec.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
+# rec.lakeO.stage.scr=subset(rec.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
 
 rec.lakeO.stage.scr.WY=ddply(rec.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(rec.score,na.rm=T))
 rec.lakeO.stage.scr.WY$Alt=factor(rec.lakeO.stage.scr.WY$Alt,levels=alts.sort)
 rec.lakeO.stage.scr.WY.sum=ddply(rec.lakeO.stage.scr.WY,"Alt",summarise,mean.val=mean(TScore))
 rec.lakeO.stage.scr.WY.sum$Alt=factor(rec.lakeO.stage.scr.WY.sum$Alt,levels=alts.sort)
 rec.lakeO.stage.scr.WY.sum$FWO.diff=with(rec.lakeO.stage.scr.WY.sum,(mean.val-mean.val[1])/mean.val[1])*100
-
+# 
 # lakeO.stage.scr=merge(norm.lakeO.stage.scr,rec.lakeO.stage.scr[,c("Date","Alt","rec.score")],c("Date","Alt"))
 # head(lakeO.stage.scr)
 # lakeO.stage.scr$CY=as.numeric(format(lakeO.stage.scr$Date,"%Y"))
 # lakeO.stage.scr$WY=WY(lakeO.stage.scr$Date)
 # lakeO.stage.scr=lakeO.stage.scr[order(lakeO.stage.scr$Alt,lakeO.stage.scr$Date),]
 # lakeO.stage.scr$JJ.period=with(lakeO.stage.scr,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
-# # lakeO.stage.scr$MinStage.30d=with(lakeO.stage.scr,ave(Data.Value,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,30,FUN=function(x)min(x,na.rm=T)))))
+# lakeO.stage.scr$MinStage.30d=with(lakeO.stage.scr,ave(Data.Value,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,30,FUN=function(x)min(x,na.rm=T)))))
 # 
-# norm.to.rec=ddply(lakeO.stage.scr,c("CY","Alt"),summarise,max.stg=max(Data.Value,na.rm=T),summer.N=sum(ifelse(JJ.period==1&Data.Value>13,1,0)))
-# norm.to.rec$trans=with(norm.to.rec,ifelse(max.stg>17|summer.N<30,1,0))
-
+# norm.to.rec=ddply(lakeO.stage.scr,c("CY","Alt"),summarise,max.stg=max(Data.Value,na.rm=T),summer.N=sum(ifelse(JJ.period==1&MinStage.30d>13,1,0)))
+# norm.to.rec$trans=with(norm.to.rec,ifelse(max.stg>17|summer.N>30,1,0))
+# 
+# xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+# plot(trans~CY,subset(norm.to.rec,Alt=="ECBr"),type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
+# abline(v=xmaj,lwd=0.5)
+# with(subset(norm.to.rec,Alt=="ECBr"),lines(1-trans~CY,type="s",col="grey20",lwd=2.5))
+# axis_fun(1,xmaj,xmin,xmaj)
+# box(lwd=1)
+# 
+# ##
+# lakeO.stage.scr$month_day=as.character(format(lakeO.stage.scr$Date,"%m_%d"))
+# date.range=seq(date.fun("1965-04-15"),date.fun("1965-09-15"),"1 days")
+# date.range2=seq(date.fun("1965-05-01"),date.fun("1965-09-01"),"1 days")
+# lakeO.stage.scr$AprSep.period=with(lakeO.stage.scr,ifelse(month_day%in%as.character(format(date.range,"%m_%d")),1,0))
+# lakeO.stage.scr$MayAug.period=with(lakeO.stage.scr,ifelse(month_day%in%as.character(format(date.range2,"%m_%d")),1,0))
+# 
+# rec.to.norm=ddply(lakeO.stage.scr,c("CY","Alt"),summarise,
+#                   AprSep.12_90=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)),
+#                   MayAug.115_60=sum(ifelse(AprSep.period==1&Data.Value<11.5,1,0)),
+#                   High=sum(Data.Value>16))
+# rec.to.norm$trans=with(rec.to.norm,ifelse(AprSep.12_90>90|MayAug.115_60>60&High>0,1,0))
+# 
+# xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+# plot(trans~CY,subset(norm.to.rec,Alt=="ECBr"),type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
+# abline(v=xmaj,lwd=0.5)
+# with(subset(rec.to.norm,Alt=="ECBr"),lines(1-trans~CY,type="s",col="grey20",lwd=2.5))
+# axis_fun(1,xmaj,xmin,xmaj)
+# box(lwd=1)
+##
+## ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/Lake_Okeechobee/lok_stage_envelope.pdf
+##
 
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_bxp.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
 # par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,4,1,0.25));
@@ -347,6 +477,9 @@ for(j in 1:n.alts){
 head(q.dat,20)
 q.dat=q.dat[order(q.dat$Alt,q.dat$SITE,q.dat$Date),]
 q.dat$WY=WY(q.dat$Date)
+q.dat1=q.dat;# preserve the entire time-series
+q.dat1$CY=as.numeric(format(q.dat1$Date,'%Y'))
+
 q.dat=subset(q.dat,WY%in%WYs);# Full Florida WY (MAy - April) 
 
 q.dat$Alt_SITE=paste(q.dat$Alt,q.dat$SITE,sep="_")
@@ -367,7 +500,149 @@ q.dat$bloom.period=with(q.dat,ifelse(SITE%in%c("S77","S78","S79"),
                                      ifelse(as.numeric(format(Date,"%m"))%in%c(6:9),"bloom","no.bloom"),
                                      ifelse(as.numeric(format(Date,"%m"))%in%c(5:9),"bloom","no.bloom")))
 
+est.allPOS.sum=ddply(q.dat1,c("SITE","CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+est.allPOS.sum=ddply(est.allPOS.sum,c("SITE","Alt"),summarise,Avg.TQ.kacft=mean(TQ/1000))
+# write.csv(est.allPOS.sum,paste0(export.path,"POS_eststruct_sum.csv"),row.names = F)
+
+
+q.dat.xtab=reshape2::dcast(q.dat,Alt+Date+WY~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
+head(q.dat.xtab)
+q.dat.xtab$FlowSouth=rowSums(q.dat.xtab[,c("S351","S354")],na.rm=T)
+q.dat.xtab$S79.14d=with(q.dat.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat.xtab$S80.14d=with(q.dat.xtab,ave(S80,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+
+q.dat.xtab$CRE.low=with(q.dat.xtab,ifelse(S79.14d<750,1,0))
+q.dat.xtab$CRE.dam=with(q.dat.xtab,ifelse(S79.14d>2600,1,0))
+q.dat.xtab$CRE.opt=with(q.dat.xtab,ifelse(S79.14d>=750&S79.14d<2100,1,0))
+q.dat.xtab$CRE.stress=with(q.dat.xtab,ifelse(S79.14d>=2100&S79.14d<=2600,1,0))
+
+q.dat.xtab$SLE.low=with(q.dat.xtab,ifelse(S80.14d<150,1,0))
+q.dat.xtab$SLE.dam=with(q.dat.xtab,ifelse(S80.14d>1700,1,0))
+q.dat.xtab$SLE.opt=with(q.dat.xtab,ifelse(S80.14d>=150&S80.14d<1400,1,0))
+q.dat.xtab$SLE.stress=with(q.dat.xtab,ifelse(S80.14d>=1400&S80.14d<=1700,1,0))
+
+
+
+# PCA ---------------------------------------------------------------------
+vars=c("Alt", "Date", "WY", "S308", "S77","S79", "S80", "FlowSouth", "CRE.low", 
+  "CRE.dam", "CRE.opt", "SLE.low", "SLE.dam", "SLE.opt")
+q.dat.xtab.melt=reshape::melt(q.dat.xtab[,vars],id.vars = vars[1:3])
+head(q.dat.xtab.melt)
+
+q.dat.xtab.WY=reshape2::dcast(q.dat.xtab.melt,Alt+WY~variable,value.var = "value",sum,na.rm=T)
+lakeO.stage.WY=ddply(lakeO.stage,c("Alt",'WY'),summarise,f.lowstg=sum(low.stg,na.rm=T),f.highstg=sum(High.stg))
+
+WY.Q.stg=merge(q.dat.xtab.WY,lakeO.stage.WY,c("Alt","WY"))
+
+library(vegan)
+library(REdaS)
+# KMOS
+KMOS(WY.Q.stg[,3:length(names(WY.Q.stg))])
+
+# Bartlett's Test Of Sphericity
+bart_spher(WY.Q.stg[,3:length(names(WY.Q.stg))])
+
+## PCA
+pca.dat.pca=rda(WY.Q.stg[,3:length(names(WY.Q.stg))],scale = T)
+
+eig <- pca.dat.pca$CA$eig
+variance <- eig*100/sum(eig)
+cumvar <- cumsum(variance)
+eig.pca <- data.frame(eig = eig, variance = variance,cumvariance = cumvar)
+eig.pca
+
+# png(filename=paste0(plot.path,"Q_STG_Scree.tiff"),width=4.5,height=5,units="in",res=200,type="windows",compression=c("lzw"),bg="white")
+layout(matrix(1:2,2,1))
+par(family="serif",mar=c(1,2,0.75,1),oma=c(2,1,0.25,0.5));
+
+ylim.val=c(0,8);by.y=2;ymaj=seq(ylim.val[1],100,by.y);ymin=seq(ylim.val[1],100,by.y/2)
+x=barplot(eig.pca$eig,ylim=ylim.val,col="grey",yaxt="n")
+abline(h=ymaj,lty=3,col="grey")
+x=barplot(eig.pca$eig,ylim=ylim.val,col="grey",yaxt="n",add=T)
+abline(h=1,lty=2,col="red",lwd=2)
+axis_fun(1,line=-0.5,x,x,seq(1,length(x),1),0.7)
+axis_fun(2,ymaj,ymin,ymaj,0.75);box(lwd=1)
+mtext(side=2,line=1.5,"Eigenvalue")
+
+ylim.val=c(0,120);by.y=25;ymaj=seq(ylim.val[1],100,by.y);ymin=seq(ylim.val[1],100,by.y/2);#set y limit and delineates the major and minor ticks
+x=barplot(eig.pca$variance,ylim=ylim.val,col="white",border=0,yaxt="n")# inital plot to get the measurements
+abline(h=ymaj,lty=3,col="grey")#makes vertical lines from y axis
+x=barplot(eig.pca$variance,ylim=ylim.val,col="grey",yaxt="n",add=T)# the real plot that matters
+lines(x,eig.pca$cumvariance,col="indianred1",lwd=2)# adds the cumulative variance for each factor
+points(x,eig.pca$cumvariance,pch=21,bg="indianred1",cex=1.25)
+abline(h=80,lty=2,col="red",lwd=2)
+axis_fun(1,line=-0.5,x,x,seq(1,length(x),1),0.7)
+axis_fun(2,ymaj,ymin,ymaj,0.75);box(lwd=1)
+mtext(side=1,line=1.5,"Principal Components")
+mtext(side=2,line=1.75,"Percentage of Variances")
+legend.text=c("Absolute","Cumulative");#helper vaiable for legend
+pt.col=c("grey","indianred1")#helper vaiable for legend
+legend("topleft",legend=legend.text,pch=c(22,21),pt.bg=pt.col,col=c("black",pt.col[2]),lty=c(0,1),lwd=1.5,pt.cex=1,ncol=2,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,text.col="white")
+legend("topleft",legend=legend.text,pch=c(22,21),pt.bg=pt.col,col="black",lty=0,lwd=0.5,pt.cex=1,ncol=2,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5)
+dev.off()
+
+scrs<-scores(pca.dat.pca,display=c("sites","species"),choices=c(1,2,3));
+
+WY.Q.stg$Alt=factor(WY.Q.stg$Alt,levels=alts.sort)
+
+cols2=cols=c("grey50","black",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+cols.val=cols2[WY.Q.stg$Alt]
+pchs=c(21,23,21,21,22,23,24,25)
+pch.vals=pchs[WY.Q.stg$Alt]
+#ggplot(data.frame(scrs$sites))+geom_point(aes(x=PC1,y=PC2,col=WY.Q.stg$Alt))
+
+labs=rownames(scrs$species)
+labs=c(expression(paste("Q"["S308"])),
+       expression(paste("Q"["S77"])),
+       expression(paste("Q"["S79"])),
+       expression(paste("Q"["S80"])),
+       expression(paste("Q"["South"])),
+       expression(paste("S79"["Low"])),
+       expression(paste("S79"["Dam"])),
+       expression(paste("S79"["Opt"])),
+       expression(paste("S80"["Low"])),
+       expression(paste("S80"["Dam"])),
+       expression(paste("S80"["Opt"])),
+       "Stg <11Ft",
+       "Stg >16Ft")
+# png(filename=paste0(plot.path,"Iteration_2/Iter2_PCA_Alts.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+layout(matrix(1:2,1,2),widths=c(1,0.5))
+par(family="serif",mar=c(1,1,0.75,0.5),oma=c(2,3,0.25,0.5));
+rscale=0.6
+xlim.val=c(-1.5,2);by.x=1;xmaj=c(0,seq(xlim.val[1],xlim.val[2],by.x));xmin=seq(xlim.val[1],xlim.val[2],by.x/2);
+ylim.val=c(-1.25,1.25);by.y=0.5;ymaj=c(0,seq(ylim.val[1],ylim.val[2],by.y));ymin=seq(ylim.val[1],ylim.val[2],by.y/2);
+plot(xlim.val,ylim.val,type="n",yaxt="n",xaxt="n",ylab=NA,xlab=NA);
+abline(h=0,v=0,lty=3,col="grey");
+points(scrs$sites[,c(1,2)],pch=pch.vals,bg=adjustcolor(cols.val,0.5),col=adjustcolor("black",0.5),cex=0.75,lwd=0.5); #plots the points
+arrows(0,0,scrs$species[,1]*rscale,scrs$species[,2]*rscale,length = 0.05, angle = 15, code = 2,col="indianred1",lwd=1.5);# makes the arrows
+with(scrs,text(species[,1]*rscale,species[,2]*rscale,labels=labs,cex=0.75,font=3))
+ordiellipse(pca.dat.pca,WY.Q.stg$Alt,col=adjustcolor(cols,0.5),lwd=1.5)
+axis_fun(1,line=-0.5,xmaj,xmin,format(xmaj),1); #adds x axis ticks
+axis_fun(2,ymaj,ymin,format(ymaj),1); #adds y axis ticks
+mtext(side=1,line=1.8,paste0("PCA 1 (",round(eig.pca$variance[1],1),"%)"));#adds x axis label with percent variance
+mtext(side=2,line=2.75,paste0("PCA 2 (",round(eig.pca$variance[2],1),"%)"));#adds y axis label with percent variance
+
+plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA)
+legend(0.5,0.5,legend=alts.sort,
+       pch=pchs,
+       lty=0,lwd=0.01,
+       col="black",
+       pt.bg=adjustcolor(cols2,0.5),
+       pt.cex=1.5,ncol=1,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,
+       title.adj=0,title="Model Alternatives")
+dev.off()
+
 # CRE ---------------------------------------------------------------------
+S77.sum=ddply(subset(q.dat1,SITE=='S77'),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+S77.sum=ddply(S77.sum,"Alt",summarise,Avg.TQ=mean(TQ/1000))
+S77.sum=S77.sum[match(alts.sort,S77.sum$Alt),]
+
+S77.sum$NA25_perchange=with(S77.sum,round(((Avg.TQ-Avg.TQ[1])/Avg.TQ[1])*100,2))
+S77.sum$ECBr_perchange=with(S77.sum,round(((Avg.TQ-Avg.TQ[2])/Avg.TQ[2])*100,2))
+S77.sum
+
+
+
 # Flow duration curves
 # png(filename=paste0(plot.path,"Iteration_2/S79_FlowDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
@@ -693,6 +968,14 @@ for(i in 3:8){
 
 
 # SLE ---------------------------------------------------------------------
+S308.sum=ddply(subset(q.dat1,SITE=='S308'),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+S308.sum=ddply(S308.sum,"Alt",summarise,Avg.TQ=mean(TQ/1000))
+S308.sum=S308.sum[match(alts.sort,S308.sum$Alt),]
+
+S308.sum$NA25_perchange=with(S308.sum,round(((Avg.TQ-Avg.TQ[1])/Avg.TQ[1])*100,2))
+S308.sum$ECBr_perchange=with(S308.sum,round(((Avg.TQ-Avg.TQ[2])/Avg.TQ[2])*100,2))
+S308.sum
+
 # Flow duration curves
 # png(filename=paste0(plot.path,"Iteration_2/S80_FlowDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25),xpd=F);
@@ -857,7 +1140,7 @@ abline(v=2.5)
 box(lwd=1)
 mtext(side=3, adj=0,"SLE (S-80)")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
-mtext(side=2,line=2.5,"Percent Dry Season Discharge\n(May - October)")
+mtext(side=2,line=2.5,"Percent Dry Season Discharge\n(November - April)")
 mtext(side=1,line=4,"Model Alternatives")
 dev.off()
 
@@ -874,7 +1157,7 @@ abline(v=2.5)
 box(lwd=1)
 mtext(side=3, adj=0,"SLE (S-80)")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
-mtext(side=2,line=2.5,"Percent Wet Season Discharge\n(November - April)")
+mtext(side=2,line=2.5,"Percent Wet Season Discharge\n(May - October)")
 mtext(side=1,line=4,"Model Alternatives")
 dev.off()
 # Basin Contribution ------------------------------------------------------
@@ -1079,6 +1362,30 @@ legend(0.5,0.5,legend=c("CRE","SLE"),
 dev.off()
 
 # Flow South --------------------------------------------------------------
+FlowSouth.sum=ddply(subset(q.dat1,SITE%in%c("S351","S354")),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+FlowSouth.sum=ddply(FlowSouth.sum,"Alt",summarise,Avg.TQ=mean(TQ/1000))
+FlowSouth.sum=FlowSouth.sum[match(alts.sort,FlowSouth.sum$Alt),]
+
+FlowSouth.sum$NA25_perchange=with(FlowSouth.sum,round(((Avg.TQ-Avg.TQ[1])/Avg.TQ[1])*100,2))
+FlowSouth.sum$ECBr_perchange=with(FlowSouth.sum,round(((Avg.TQ-Avg.TQ[2])/Avg.TQ[2])*100,2))
+FlowSouth.sum
+
+# png(filename=paste0(plot.path,"Iteration_2/FlowSouth_FWOCompare.png"),width=6.5,height=3,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,2,0.75,1),lwd=0.5);
+ylim.val=c(0,100);by.y=25;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(FlowSouth.sum$NA25_perchange,
+          ylim=ylim.val,axes=F,ann=F,col=NA,border=NA,xaxt="n")
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5),lwd=1)
+abline(h=0,lwd=1)
+x=barplot(FlowSouth.sum$NA25_perchange,
+        ylim=ylim.val,axes=F,ann=F,col=cols,xaxt="n",add=T)
+axis_fun(1,x,x,alts.sort)
+axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=2,line=2,"Percent Difference from FWO",cex=1)
+mtext(side=3,adj=0,"Flows South")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
+mtext(side=1,line=2,"Model Alternatives")
+dev.off()
 
 # Flow duration curves
 # png(filename=paste0(plot.path,"Iteration_2/S351_FlowDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
