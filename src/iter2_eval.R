@@ -209,90 +209,51 @@ highlow.ecdf$high.prop[is.infinite(highlow.ecdf$high.prop)==T]<-NA
 
 # RECOVER Stage Envelope --------------------------------------------------
 ## 
-lakeO.stage1$Data.Value=lakeO.stage$STAGE
-test.ECBr=subset(lakeO.stage1,Alt=='ECBr')
-
 AprSep=seq(date.fun("1965-04-15"),date.fun("1965-09-15"),"1 days")
 MayAug=seq(date.fun("1965-05-01"),date.fun("1965-09-01"),"1 days")
 
-test.ECBr$CY=as.numeric(format(test.ECBr$Date,"%Y"))
-test.ECBr$month_day=as.character(format(test.ECBr$Date,"%m_%d"))
-test.ECBr$JJ.period=with(test.ECBr,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
-test.ECBr$AprSep.period=with(test.ECBr,ifelse(month_day%in%as.character(format(AprSep,"%m_%d")),1,0))
-test.ECBr$MayAug.period=with(test.ECBr,ifelse(month_day%in%as.character(format(MayAug,"%m_%d")),1,0))
+stg.env=lakeO.stage1
+stg.env$STAGE=round(stg.env$STAGE,2)
+stg.env$CY=as.numeric(format(stg.env$Date,"%Y"))
+stg.env$month_day=as.character(format(stg.env$Date,"%m_%d"))
+stg.env$AugDec.stg=with(stg.env,ifelse(as.numeric(format(Date,"%m"))%in%c(8:12),STAGE,NA))
+stg.env$JuneJuly.stg=with(stg.env,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),STAGE,NA))
+stg.env$AprSep.stg=with(stg.env,ifelse(month_day%in%as.character(format(AprSep,"%m_%d")),STAGE,NA))
+stg.env$MayAug.stg=with(stg.env,ifelse(month_day%in%as.character(format(MayAug,"%m_%d")),STAGE,NA))
 
-test=ddply(test.ECBr,"CY",summarise,
-      max.stg=max(Data.Value),
-      LT13=sum(ifelse(JJ.period==1&Data.Value<=13,1,0)),
-      LT11.5=sum(ifelse(MayAug.period==1&Data.Value<11.5,1,0)),
-      LT12=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)))
-
+stg.env.CY=ddply(stg.env,c("Alt","CY"),summarise,
+           max.stg=max(STAGE,na.rm=T),
+           AugDec.max=max(AugDec.stg,na.rm=T),
+           JuneJuly_13=sum(JuneJuly.stg>13,na.rm=T),
+           MayAug_11.5=sum(MayAug.stg<11.5,na.rm=T),
+           MayAug_12=sum(AprSep.stg<12,na.rm=T))
 # 1 = Normal
 # 2 = Recovery
-test$env=with(lag(as.zoo(test),-1,na.pad=T),
-              ifelse(max.stg>17|LT13<30,2,
-                     ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,1)))
-# test$env=1
-# test$env=with(lag(as.zoo(test),-1,na.pad=T),switch(1,
-#               ifelse(max.stg>17|LT13<30,2,env),
-#               ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,env)
-#               ))
-
-
-# test$env=with(test,ifelse(lag(as.zoo(max.stg),-1,na.pad=T)>17|lag(as.zoo(LT13),-1,na.pad=T)<30,2,
-#                           ifelse(lag(as.zoo(max.stg),-1,na.pad=T)<=16&lag(as.zoo(LT11.5),-1,na.pad=T)>=60|lag(as.zoo(LT12),-1,na.pad=T)>=90,1,1)))
-test$env[1]=1
-test$env2=with(test,ifelse(env==2,0,1))
-
-xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
-plot(env2~CY,test,type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
-abline(v=xmaj,lwd=0.5)
-with(test,lines(env2~CY,type="s",col="grey20",lwd=2.5))
-axis_fun(1,xmaj,xmin,xmaj)
-box(lwd=1)
-
-
-
-
-## too slow! 
-## Like the spreadsheet 
-# for(i in 366:nrow(test.ECBr)){
-#   test.ECBr$Envelope[i]=with(test.ECBr,
-#                              ifelse(as.numeric(format(Date,'%m'))==1&as.numeric(format(Date,'%d'))==1,
-#                                                switch(Envelope[i-1],
-#                                                       ifelse(max(Data.Value[(i-365):i])>17|sum(LT13[(i-214):i])<30,2,Envelope[i-1]),
-#                                                       ifelse(max(Data.Value[(i-153):i])<=16&sum(LT11[(i-245):i])>=30|sum(LT12[(i-261):i])>=90,1,Envelope[i-1])),
-#                                     Envelope[i-1]
-#                                                ))
-# print(i)
-#   }
-
-stg.env.years=lakeO.stage1
-stg.env.years$CY=as.numeric(format(stg.env.years$Date,"%Y"))
-stg.env.years$month_day=as.character(format(stg.env.years$Date,"%m_%d"))
-stg.env.years$JJ.period=with(stg.env.years,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
-stg.env.years$AprSep.period=with(stg.env.years,ifelse(month_day%in%as.character(format(AprSep,"%m_%d")),1,0))
-stg.env.years$MayAug.period=with(stg.env.years,ifelse(month_day%in%as.character(format(MayAug,"%m_%d")),1,0))
-
-stg.env.years=ddply(stg.env.years,c("Alt","CY"),summarise,
-           max.stg=max(Data.Value),
-           LT13=sum(ifelse(JJ.period==1&Data.Value<=13,1,0)),
-           LT11.5=sum(ifelse(MayAug.period==1&Data.Value<11.5,1,0)),
-           LT12=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)))
-
+# stg.env.CY$env=1
 env.rslt=data.frame()
 for(i in 1:length(alts.sort)){
-  tmp=subset(stg.env.years,Alt==alts.sort[i])
-  tmp$env=as.numeric(with(lag(as.zoo(tmp),-1,na.pad=T),
-                ifelse(max.stg>17|LT13<30,2,
-                       ifelse(max.stg<=16&LT11.5>=60|LT12>=90,1,1))))
-  tmp$env[1]=1
+  tmp=subset(stg.env.CY,Alt==alts.sort[i])
+  env=1
+  for(j in 2:nrow(tmp)){
+    env[j]=with(tmp,
+             ifelse(max.stg[j-1]>17|JuneJuly_13[j-1]>=30,2,
+             ifelse(AugDec.max<=16&MayAug_11.5[j-1]>=60|AugDec.max<=16&MayAug_12[j-1]>=90,1,env[j-1])))
+                    
+  }
+  tmp$env=env
+  # tmp$env=as.numeric(with(lag(as.zoo(tmp),-1,na.pad=T),
+  #               ifelse(max.stg>17|JuneJuly_13>=30,2,
+  #                      ifelse(max.stg<=16&MayAug_11.5>=60|MayAug_12>=90,1,1))))
+  # tmp$env[1]=1
   env.rslt=rbind(env.rslt,tmp)
   
 }
 env.rslt$env2=with(env.rslt,ifelse(env==2,0,1))
 env.rslt=merge(env.rslt,data.frame(Alt=alts.sort,PlotOffset=rev(seq(2,16,2))),"Alt")
 env.rslt$env.plt=with(env.rslt,env2+PlotOffset)
+env.rslt$env.f=with(env.rslt,ifelse(env==1,"normal","recovery"))
+
+reshape2::dcast(env.rslt,Alt~env.f,value.var = "env",function(x) N.obs(x))
 
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_Env.png"),width=8,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,2,1.75,0.5),oma=c(2,2,1,0.25));
@@ -308,8 +269,10 @@ axis_fun(1,xmaj,xmin,xmaj,line=-0.8,cex=0.6)
 axis_fun(2,seq(3,17,2),seq(3,17,2),rev(alts.sort))
 box(lwd=1)
 mtext(side=3,adj=1,"Upper Step = Normal Envelope\nLower Step = Recovery Envelope",font=3)
-mtext(side=1,line=1.25,"Simulation Years")
+mtext(side=1,line=1.25,"Calendar Year")
 dev.off()
+
+## ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/Lake_Okeechobee/lok_stage_envelope.pdf
 ##
 library(LORECOVER)
 
@@ -324,12 +287,13 @@ for(i in 1:n.alts){
   norm.lakeO.stage.scr=rbind(norm.lakeO.stage.scr,rslt)
   print(i)
 }
-norm.lakeO.stage.scr=rename(norm.lakeO.stage.scr,c("score"="norm.score"))
+norm.lakeO.stage.scr=rename(norm.lakeO.stage.scr,c("penalty"="norm.score"))
 norm.lakeO.stage.scr$WY=WY(norm.lakeO.stage.scr$Date)
 # norm.lakeO.stage.scr=subset(norm.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
+# lakeO.stage.scr$cum.abs.pen=with(lakeO.stage.scr,ave(score,Alt_CY,FUN=function(x)cumsum(abs(x))))
 
 head(norm.lakeO.stage.scr)
-norm.lakeO.stage.scr.WY=ddply(norm.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(norm.score,na.rm=T))
+norm.lakeO.stage.scr.WY=ddply(norm.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(abs(norm.score),na.rm=T))
 norm.lakeO.stage.scr.WY$Alt=factor(norm.lakeO.stage.scr.WY$Alt,levels=alts.sort)
 norm.lakeO.stage.scr.WY.sum=ddply(norm.lakeO.stage.scr.WY,"Alt",summarise,mean.val=mean(TScore))
 norm.lakeO.stage.scr.WY.sum$Alt=factor(norm.lakeO.stage.scr.WY.sum$Alt,levels=alts.sort)
@@ -345,56 +309,99 @@ for(i in 1:n.alts){
   rec.lakeO.stage.scr=rbind(rec.lakeO.stage.scr,rslt)
   print(i)
 }
-rec.lakeO.stage.scr=rename(rec.lakeO.stage.scr,c("score"="rec.score"))
+rec.lakeO.stage.scr=rename(rec.lakeO.stage.scr,c("penalty"="rec.score"))
 rec.lakeO.stage.scr$WY=WY(rec.lakeO.stage.scr$Date)
 # rec.lakeO.stage.scr=subset(rec.lakeO.stage.scr,WY%in%seq(1966,2016,1));# Full Florida WY (MAy - April) 
 
-rec.lakeO.stage.scr.WY=ddply(rec.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(rec.score,na.rm=T))
+rec.lakeO.stage.scr.WY=ddply(rec.lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(abs(rec.score),na.rm=T))
 rec.lakeO.stage.scr.WY$Alt=factor(rec.lakeO.stage.scr.WY$Alt,levels=alts.sort)
 rec.lakeO.stage.scr.WY.sum=ddply(rec.lakeO.stage.scr.WY,"Alt",summarise,mean.val=mean(TScore))
 rec.lakeO.stage.scr.WY.sum$Alt=factor(rec.lakeO.stage.scr.WY.sum$Alt,levels=alts.sort)
 rec.lakeO.stage.scr.WY.sum$FWO.diff=with(rec.lakeO.stage.scr.WY.sum,(mean.val-mean.val[1])/mean.val[1])*100
-# 
-# lakeO.stage.scr=merge(norm.lakeO.stage.scr,rec.lakeO.stage.scr[,c("Date","Alt","rec.score")],c("Date","Alt"))
-# head(lakeO.stage.scr)
-# lakeO.stage.scr$CY=as.numeric(format(lakeO.stage.scr$Date,"%Y"))
-# lakeO.stage.scr$WY=WY(lakeO.stage.scr$Date)
-# lakeO.stage.scr=lakeO.stage.scr[order(lakeO.stage.scr$Alt,lakeO.stage.scr$Date),]
-# lakeO.stage.scr$JJ.period=with(lakeO.stage.scr,ifelse(as.numeric(format(Date,"%m"))%in%c(6,7),1,0))
-# lakeO.stage.scr$MinStage.30d=with(lakeO.stage.scr,ave(Data.Value,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,30,FUN=function(x)min(x,na.rm=T)))))
-# 
-# norm.to.rec=ddply(lakeO.stage.scr,c("CY","Alt"),summarise,max.stg=max(Data.Value,na.rm=T),summer.N=sum(ifelse(JJ.period==1&MinStage.30d>13,1,0)))
-# norm.to.rec$trans=with(norm.to.rec,ifelse(max.stg>17|summer.N>30,1,0))
-# 
-# xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
-# plot(trans~CY,subset(norm.to.rec,Alt=="ECBr"),type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
-# abline(v=xmaj,lwd=0.5)
-# with(subset(norm.to.rec,Alt=="ECBr"),lines(1-trans~CY,type="s",col="grey20",lwd=2.5))
-# axis_fun(1,xmaj,xmin,xmaj)
-# box(lwd=1)
-# 
-# ##
-# lakeO.stage.scr$month_day=as.character(format(lakeO.stage.scr$Date,"%m_%d"))
-# date.range=seq(date.fun("1965-04-15"),date.fun("1965-09-15"),"1 days")
-# date.range2=seq(date.fun("1965-05-01"),date.fun("1965-09-01"),"1 days")
-# lakeO.stage.scr$AprSep.period=with(lakeO.stage.scr,ifelse(month_day%in%as.character(format(date.range,"%m_%d")),1,0))
-# lakeO.stage.scr$MayAug.period=with(lakeO.stage.scr,ifelse(month_day%in%as.character(format(date.range2,"%m_%d")),1,0))
-# 
-# rec.to.norm=ddply(lakeO.stage.scr,c("CY","Alt"),summarise,
-#                   AprSep.12_90=sum(ifelse(AprSep.period==1&Data.Value<12,1,0)),
-#                   MayAug.115_60=sum(ifelse(AprSep.period==1&Data.Value<11.5,1,0)),
-#                   High=sum(Data.Value>16))
-# rec.to.norm$trans=with(rec.to.norm,ifelse(AprSep.12_90>90|MayAug.115_60>60&High>0,1,0))
-# 
-# xlim.val=c(1965,2016);by.x=2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
-# plot(trans~CY,subset(norm.to.rec,Alt=="ECBr"),type="n",axes=F,ann=F,xlim=xlim.val,xaxs="i")
-# abline(v=xmaj,lwd=0.5)
-# with(subset(rec.to.norm,Alt=="ECBr"),lines(1-trans~CY,type="s",col="grey20",lwd=2.5))
-# axis_fun(1,xmaj,xmin,xmaj)
-# box(lwd=1)
-##
-## ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/Lake_Okeechobee/lok_stage_envelope.pdf
-##
+
+lakeO.stage.scr=merge(norm.lakeO.stage.scr,rec.lakeO.stage.scr[,c("Date","Alt","rec.score")],c("Date","Alt"))
+head(lakeO.stage.scr)
+lakeO.stage.scr$CY=as.numeric(format(lakeO.stage.scr$Date,"%Y"))
+lakeO.stage.scr$WY=WY(lakeO.stage.scr$Date)
+lakeO.stage.scr=lakeO.stage.scr[order(lakeO.stage.scr$Alt,lakeO.stage.scr$Date),]
+
+head(env.rslt)
+vars=c("Alt","CY","env")
+lakeO.stage.scr=merge(lakeO.stage.scr,env.rslt[,vars],c("Alt","CY"))
+lakeO.stage.scr$score=with(lakeO.stage.scr,ifelse(env==1,norm.score,rec.score))
+lakeO.stage.scr$Alt_CY=with(lakeO.stage.scr,paste(Alt,CY,sep="_"))
+lakeO.stage.scr$cum.abs.pen=with(lakeO.stage.scr,ave(score,Alt_CY,FUN=function(x)cumsum(abs(x))))
+
+env.pen.sum=ddply(lakeO.stage.scr,"Alt",summarise,
+      pen_above=sum(score>0,na.rm=T),
+      pen_below=sum(score<0,na.rm=T),
+      per_below=(pen_below/N.obs(score))*100,
+      per0=(sum(score==0,na.rm=T)/N.obs(score))*100,
+      per_above=(pen_above/N.obs(score))*100)
+env.pen.sum=env.pen.sum[match(alts.sort,env.pen.sum$Alt),]
+env.pen.sum$FWO_PerBelow=with(env.pen.sum,(per_below-per_below[1])/per_below[1])*100
+env.pen.sum$FWO_PerWith=with(env.pen.sum,(per0-per0[1])/per0[1])*100
+env.pen.sum$FWO_PerAbove=with(env.pen.sum,(per_above-per_above[1])/per_above[1])*100
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_BWA.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
+ylim.val=c(0,60);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+par(family="serif",mar=c(1,1,0.5,0.25),oma=c(2,2.5,0.75,1),lwd=0.5);
+layout(matrix(1:2,1,2,byrow=T),widths=c(1,0.5))
+
+cols.val2=c(rgb(255/255,255/255,0),rgb(143/255,188/255,143/255),rgb(100/255,149/255,237/255))
+x=barplot(t(env.pen.sum[,c("per_below","per0","per_above")]),beside=T,
+        ylim=ylim.val,axes=F,ann=F,col=NA,border=NA,xaxt="n")
+abline(h=ymaj,v=x[2,],lty=1,col=adjustcolor("grey",0.5),lwd=1)
+abline(h=0,lwd=1)
+x=barplot(t(env.pen.sum[,c("per_below","per0","per_above")]),beside=T,
+          ylim=ylim.val,axes=F,ann=F,col=cols.val2,add=T,xaxt="n")
+x.val=x[2,] #x[1,]+(x[2,]-x[1,])/2
+axis_fun(1,x.val,x.val,alts.sort,line=-0.5,cex=0.90)
+axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=1,line=1.5,"Alternative")
+mtext(side=2,line=2,"Percent",cex=1)
+mtext(side=3,adj=0,"Lake Okeechobee")
+
+plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA)
+legend(0.5,0.5,legend=c("% time Below","% time Within","% time Above"),
+       pch=22,
+       lty=0,lwd=0.01,
+       col="black",
+       pt.bg=cols.val2,
+       pt.cex=1.5,ncol=1,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,
+       title.adj=0,title="Stage Envelope")
+dev.off()
+env.pen.sum.plns=subset(env.pen.sum,Alt%in%alts.sort[3:8])
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_BWA_FWO.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+ylim.val=c(-50,50);by.y=25;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,2,0.75,1),lwd=0.5);
+layout(matrix(1:2,1,2,byrow=T),widths=c(1,0.5))
+
+x=barplot(t(env.pen.sum.plns[,c("FWO_PerBelow","FWO_PerWith","FWO_PerAbove")]),beside=T,
+          ylim=ylim.val,axes=F,ann=F,col=NA,border=NA,xaxt="n")
+abline(h=ymaj,v=x[2,],lty=1,col=adjustcolor("grey",0.5),lwd=1)
+abline(h=0,lwd=1)
+x=barplot(t(env.pen.sum.plns[,c("FWO_PerBelow","FWO_PerWith","FWO_PerAbove")]),beside=T,
+          ylim=ylim.val,axes=F,ann=F,col=c("dodgerblue1","forestgreen","indianred1"),add=T,xaxt="n")
+x.val=x[2,] #x[1,]+(x[2,]-x[1,])/2
+axis_fun(1,x.val,x.val,alts.sort[3:8],line=-0.5)
+axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=1,line=1.5,"Plan Name")
+mtext(side=2,line=2,"Percent Difference from FWO",cex=1)
+mtext(side=3,adj=0,"Lake Okeechobee")
+
+plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA)
+legend(0.5,0.5,legend=c("Below (PM38)","Within (PM39)","Above (PM40)"),
+       pch=22,
+       lty=0,lwd=0.01,
+       col="black",
+       pt.bg=c("dodgerblue1","forestgreen","indianred1"),
+       pt.cex=1.5,ncol=1,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,
+       title.adj=0,title="Stage Envelope")
+
+dev.off()
+
 
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_bxp.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
 # par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,4,1,0.25));
@@ -427,7 +434,6 @@ box(lwd=1)
 mtext(side=2,line=2.5,"Recovery Lake Envelope\nAnnual Score (unitless)")
 mtext(side=1,line=4,"Model Alternatives")
 dev.off()
-
 
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_sum.png"),width=4,height=5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
@@ -534,6 +540,14 @@ lakeO.stage.WY=ddply(lakeO.stage,c("Alt",'WY'),summarise,f.lowstg=sum(low.stg,na
 
 WY.Q.stg=merge(q.dat.xtab.WY,lakeO.stage.WY,c("Alt","WY"))
 
+env.pen.sum.WY=ddply(lakeO.stage.scr,c("Alt","WY"),summarise,
+                  per_below=(sum(score<0,na.rm=T)/N.obs(score))*100,
+                  per0=(sum(score==0,na.rm=T)/N.obs(score))*100,
+                  per_above=(sum(score>0,na.rm=T)/N.obs(score))*100)
+
+# env.pen.sum.WY=ddply(lakeO.stage.scr,c("Alt","WY"),summarise,TScore=sum(abs(score),na.rm=T))
+WY.Q.stg=merge(WY.Q.stg,env.pen.sum.WY[,c("Alt","WY","per0")],c("Alt","WY"),all.x=T)
+
 library(vegan)
 library(REdaS)
 # KMOS
@@ -551,7 +565,7 @@ cumvar <- cumsum(variance)
 eig.pca <- data.frame(eig = eig, variance = variance,cumvariance = cumvar)
 eig.pca
 
-# png(filename=paste0(plot.path,"Q_STG_Scree.tiff"),width=4.5,height=5,units="in",res=200,type="windows",compression=c("lzw"),bg="white")
+# png(filename=paste0(plot.path,"Q_STG_Scree.png"),width=4.5,height=5,units="in",res=200,type="windows",bg="white")
 layout(matrix(1:2,2,1))
 par(family="serif",mar=c(1,2,0.75,1),oma=c(2,1,0.25,0.5));
 
@@ -604,7 +618,8 @@ labs=c(expression(paste("Q"["S308"])),
        expression(paste("S80"["Dam"])),
        expression(paste("S80"["Opt"])),
        "Stg <11Ft",
-       "Stg >16Ft")
+       "Stg >16Ft",
+       "% Within")
 # png(filename=paste0(plot.path,"Iteration_2/Iter2_PCA_Alts.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 layout(matrix(1:2,1,2),widths=c(1,0.5))
 par(family="serif",mar=c(1,1,0.75,0.5),oma=c(2,3,0.25,0.5));

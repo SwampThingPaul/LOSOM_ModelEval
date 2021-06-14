@@ -90,6 +90,10 @@ data.frame(Alternative=c("ECBr","NA25","AA","BB","CC","DD","EE1","EE2"),
   
 ```
 
+* ECBr - Existing Conditions Baseline 2019, revised (replaces LSMECB)
+
+* NA25 - No action Condition 2025 (replaces LSM25B)
+
 
 ---
 name: Lake
@@ -154,6 +158,62 @@ knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_sum.png')
 Percent difference of average score relative to the FWO (NA25) alternative over the entire simulation period. Both Normal (left) and Recovery (right) envelope scores are presented.
 
 ]
+---
+name: envelope
+
+### Normal/Recovery Envelope
+
+```{r ,fig.align="center",out.width="90%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_Env.png')
+```
+.center[Transition between normal and recovery stage envelopes for each alternative during the entire simulation period.]
+.small[
+.pull-left[
+**Shift from normal to recovery:**
+- Stages >17 Ft any time of the year
+*or*
+- Stage in the June1 – July31 window is `r "\u2264"` 13.0 ft for < 30 days
+
+]
+
+.pull-right[
+**Shift from recovery to normal:**
+- Stage `r "\u2264"`16.0 ft from Aug1 – Dec31
+*and* 
+- Stage during May1 - Aug1 falls below 11.5 Ft for 60 or more days
+*or*
+- Stage during Apr15 - Sep15 falls below 12.0 Ft for 90 or more days
+
+
+]
+
+]
+
+---
+name: envelope
+
+### Lake Okeechobee Stage Envelope
+```{r ,fig.align="center",out.width="90%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_BWA.png')
+```
+
+* Similar to available summaries on FTP site
+* Some differences due to transitions between envelopes
+* BB gives the highest overall % above envelope, followed by AA, EE1 & EE2
+
+---
+name: envelope
+
+### Lake Okeechobee Stage Envelope
+```{r ,fig.align="center",out.width="90%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_BWA_FWO.png')
+```
+
+* relative to FWO (NA25)
+
 ---
 name: CRE
 class: middle, center
@@ -583,7 +643,7 @@ Percent Difference from FWO (NA25) for total discharges south (S-351 and S-354).
 * Compared annual average number of events over the FLWY 1966 - 2016 simulation period
 
 ---
-name: PCA
+name: PCA1
 
 ## Principal Component Analysis
 
@@ -595,6 +655,7 @@ name: PCA
 * S80<sub>Low, Opt, Dam</sub>: Frequency of low, optimum and damaging events at S80 (based on 14-day moving average).
 * Stg <11Ft: Frequency of daily stage < 11 Ft.
 * Stg >16Ft: Frequency of daily stage < 16 Ft.
+* % Within: Percentage of time within the Lake stage envelope.
 
 ]
 
@@ -602,16 +663,17 @@ name: PCA
 **PCA Data Suitability**
 
 * Kaiser-Meyer-Olkin Statistics (Measure of Sampling Adequacy)
-  * KMO-Criterion: 0.78
+  * KMO-Criterion: 0.79
 
 * Bartlett's Test Of Sphericity
- * `r paste("\u03C7\u00B2 = 9832.7; DF = 75; \u03C1 <0.01")`
-
-
+ * `r paste("\u03C7\u00B2 = 10034.6; DF = 91; \u03C1 <0.01")`
+ 
+* [PCA Scree](#PCAScree) Plot
+ 
 ]
 
 ---
-name: PCA
+name: PCA2
 
 ## Principal Component Analysis
 
@@ -806,8 +868,17 @@ knitr::include_graphics('./Plots/Iteration_2/S352_FlowDuration.png')
 [EAA Flow Duration Curves](#fdcEAA)
 
 ---
+name: PCAScree
 
----
+### PCA Scree plot
+
+```{r ,fig.align="center",out.width="50%"}
+
+knitr::include_graphics('./Plots/Iteration_2/Q_STG_Scree.png')
+```
+
+[Principal Component Analysis](#PCA2)
+
 ---
 name: eval-methods
 class: middle
