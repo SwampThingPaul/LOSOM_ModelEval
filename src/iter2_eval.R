@@ -388,7 +388,7 @@ x.val=x[2,] #x[1,]+(x[2,]-x[1,])/2
 axis_fun(1,x.val,x.val,alts.sort[3:8],line=-0.5)
 axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
 mtext(side=1,line=1.5,"Plan Name")
-mtext(side=2,line=2,"Percent Difference from FWO",cex=1)
+mtext(side=2,line=2,"Average Percent Difference to FWO",cex=1)
 mtext(side=3,adj=0,"Lake Okeechobee")
 
 plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA)
@@ -515,6 +515,7 @@ q.dat.xtab=reshape2::dcast(q.dat,Alt+Date+WY~SITE,value.var="FLOW",function(x)me
 head(q.dat.xtab)
 q.dat.xtab$FlowSouth=rowSums(q.dat.xtab[,c("S351","S354")],na.rm=T)
 q.dat.xtab$S79.14d=with(q.dat.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat.xtab$S79.30d=with(q.dat.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,width=30,FUN=function(x)mean(x,na.rm=T)))))
 q.dat.xtab$S80.14d=with(q.dat.xtab,ave(S80,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 
 q.dat.xtab$CRE.low=with(q.dat.xtab,ifelse(S79.14d<750,1,0))
@@ -527,6 +528,50 @@ q.dat.xtab$SLE.dam=with(q.dat.xtab,ifelse(S80.14d>1700,1,0))
 q.dat.xtab$SLE.opt=with(q.dat.xtab,ifelse(S80.14d>=150&S80.14d<1400,1,0))
 q.dat.xtab$SLE.stress=with(q.dat.xtab,ifelse(S80.14d>=1400&S80.14d<=1700,1,0))
 
+
+q.dat1.xtab=reshape2::dcast(q.dat1,Alt+Date+CY~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
+# q.dat1.xtab$Alt_Yr=with(q.dat1.xtab,paste(Alt,CY,sep="_"))
+q.dat1.xtab$S79.30d=with(q.dat1.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,width=30,FUN=function(x)mean(x,na.rm=T)))))
+
+CRE.mfl.exceed=ddply(q.dat1.xtab,c("Alt","CY"),summarise,N_LT457=sum(S79.30d<457,na.rm=T))
+CRE.mfl.exceed$exceed=with(CRE.mfl.exceed,ifelse(N_LT457!=0,1,0))
+CRE.mfl.exceed$violation=with(CRE.mfl.exceed,ifelse(ave(exceed,Alt,FUN=function(x) c(rep(NA,4),rollapply(x,width=5,FUN=function(x)sum(x,na.rm=T))))==5,1,0))
+
+CRE.mfl.rslt=ddply(CRE.mfl.exceed,"Alt",summarise,N.exceed=sum(exceed),N.Yrs=N.obs(N_LT457),N.viol=sum(violation,na.rm=T))
+CRE.mfl.rslt=CRE.mfl.rslt[match(alts.sort,CRE.mfl.rslt$Alt),]
+
+
+CRE.mfl.rslt$NA25_perchange=with(CRE.mfl.rslt,round(((N.exceed-N.exceed[1])/N.exceed[1])*100,2))
+CRE.mfl.rslt$ECBr_perchange=with(CRE.mfl.rslt,round(((N.exceed-N.exceed[2])/N.exceed[2])*100,2))
+CRE.mfl.rslt$plot.y=1:8
+# png(filename=paste0(plot.path,"Iteration_2/CRE_MFL_sum.png"),width=6,height=5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
+
+xlim.val=c(-30,305);by.x=30;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+plot(plot.y~NA25_perchange,CRE.mfl.rslt,ann=F,axes=F,type="n",xlim=xlim.val)
+abline(v=0)
+with(CRE.mfl.rslt,segments(NA25_perchange,plot.y,rep(0,8),plot.y))
+with(CRE.mfl.rslt,points(NA25_perchange,plot.y,pch=21,bg="dodgerblue1",lwd=0.1))
+with(subset(CRE.mfl.rslt,NA25_perchange<0),text(NA25_perchange,plot.y,format(round(NA25_perchange,1),nsmall=1),cex=0.5,pos=2))
+with(subset(CRE.mfl.rslt,NA25_perchange>0),text(NA25_perchange,plot.y,format(round(NA25_perchange,1),nsmall=1),cex=0.5,pos=4))
+axis_fun(2,1:8,1:8,norm.lakeO.stage.scr.WY.sum$Alt)
+axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
+mtext(side=3,adj=0,"Caloosahatchee MFL")
+mtext(side=3,adj=1,"CY 1965 - 2016")
+mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
+mtext(side=2,line=4,'Model Alternative')
+dev.off()
+
+# CRE.mfl.rslt%>%
+#   flextable()%>%
+#   set_header_labels("Alt"="Alternative",
+#                     "N.exceed"="Exceedances",
+#                     "N.Yrs"="Years Simulated")%>%
+#   padding(padding=1,part="all")%>%
+#   font(fontname="Times New Roman",part="all")%>%
+#   fontsize(size=9,part="body")%>%
+#   fontsize(size=10,part="header")%>%
+#   align(j=2:3,align="center",part="all")%>%print(preview="docx")
 
 head(q.dat1)
 q.dat1$month=as.numeric(format(q.dat1$Date,'%m'))
@@ -1348,7 +1393,7 @@ Q.cat.mean2=reshape2::dcast(Q.cat.mean,Alt+variable~Est,value.var="value",mean)
 
 ylim.val=c(-75,210);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 # png(filename=paste0(plot.path,"Iteration_2/Estuary_FWOCompare.png"),width=8,height=3,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,2,0.75,1),lwd=0.5);
+par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,3,0.75,1),lwd=0.5);
 layout(matrix(1:7,1,7,byrow=T),widths=c(1,1,1,1,1,1,0.5))
 
 for(i in 3:8){
@@ -1363,7 +1408,7 @@ x.val=x[1,]+(x[2,]-x[1,])/2
 axis_fun(1,x.val,x.val,c("Low","Optimal","High"),line=-0.5,cex=0.8)
 if(i==3){
   axis_fun(2,ymaj,ymin,ymaj)
-  mtext(side=2,line=2,"Percent Difference from FWO",cex=0.8)}else{axis_fun(2,ymaj,ymin,NA)};
+  mtext(side=2,line=2,"Average Percent\nDifference to FWO",cex=0.8)}else{axis_fun(2,ymaj,ymin,NA)};
 box(lwd=1)
 mtext(side=3,adj=0,paste0("Alternative ",pln),cex=0.5)
 
@@ -1383,13 +1428,53 @@ dev.off()
 # Flow South --------------------------------------------------------------
 head(q.dat1)
 # q.dat1$month=as.numeric(format(q.dat1$Date,'%m'))
+q.dat1$WY=WY(q.dat1$Date)
 q.dat1$hydroseason2=with(q.dat1,ifelse(month%in%c(11:12,1:2),"EarlyDry",
                                        ifelse(month%in%c(3:5),"LateDry","Wet")))
+
 # Sanity Check
 # ddply(q.dat1,c("month",'hydroseason2'),summarise,N.val=N.obs(FLOW))
 
-FlowSouth.sum=ddply(subset(q.dat1,SITE%in%c("S351","S354")),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+FlowSouth.sum.season=reshape2::dcast(subset(q.dat1,SITE%in%c("S351","S354")&WY%in%WYs),Alt+WY~hydroseason2,value.var="FLOW",fun.aggregate = function(x) sum(cfs.to.acftd(x),na.rm=T))
+FlowSouth.sum.season$Alt=factor(FlowSouth.sum.season$Alt,levels=alts.sort)
+FlowSouth.sum.season.wet=ddply(FlowSouth.sum.season,"Alt",summarise,mean.val=mean(Wet,na.rm=T))
+FlowSouth.sum.season.wet$NA25_perchange=with(FlowSouth.sum.season.wet,round(((mean.val-mean.val[1])/mean.val[1])*100,2))
+FlowSouth.sum.season.wet$ECBr_perchange=with(FlowSouth.sum.season.wet,round(((mean.val-mean.val[2])/mean.val[2])*100,2))
 
+# png(filename=paste0(plot.path,"Iteration_2/FlowSouth_wetseason.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
+ylim.val=c(0,320e3);by.y=100e3;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+
+boxplot(Wet~Alt,FlowSouth.sum.season,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
+points(1:n.alts,FlowSouth.sum.season.wet$mean.val,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
+abline(h=median(subset(FlowSouth.sum.season,Alt==alts.sort[1])$Wet),lty=2,col="black")
+abline(h=mean(subset(FlowSouth.sum.season,Alt==alts.sort[1])$Wet),lty=2,col="springgreen")
+axis_fun(2,ymaj,ymin,ymaj/1e4)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
+abline(v=2.5)
+box(lwd=1)
+mtext(side=3, adj=0,"Flow South (S351 + S354)")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
+mtext(side=2,line=2.25,"Wet Season (June - October)\nDischarge (x10\u00B3 Ac-Ft WY\u207B\u00B9)")
+mtext(side=1,line=4,"Model Alternatives")
+dev.off()
+
+# png(filename=paste0(plot.path,"Iteration_2/FlowSouth_wet_FWOCompare.png"),width=6.5,height=3,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,3,0.75,1),lwd=0.5);
+ylim.val=c(0,150);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(FlowSouth.sum.season.wet$NA25_perchange,
+          ylim=ylim.val,axes=F,ann=F,col=NA,border=NA,xaxt="n")
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5),lwd=1)
+abline(h=0,lwd=1)
+x=barplot(FlowSouth.sum.season.wet$NA25_perchange,
+          ylim=ylim.val,axes=F,ann=F,col=cols,xaxt="n",add=T)
+axis_fun(1,x,x,alts.sort)
+axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=2,line=2,"Average Percent\nDifference to FWO",cex=1)
+mtext(side=3,adj=0,"Wet Season Flows South")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
+mtext(side=1,line=2,"Model Alternatives")
+dev.off()
 
 FlowSouth.sum=ddply(subset(q.dat1,SITE%in%c("S351","S354")),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
 FlowSouth.sum=ddply(FlowSouth.sum,"Alt",summarise,Avg.TQ=mean(TQ/1000))
@@ -1400,7 +1485,7 @@ FlowSouth.sum$ECBr_perchange=with(FlowSouth.sum,round(((Avg.TQ-Avg.TQ[2])/Avg.TQ
 FlowSouth.sum
 
 # png(filename=paste0(plot.path,"Iteration_2/FlowSouth_FWOCompare.png"),width=6.5,height=3,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,2,0.75,1),lwd=0.5);
+par(family="serif",mar=c(1,1.5,0.5,0.25),oma=c(2,3,0.75,1),lwd=0.5);
 ylim.val=c(0,100);by.y=25;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=barplot(FlowSouth.sum$NA25_perchange,
           ylim=ylim.val,axes=F,ann=F,col=NA,border=NA,xaxt="n")
@@ -1410,7 +1495,7 @@ x=barplot(FlowSouth.sum$NA25_perchange,
         ylim=ylim.val,axes=F,ann=F,col=cols,xaxt="n",add=T)
 axis_fun(1,x,x,alts.sort)
 axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
-mtext(side=2,line=2,"Percent Difference from FWO",cex=1)
+mtext(side=2,line=2,"Average Percent\nDifference to FWO",cex=1)
 mtext(side=3,adj=0,"Flows South")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
 mtext(side=1,line=2,"Model Alternatives")

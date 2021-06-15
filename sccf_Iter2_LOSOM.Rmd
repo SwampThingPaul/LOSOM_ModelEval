@@ -221,8 +221,6 @@ name: envelope
 knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_BWA_FWO.png')
 ```
 
-* relative to FWO (NA25)
-
 ---
 name: CRE
 class: middle, center
@@ -388,7 +386,12 @@ name: CRE MFL
 
 ## Caloosahatchee MFL
 
-**Place holder**
+```{r ,fig.align="center",out.width="75%"}
+
+knitr::include_graphics('./Plots/Iteration_2/CRE_MFL_sum.png')
+```
+
+* ECBr results in high number of exceedances and violations of the MFL. 
 
 ---
 name: SLE
@@ -689,7 +692,7 @@ name: PCA1
 .pull-left[
 **Parameters**
 
-* Q<sub>S79</sub>, Q<sub>S80</sub>, Q<sub>S77</sub> & Q<sub>S308</sub>: Total annual discharge.
+* Q<sub>S79</sub>, Q<sub>S80</sub>, Q<sub>S77</sub>, Q<sub>S308</sub> and Q<sub>South</sub>: Total annual discharge.
 * S79<sub>Low, Opt, Dam</sub>: Frequency of low, optimum and damaging events at S79 (based on 14-day moving average).
 * S80<sub>Low, Opt, Dam</sub>: Frequency of low, optimum and damaging events at S80 (based on 14-day moving average).
 * Stg <11Ft: Frequency of daily stage < 11 Ft.
