@@ -565,7 +565,7 @@ cumvar <- cumsum(variance)
 eig.pca <- data.frame(eig = eig, variance = variance,cumvariance = cumvar)
 eig.pca
 
-# png(filename=paste0(plot.path,"Q_STG_Scree.png"),width=4.5,height=5,units="in",res=200,type="windows",bg="white")
+# png(filename=paste0(plot.path,"Iteration_2/Q_STG_Scree.png"),width=4.5,height=5,units="in",res=200,type="windows",bg="white")
 layout(matrix(1:2,2,1))
 par(family="serif",mar=c(1,2,0.75,1),oma=c(2,1,0.25,0.5));
 

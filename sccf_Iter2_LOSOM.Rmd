@@ -86,14 +86,23 @@ data.frame(Alternative=c("ECBr","NA25","AA","BB","CC","DD","EE1","EE2"),
   font(fontname="Times New Roman",part="all")%>%
   fontsize(size=10,part="body")%>%
   fontsize(size=12,part="header")%>%
-  bold(part="header")
+  bold(part="header")%>%
+  footnote(i=c(1,2),j=1,
+           value=as_paragraph(c("Existing Conditions Baseline 2019, revised (replaces LSMECB)","No action Condition 2025 (replaces LSM25B)")),
+           ref_symbols = c(" 1 "," 2 "),part="body")
   
 ```
 
-* ECBr - Existing Conditions Baseline 2019, revised (replaces LSMECB)
 
-* NA25 - No action Condition 2025 (replaces LSM25B)
 
+.small[
+#### Refinements (from Modeling Subteam)
+* Improved eastern RSMBN domain (Grassy Waters and ITID)
+
+* Refine C-44 basin and reservoir modeling to maintain reservoir benefits to C-44 basin
+
+* Updated water supply for STOF Brighton Reservation
+]
 
 ---
 name: Lake
