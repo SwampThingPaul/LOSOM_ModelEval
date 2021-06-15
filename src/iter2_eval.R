@@ -528,7 +528,11 @@ q.dat.xtab$SLE.opt=with(q.dat.xtab,ifelse(S80.14d>=150&S80.14d<1400,1,0))
 q.dat.xtab$SLE.stress=with(q.dat.xtab,ifelse(S80.14d>=1400&S80.14d<=1700,1,0))
 
 
+head(q.dat1)
+q.dat1$month=as.numeric(format(q.dat1$Date,'%m'))
 
+q.month.flowtables=ddply(subset(q.dat1,SITE%in%c("S79","S80")),c("Alt","SITE","CY","month"),summarise,TFlow.cfs=sum(FLOW,na.rm=T))
+write.csv(q.month.flowtables,paste0(export.path,"Iteration2/Estuary_MonQ.csv"),row.names = F)
 # PCA ---------------------------------------------------------------------
 vars=c("Alt", "Date", "WY", "S308", "S77","S79", "S80", "FlowSouth", "CRE.low", 
   "CRE.dam", "CRE.opt", "SLE.low", "SLE.dam", "SLE.opt")

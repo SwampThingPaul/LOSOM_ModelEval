@@ -50,7 +50,7 @@ for(i in 1:n.alts){
   dss_out=opendss(paste0(data.path,"Iteration_1/Model_Output/",alts[i],"/RSMBN/RSMBN_output.dss"))  
   paths=paste0("/RSMBN/LOK/STAGE/01JAN1965 - 01JAN2016/1DAY/SIMULATED/")
   tmp=data.frame(getFullTSC(dss_out,paths))
-  tmp$Date=date.fun(rownames(tmp))
+  tmp$Date=date.fun(rownames(tmp))-lubridate::ddays(1))
   tmp$Alt=alts[i]
   lakeO.stage=rbind(tmp,lakeO.stage)
   print(i)
