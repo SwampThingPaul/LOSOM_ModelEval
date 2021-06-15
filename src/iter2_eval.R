@@ -1381,6 +1381,16 @@ legend(0.5,0.5,legend=c("CRE","SLE"),
 dev.off()
 
 # Flow South --------------------------------------------------------------
+head(q.dat1)
+# q.dat1$month=as.numeric(format(q.dat1$Date,'%m'))
+q.dat1$hydroseason2=with(q.dat1,ifelse(month%in%c(11:12,1:2),"EarlyDry",
+                                       ifelse(month%in%c(3:5),"LateDry","Wet")))
+# Sanity Check
+# ddply(q.dat1,c("month",'hydroseason2'),summarise,N.val=N.obs(FLOW))
+
+FlowSouth.sum=ddply(subset(q.dat1,SITE%in%c("S351","S354")),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
+
+
 FlowSouth.sum=ddply(subset(q.dat1,SITE%in%c("S351","S354")),c("CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
 FlowSouth.sum=ddply(FlowSouth.sum,"Alt",summarise,Avg.TQ=mean(TQ/1000))
 FlowSouth.sum=FlowSouth.sum[match(alts.sort,FlowSouth.sum$Alt),]

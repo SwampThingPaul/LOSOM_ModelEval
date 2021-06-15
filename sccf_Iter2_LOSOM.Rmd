@@ -382,6 +382,14 @@ S79.sum[,2:5]%>%
   
 
 ```
+
+---
+name: CRE MFL
+
+## Caloosahatchee MFL
+
+**Place holder**
+
 ---
 name: SLE
 class: middle, center
@@ -650,6 +658,28 @@ Percent Difference from FWO (NA25) for total discharges south (S-351 and S-354).
 ]
 
 * Compared annual average number of events over the FLWY 1966 - 2016 simulation period
+
+---
+name: southwet
+
+### EAA (S-354 + S-351) Wet Season
+```{r ,fig.align="center",out.width="90%" }
+knitr::include_graphics('./Plots/Iteration_2/FlowSouth_wetseason.png')
+```
+.center[
+Wet Season (June - October) discharge to the EAA via S-354 and S-351 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+]
+
+---
+name: southwet2
+
+### FWO Discharge Comparison
+```{r ,fig.align="center",out.width="100%" }
+knitr::include_graphics('./Plots/Iteration_2/FlowSouth_wet_FWOCompare.png')
+```
+.center[
+Percent Difference from FWO (NA25) for wet season discharges south (S-351 and S-354).
+]
 
 ---
 name: PCA1
