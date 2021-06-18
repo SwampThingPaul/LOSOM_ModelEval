@@ -42,5 +42,6 @@ rsconnect/
 /_presentations/
 /src/archive/
 /src/DRAFTs/
+/src/python/
 *.Rproj
 /_Docs

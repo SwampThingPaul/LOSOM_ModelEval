@@ -105,6 +105,60 @@ data.frame(Alternative=c("ECBr","NA25","AA","BB","CC","DD","EE1","EE2"),
 ]
 
 ---
+name: summary
+
+```{r}
+in.bord=officer::fp_border(color="grey",width=0.5)
+
+data.frame(Alt=c("AA","BB","CC","DD","EE1","EE2"),
+           CRE=c(
+             "\u2191 Total annual S79 Q;\nMarginal \u2191 Optimal Q events;\n \u2191 Damaging Q events;\n\u2193 MFL Exceedance",
+             "\u2193 Total annual S79 Q;\n\u2191 Optimal Q events;\u2193 Damaging Q events;\n Marginal \u2191 Low Q events;\n\u2193 MFL Exceedance",
+             "\u2191 Total annual S79 Q;\n\u2191 Optimal Q events;\n\u2193 Low & Damaging Q events;\n No \u0394 MFL Exceedance",
+             "\u2193 Total annual S79 Q;\n\u2191 Optimal & Damaging Q events;\n\u2193 Low Q events;\n No \u0394 MFL Exceedance",
+             "\u2193 Total annual S79 Q;\n\u2191 Optimal & Low Q events;\nMarginal \u2191 Damaging Q events;\n\u2191 MFL Exceedance",
+             "\u2193 Total annual S79 Q;\n\u2191 Optimal & Low Q events;\nMarginal \u2191 Damaging Q events;\n\u2191 MFL Exceedance"),
+           LakeO=c("\u2191 Avg POS Envelope Score;\n\u2193 % Below & Within Envelope;\n\u2191 % Above Envelope","\u2191 Avg POS Envelope Score;\n\u2193\u2193 % Below Envelope;\n\u2193 % Within Evnelope;\n\u2191\u2191 % Above Envelope","\u2191 Avg POS Envelope Score;\n\u2193 % Below & Within Envelope;\n\u2191 % Above Envelope","\u2193 Avg POS Envelope Score;\n\u2193 % Below & Above Envelope;\n\u2191 % Within Envelope ","\u2191 Avg POS Envelope Score;\n\u2193 % Below Envelope;\n \u2193\u2193 % Within Envelope;\n\u2191 % Above Envelope","\u2191 Avg POS Envelope Score;\n\u2193 % Below Envelope;\n \u2193\u2193 % Within Envelope;\n\u2191 % Above Envelope"),
+           SLE=c("\u2193 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal & Damaging Q events",
+                 "\u2191 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal Q events;\n\u2191\u2191 Damaging Q events",
+                 "\u2193 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal & Damaging Q events",
+                 "\u2193 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal Q events;\n\u2193\u2193 Damaging Q events",
+                 "\u2193 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal Q events;\n\u2191\u2191 Damaging Q events",
+                 "\u2193 Total annual S80 Q;\n\u2191 Low Q events;\n\u2193 Optimal Q events;\n\u2193 Damaging Q events"),
+           SouthEver=c(
+             "\u2193 WCA3 Low & High water closure",
+             "\u2191 WCA3 Low & High water closure",
+             "\u2193 WCA3 Low water closure;\n\u2191 WCA3 High water closure",
+             "Marginal \u2191 WCA3 Low water closure;\n\u2191 WCA3 High water closure",
+             "\u2193 WCA3 Low water closure;\n\u2191 WCA3 High water closure",
+             "\u2193 WCA3 Low water closure;\n\u2191 WCA3 High water closure"))%>%
+  flextable()%>%
+  padding(padding=0.01,part="all")%>%
+  width(width=c(0.5,2.25,2,2,2))%>%
+  border_inner_h(border=in.bord)%>%
+  set_header_labels("LakeO"="Lake\nOkeechobee",
+                    "CRE"="Caloosahatchee River\nEstuary",
+                    "SouthEver"="Southern\nEverglades",
+                    "SLE"="St Lucie\nEstuary")%>%
+  add_header(CRE="Relative to FWO",LakeO="Relative to FWO",SLE="Relative to FWO",SouthEver="Relative to FWO")%>%
+  merge_h(part="header")%>%
+  align(align="center",part="header")%>%
+  align(j=2:5,align="center",part="body")%>%
+  align(j=1,align="left",part="header")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=8,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  bold(part="header") #%>%
+  # footnote(i=1,j=5,
+  #          value=as_paragraph("\u2191 Total annual S351+S354 Q; \u2191 Wet season S351+S354 Q; \u2191 WCA3A inflow Q;"),
+  #          ref_symbols = c(" 2 "),part="header")
+
+```
+
+???
+`r paste("\u2191 Total annual S351+S354 Q; \u2191 Wet season S351+S354 Q; \u2191 WCA3A inflow Q;")`
+
+---
 name: Lake
 class: middle, center
 
@@ -142,33 +196,7 @@ knitr::include_graphics('./Plots/Iteration_2/LO_totalDays.png')
 .center[Total number of days during the simulation period where (Top) stage elevations were `r paste("\u2264")` 11 or `r paste("\u003E")` 16 Ft NGVD29 and (Bottom) `r paste("\u2264")` 10 or `r paste("\u2265")` 17 Ft NGVD29.]
 
 ---
-name: envelope
-
-### Lake Envelope Score
-
-```{r ,fig.align="center",out.width="75%"}
-
-knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_bxp.png')
-```
-.center[Boxplot representing the annual normal and recovery total stage envelope score during the simulation period across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean.]
-
----
-name: envelope2
-
-### Lake Envelope Score Summary
-.pull-left[
-```{r ,fig.align="center",out.width="100%"}
-
-knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_sum.png')
-```
-]
-
-.pull-right[
-Percent difference of average score relative to the FWO (NA25) alternative over the entire simulation period. Both Normal (left) and Recovery (right) envelope scores are presented.
-
-]
----
-name: envelope
+name: envelope1
 
 ### Normal/Recovery Envelope
 
@@ -197,6 +225,32 @@ knitr::include_graphics('./Plots/Iteration_2/LakeO_Env.png')
 
 ]
 
+]
+
+---
+name: envelope2
+
+### Lake Envelope Score
+
+```{r ,fig.align="center",out.width="75%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_all_bxp.png')
+```
+.center[Boxplot representing the annual total stage envelope score during the simulation period (FLWY 1966-2016) across alternatives. Dashed line represents the FWO median and green dashed line and point in boxplot indicates period of simulation mean. This summary includes transitions between normal and recovery envelopes.]
+
+---
+name: envelope2
+
+### Lake Envelope Score Summary
+.pull-left[
+```{r ,fig.align="center",out.width="100%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_EnvScore_all_sum.png')
+```
+]
+
+.pull-right[
+Percent difference of average annual score relative to the FWO (NA25) alternative over the entire simulation period (FLWY 1966-2016).
 ]
 
 ---

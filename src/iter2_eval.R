@@ -95,8 +95,6 @@ mtext(side=3,adj=0, "Cumulative days over the enitre period of simulation")
 ylim.val=c(0,2000);by.y=500;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 xlim.val=c(0,1500);by.x=500;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 
-days.POS=ddply(lakeO.stage,"Alt",summarise,sum.low=sum(low.stg),sum.vlow=sum(vlow.stg),sum.High=sum(High.stg),sum.vHigh=sum(vHigh.stg))
-days.POS$Alt=factor(days.POS$Alt,level=alts.sort)
 plot(sum.low~sum.High,days.POS,ylim=ylim.val,xlim=xlim.val,axes=F,ann=F,type="n")
 abline(h=ymaj,v=xmaj,lty=3,col="grey")
 with(days.POS,points(sum.vHigh,sum.vlow,pch=19,col=adjustcolor("dodgerblue1",0.5),lwd=0.1))
@@ -106,6 +104,10 @@ axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
 mtext(side=1,line=1.75,"Days \u2265 17 ft NGVD29")
 mtext(side=2,line=2.75,"Days \u2264 10 ft NGVD29")
 dev.off()
+
+days.POS=days.POS[match(alts.sort,days.POS$Alt),]
+days.POS$vlow.perdiff=with(days.POS,((sum.vlow-sum.vlow[1])/sum.vlow[1])*100)
+days.POS$vHigh.perdiff=with(days.POS,((sum.vHigh-sum.vHigh[1])/sum.vHigh[1])*100)
 
 
 lakeO.stage.low=ddply(subset(lakeO.stage,WY%in%WYs),c("WY","Alt"),summarise,freq=sum(vlow.stg,na.rm=T),N.val=N.obs(vlow.stg))
@@ -122,6 +124,9 @@ lakeO.stage.freq.sum=merge(lakeO.stage.low.sum[,c("Alt","mean.freq")],
 lakeO.stage.high.sum[,c("Alt","mean.freq")],"Alt")
 colnames(lakeO.stage.freq.sum)<-c("Alt","freqLow","freqHigh")
 lakeO.stage.freq.sum=lakeO.stage.freq.sum[match(alts.sort,lakeO.stage.freq.sum$Alt),]
+lakeO.stage.freq.sum$freqLow.perdiff=with(lakeO.stage.freq.sum,((freqLow-freqLow[1])/freqLow[1])*100)
+lakeO.stage.freq.sum$freqHigh.perdiff=with(lakeO.stage.freq.sum,((freqHigh-freqHigh[1])/freqHigh[1])*100)
+
 # write.csv(lakeO.stage.freq.sum,paste0(export.path,"highlow_meanfreq_rslt.csv"),row.names = F)
 
 # png(filename=paste0(plot.path,"Iteration_2/LO_iter1_freq_bxp.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
@@ -331,6 +336,11 @@ lakeO.stage.scr=merge(lakeO.stage.scr,env.rslt[,vars],c("Alt","CY"))
 lakeO.stage.scr$score=with(lakeO.stage.scr,ifelse(env==1,norm.score,rec.score))
 lakeO.stage.scr$Alt_CY=with(lakeO.stage.scr,paste(Alt,CY,sep="_"))
 lakeO.stage.scr$cum.abs.pen=with(lakeO.stage.scr,ave(score,Alt_CY,FUN=function(x)cumsum(abs(x))))
+lakeO.stage.scr$Alt=factor(lakeO.stage.scr$Alt,levels=alts.sort)
+  
+boxplot(cum.abs.pen~Alt,lakeO.stage.scr,outline=F)
+stg.scr.sum=ddply(lakeO.stage.scr,"Alt",summarise,mean.val=mean(cum.abs.pen,na.rm=T))
+stg.scr.sum$FWO.perdiff=with(stg.scr.sum,((mean.val-mean.val[1])/mean.val[1])*100)
 
 env.pen.sum=ddply(lakeO.stage.scr,"Alt",summarise,
       pen_above=sum(score>0,na.rm=T),
@@ -403,6 +413,47 @@ legend(0.5,0.5,legend=c("Below (PM38)","Within (PM39)","Above (PM40)"),
 dev.off()
 
 
+# stg.scr.sum=ddply(subset(lakeO.stage.scr,WY%in%WYs),"Alt",summarise,mean.val=mean(sum(abs(score)),na.rm=T))
+# stg.scr.sum$FWO.perdiff=with(stg.scr.sum,((mean.val-mean.val[1])/mean.val[1])*100)
+
+lakeO.stage.scr.WY=ddply(subset(lakeO.stage.scr,WY%in%WYs),c("Alt","WY"),summarise,cum.pen=sum(abs(score),na.rm=T))
+stg.scr.sum=ddply(lakeO.stage.scr.WY,"Alt",summarise,mean.val=mean(cum.pen,na.rm=T))
+stg.scr.sum$FWO.perdiff=with(stg.scr.sum,((mean.val-mean.val[1])/mean.val[1])*100)
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_all_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
+ylim.val=c(0,2000);by.y=500;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+
+boxplot(cum.pen~Alt,subset(lakeO.stage.scr.WY,WY%in%WYs),ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
+points(1:n.alts,stg.scr.sum$mean.val,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
+abline(h=median(subset(lakeO.stage.scr.WY,WY%in%WYs&Alt==alts.sort[1])$cum.pen),lty=2,col="black")
+abline(h=mean(subset(lakeO.stage.scr.WY,WY%in%WYs&Alt==alts.sort[1])$cum.pen),lty=2,col="springgreen")
+axis_fun(2,ymaj,ymin,ymaj)
+# axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
+abline(v=2.5)
+box(lwd=1)
+mtext(side=3, adj=0,"Lake Okeechobee")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
+mtext(side=2,line=2.5,"Stage Envelope\nAnnual Score (unitless)")
+mtext(side=1,line=4,"Model Alternatives")
+dev.off()
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_all_sum.png"),width=3.5,height=5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
+
+xlim.val=c(-25,50);by.x=25;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+plot(stg.scr.sum$FWO.perdiff,1:8,ann=F,axes=F,type="n",xlim=xlim.val)
+abline(v=0)
+with(stg.scr.sum,segments(FWO.perdiff,1:8,rep(0,8),1:8))
+with(stg.scr.sum,points(FWO.perdiff,1:8,pch=21,bg="dodgerblue1",lwd=0.1))
+axis_fun(2,1:8,1:8,norm.lakeO.stage.scr.WY.sum$Alt)
+axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
+mtext(side=3,adj=0,"Stage Envelope")
+mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
+mtext(side=2,line=4,'Model Alternative')
+dev.off()
+## 
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_bxp.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
 # par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,4,1,0.25));
 par(family="serif",mar=c(1,3,0.25,1),oma=c(4,2,1,0.25));
@@ -532,20 +583,125 @@ q.dat.xtab$SLE.stress=with(q.dat.xtab,ifelse(S80.14d>=1400&S80.14d<=1700,1,0))
 q.dat1.xtab=reshape2::dcast(q.dat1,Alt+Date+CY~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
 # q.dat1.xtab$Alt_Yr=with(q.dat1.xtab,paste(Alt,CY,sep="_"))
 q.dat1.xtab$S79.30d=with(q.dat1.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,29),rollapply(x,width=30,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$exceed=with(q.dat1.xtab,ifelse(is.na(S79.30d)==T,0,ifelse(S79.30d<457,1,0)))
+###
 
-CRE.mfl.exceed=ddply(q.dat1.xtab,c("Alt","CY"),summarise,N_LT457=sum(S79.30d<457,na.rm=T))
-CRE.mfl.exceed$exceed=with(CRE.mfl.exceed,ifelse(N_LT457!=0,1,0))
-CRE.mfl.exceed$violation=with(CRE.mfl.exceed,ifelse(ave(exceed,Alt,FUN=function(x) c(rep(NA,4),rollapply(x,width=5,FUN=function(x)sum(x,na.rm=T))))==5,1,0))
+CRE.mfl.rslt=data.frame()
+q.dat1.xtab.mfl=data.frame()
+for(j in 1:n.alts){
 
-CRE.mfl.rslt=ddply(CRE.mfl.exceed,"Alt",summarise,N.exceed=sum(exceed),N.Yrs=N.obs(N_LT457),N.viol=sum(violation,na.rm=T))
-CRE.mfl.rslt=CRE.mfl.rslt[match(alts.sort,CRE.mfl.rslt$Alt),]
+  tmp=subset(q.dat1.xtab,Alt==alts.sort[j])
+## Adapted from mflst_cre_v2.py
+for(i in 2:nrow(tmp)){
+  if(tmp$exceed[i-1]==1&tmp$exceed[i]==0){
+    tmp$exceed_end[i-1]=1 #found the last exceedance dates 
+  }else{
+    tmp$exceed_end[i-1]=0
+  }
+}
+
+# subset(tmp,exceed_end==1)
+
+tmp$countdown=0
+tmp$exceed2=NA
+counts=0
+exc_n=0
+for(i in 30:nrow(tmp)){
+  # rest counts
+  if(tmp$exceed[i-1]==0&tmp$exceed[i]==1){
+    counts=1
+  }
+  
+  if(tmp$exceed_end[i]==1){
+    if(tmp$countdown[i-1]<1){
+      tmp$countdown[i]=365
+    }else{
+      tmp$countdown[i]=tmp$countdown[i-1]-1
+      if(tmp$countdown[i]==0 & tmp$exceed[i]==1){
+        tmp$countdown[i]=365
+      }
+    }
+  }else{
+    tmp$countdown[i]=tmp$countdown[i-1]-1
+    counts=counts+1
+    
+    if(counts>366 & tmp$exceed[i]==1){
+      tmp$countdown[i]=365
+      counts=0
+    }
+    if(tmp$countdown[i]==0 & tmp$exceed[i]==1){
+      tmp$countdown[i]=365
+    }
+  }
+  
+  #identify yearly violations
+  if(tmp$countdown[i]<0){
+    if(tmp$exceed[i]==1){
+      if(tmp$exceed[i-1]!=1){
+        tmp$exceed2[i]=1
+        exc_n=exc_n+1}else{
+          tmp$exceed2[i]=0
+        }
+    }else{tmp$exceed2[i]=0}
+  }else{
+    if(tmp$countdown[i]==365 & tmp$exceed_end[i]==0){
+      tmp$exceed2[i]==1
+      exc_n=exc_n+1
+    }else{
+      tmp$exceed2[i]=0
+    }
+  }
+}
 
 
+counts
+exc_n
+
+CRE.mfl.rslt=rbind(CRE.mfl.rslt,data.frame(Alt=alts.sort[j],N.exceed=exc_n))
+q.dat1.xtab.mfl=rbind(q.dat1.xtab.mfl,tmp)
+print(j)
+}
+
+q.dat1.xtab.mfl$plot_exc=with(q.dat1.xtab.mfl,ifelse(countdown<0&exceed==1,S79.30d,NA))
+q.dat1.xtab.mfl$plot_exc365=with(q.dat1.xtab.mfl,ifelse(countdown>0&exceed==1,S79.30d,NA))
+
+# for(i in 1:n.alts){
+# # png(filename=paste0(plot.path,"Iteration_2/CRE_MFL_Alt_",alts.sort[i],".png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
+# layout(matrix(1:2,2,1),heights=c(1,0.2))
+# par(family="serif",mar=c(1,3,0.75,1),oma=c(1.5,1,2.5,0.5));
+# 
+# ylim.val=c(0,15000);by.y=5000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+# xlim.val=date.fun(c("1965-01-01","2017-01-01"));xmaj=seq(xlim.val[1],xlim.val[2],"10 years");xmin=seq(xlim.val[1],xlim.val[2],"1 years")
+# 
+# plot(S79.30d~Date,q.dat1.xtab.mfl,type="n",yaxs="i",xlim=xlim.val,ylim=ylim.val,axes=F,ann=F)
+# abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+# abline(h=457,col="brown",lty=2)
+# with(subset(q.dat1.xtab.mfl,Alt==alts.sort[i]),lines(Date,S79.30d,col="blue",lty=1.5))
+# with(subset(q.dat1.xtab.mfl,Alt==alts.sort[i]),lines(Date,plot_exc,col="orange",lty=1.5))
+# with(subset(q.dat1.xtab.mfl,Alt==alts.sort[i]),lines(Date,plot_exc365,col="grey",lty=1.5))
+# axis_fun(1,xmaj,xmin,format(xmaj,"%Y"),line=-0.5)
+# axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+# mtext(side=2,line=3,"Discharge (cfs)")
+# mtext(side=1,line=1.5,"Year")
+# mtext(side=3,paste0("MFL Recovery Water Body - Caloosahatchee River 30 Day Averege Flow at S79\n",
+#                     alts.sort[i]," : ",subset(CRE.mfl.rslt,Alt==alts.sort[i])$N.exceed,
+#                     " exceednace in 52 years of simualtion"))
+# plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA)
+# legend(0.5,-0.5,legend=c("30-day Moving Average","MFL Criteria (457 cfs)","Exceedance","Exceedance w/in 365 Days"),
+#        pch=NA,
+#        lty=c(1,2,1,1),lwd=2,
+#        col=c("blue","brown","orange","grey"),
+#        pt.bg=NA,
+#        pt.cex=1.5,ncol=2,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
+# dev.off()
+# }
+###
+CRE.mfl.rslt
 CRE.mfl.rslt$NA25_perchange=with(CRE.mfl.rslt,round(((N.exceed-N.exceed[1])/N.exceed[1])*100,2))
 CRE.mfl.rslt$ECBr_perchange=with(CRE.mfl.rslt,round(((N.exceed-N.exceed[2])/N.exceed[2])*100,2))
 CRE.mfl.rslt$plot.y=1:8
 # png(filename=paste0(plot.path,"Iteration_2/CRE_MFL_sum.png"),width=6,height=5,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
+par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(1,5,1,0.25));
 
 xlim.val=c(-30,305);by.x=30;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 plot(plot.y~NA25_perchange,CRE.mfl.rslt,ann=F,axes=F,type="n",xlim=xlim.val)
@@ -554,24 +710,24 @@ with(CRE.mfl.rslt,segments(NA25_perchange,plot.y,rep(0,8),plot.y))
 with(CRE.mfl.rslt,points(NA25_perchange,plot.y,pch=21,bg="dodgerblue1",lwd=0.1))
 with(subset(CRE.mfl.rslt,NA25_perchange<0),text(NA25_perchange,plot.y,format(round(NA25_perchange,1),nsmall=1),cex=0.5,pos=2))
 with(subset(CRE.mfl.rslt,NA25_perchange>0),text(NA25_perchange,plot.y,format(round(NA25_perchange,1),nsmall=1),cex=0.5,pos=4))
-axis_fun(2,1:8,1:8,norm.lakeO.stage.scr.WY.sum$Alt)
+axis_fun(2,1:8,1:8,CRE.mfl.rslt$Alt)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"Caloosahatchee MFL")
 mtext(side=3,adj=1,"CY 1965 - 2016")
-mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
+mtext(side=1,line=1.5,"Average Percent Difference to FWO")
 mtext(side=2,line=4,'Model Alternative')
 dev.off()
 
-# CRE.mfl.rslt%>%
-#   flextable()%>%
-#   set_header_labels("Alt"="Alternative",
-#                     "N.exceed"="Exceedances",
-#                     "N.Yrs"="Years Simulated")%>%
-#   padding(padding=1,part="all")%>%
-#   font(fontname="Times New Roman",part="all")%>%
-#   fontsize(size=9,part="body")%>%
-#   fontsize(size=10,part="header")%>%
-#   align(j=2:3,align="center",part="all")%>%print(preview="docx")
+CRE.mfl.rslt%>%
+  flextable()%>%
+  set_header_labels("Alt"="Alternative",
+                    "N.exceed"="Exceedances",
+                    "N.Yrs"="Years Simulated")%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:3,align="center",part="all")#%>%print(preview="docx")
 
 head(q.dat1)
 q.dat1$month=as.numeric(format(q.dat1$Date,'%m'))
@@ -1345,6 +1501,7 @@ S80.q.WY=ddply(subset(q.dat,SITE%in%c("S80")),c("Alt","WY"),summarise,TFlow.acft
 S80.q.WY$Alt=factor(S80.q.WY$Alt,levels=alts.sort)
 S80.q.WY.sum=ddply(S80.q.WY,"Alt",summarise,mean.val=mean(TFlow.acft),med.val=median(TFlow.acft))
 S80.q.WY.sum$Alt=factor(S80.q.WY.sum$Alt,levels=alts.sort)
+S80.q.WY.sum$FWO.perdiff=with(S80.q.WY.sum,((mean.val-mean.val[1])/mean.val[1])*100)
 
 boxplot(TFlow.acft~Alt,S80.q.WY)
 
@@ -1389,7 +1546,7 @@ Q.cat.mean$variable=factor(Q.cat.mean$variable,levels = c("low.perdiff", "opt.pe
 Q.cat.mean$Alt=factor(Q.cat.mean$Alt,levels=alts.sort)
 
 Q.cat.mean2=reshape2::dcast(Q.cat.mean,Alt+variable~Est,value.var="value",mean)
-
+subset(Q.cat.mean2,Alt=="AA")
 
 ylim.val=c(-75,210);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 # png(filename=paste0(plot.path,"Iteration_2/Estuary_FWOCompare.png"),width=8,height=3,units="in",res=200,type="windows",bg="white")
@@ -1440,6 +1597,13 @@ FlowSouth.sum.season$Alt=factor(FlowSouth.sum.season$Alt,levels=alts.sort)
 FlowSouth.sum.season.wet=ddply(FlowSouth.sum.season,"Alt",summarise,mean.val=mean(Wet,na.rm=T))
 FlowSouth.sum.season.wet$NA25_perchange=with(FlowSouth.sum.season.wet,round(((mean.val-mean.val[1])/mean.val[1])*100,2))
 FlowSouth.sum.season.wet$ECBr_perchange=with(FlowSouth.sum.season.wet,round(((mean.val-mean.val[2])/mean.val[2])*100,2))
+
+FlowSouth.sum.season.LateDry=ddply(FlowSouth.sum.season,"Alt",summarise,mean.val=mean(LateDry,na.rm=T))
+FlowSouth.sum.season.LateDry$NA25_perchange=with(FlowSouth.sum.season.LateDry,round(((mean.val-mean.val[1])/mean.val[1])*100,2))
+FlowSouth.sum.season.LateDry$ECBr_perchange=with(FlowSouth.sum.season.LateDry,round(((mean.val-mean.val[2])/mean.val[2])*100,2))
+
+boxplot(LateDry~Alt,FlowSouth.sum.season)
+boxplot(EarlyDry~Alt,FlowSouth.sum.season)
 
 # png(filename=paste0(plot.path,"Iteration_2/FlowSouth_wetseason.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
@@ -1998,6 +2162,8 @@ wca3.inQ.WY=ddply(wca3.q.total,c("Alt","WY"),summarise,TFlow.acft=sum(cfs.to.acf
 wca3.inQ.WY$Alt=factor(wca3.inQ.WY$Alt,levels=alts.sort)
 wca3.inQ.WY.sum=ddply(wca3.inQ.WY,"Alt",summarise,mean.val=mean(TFlow.acft),median.val=median(TFlow.acft))
 wca3.inQ.WY.sum=wca3.inQ.WY.sum[match(alts.sort,wca3.inQ.WY.sum$Alt),]
+wca3.inQ.WY.sum$FWO.perdiff=with(wca3.inQ.WY.sum,((mean.val-mean.val[1])/mean.val[1])*100)
+
 
 srs.sites=c(paste0("S12",c("A","B","C","D")),"S333","S333N")
 alt.srs$WY=WY(alt.srs$Date)
@@ -2035,3 +2201,34 @@ mtext(side=3, adj=0,"WCA-3A Outflow (S-12s+S-333+S-333N)")
 mtext(side=2,outer=T,line=2,"Discharge (x10\u00B3 Ac-Ft WY\u207B\u00B9)")
 mtext(side=1,line=4,"Model Alternatives")
 dev.off()
+
+
+
+# -------------------------------------------------------------------------
+
+# CRE
+S79.allPOS.sum=subset(est.allPOS.sum,SITE=="S79")
+S79.allPOS.sum=S79.allPOS.sum[match(alts.sort,S79.allPOS.sum$Alt),]
+S79.allPOS.sum$FWO.perdiff=with(S79.allPOS.sum,((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100)
+S79.allPOS.sum
+
+subset(Q.cat.mean2,Alt=="EE2")
+
+CRE.mfl.rslt
+
+# Lake 
+subset(env.pen.sum,Alt=="EE2")
+subset(stg.scr.sum,Alt=="EE2")
+
+# SLE
+Q.cat.mean2
+subset(Q.cat.mean2,Alt=="EE2")
+S80.allPOS.sum=subset(est.allPOS.sum,SITE=="S80")
+S80.allPOS.sum=S80.allPOS.sum[match(alts.sort,S80.allPOS.sum$Alt),]
+S80.allPOS.sum$FWO.perdiff=with(S80.allPOS.sum,((Avg.TQ.kacft-Avg.TQ.kacft[1])/Avg.TQ.kacft[1])*100)
+S80.allPOS.sum
+
+# Flow south
+FlowSouth.sum
+FlowSouth.sum.season.wet
+HiLo.close.sum
