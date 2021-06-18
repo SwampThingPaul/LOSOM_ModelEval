@@ -45,3 +45,6 @@ rsconnect/
 /src/python/
 *.Rproj
 /_Docs
+
+/IMC_Code/
+*.RDataTmp*
