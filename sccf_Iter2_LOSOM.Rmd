@@ -448,6 +448,18 @@ knitr::include_graphics('./Plots/Iteration_2/CRE_MFL_sum.png')
 * ECBr results in high number of exceedances and violations of the MFL. 
 
 ---
+
+```{r ,fig.align="center",out.width="70%"}
+knitr::include_graphics('./Plots/Iteration_2/S79Q_Consec2100.png')
+```
+
+---
+
+```{r ,fig.align="center",out.width="70%"}
+knitr::include_graphics('./Plots/Iteration_2/S79Q_Consec2600.png')
+```
+
+---
 name: SLE
 class: middle, center
 
