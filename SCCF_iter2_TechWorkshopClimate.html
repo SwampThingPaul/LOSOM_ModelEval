@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM iter2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+.pull-left[
+#### Iteration 2 Modeling - &lt;br&gt;Evaluation Technical workshop&lt;br&gt;Climate perspective
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+June 29, 2021 &lt;br&gt;(Updated: June 29, 2021 )
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+]
+
+.footnote[
+Paul Julian PhD [<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>](mailto: pjulian@sccf.org)
+]
+
+---
+name: climate
+
+&lt;img src="./Plots/Kaplan_AMO.png" width="100%" style="display: block; margin: auto;" /&gt;
+.small[
+.center[Monthly observed Atlantic Multidecadal Oscillation (AMO) Index from 1856 to 2021 for the northern Atlantic (Enfield et al. 2001).]
+]
+
+
+* Recent debate on AMO index suggest decadal or longer-term internal oscillatory signals that
+are distinguishable from climatic noise (see Steinman et al 2015; Mann et al 2020; Mann et al 2021).
+
+* Only variability in the interannual range associated with the El Niño/Southern Oscillation is found to be distinguishable from the noise background.
+  * Still an indicator of warm/cool phase shift. 
+
+???
+Mann et al 2021
+indicates that apparent AMO like oscillatory variability during the past millennium is driven exclusively by volcanic radiative forcing because
+
+existence of externally forced multidecadal oscillations that are a consequence of competing anthropogenic forcings during the historical era and the coincidental multidecadal pacing of explosive tropical volcanic activity in past centuries
+
+no compelling evidence for a purely internal multidecadal AMO-like cycle.
+
+---
+name: High/Low
+
+### Extreme High/Low
+
+&lt;img src="./Plots/Iteration_2/LOperDays.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.center[Percent of time where stages ≤ 10 or ≥ 17 Ft NGVD29 during the period of simulation (1965 - 2016).]
+
+---
+name: High/Low2
+
+### Extreme High/Low
+
+&lt;img src="./Plots/Iteration_2/LO_AMO_perDays.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.center[Percent of time where stages ≤ 10 or ≥ 17 Ft NGVD29 during the period of simulation (1965 - 2016) broken down into dry (1965-1994) and wet (1995-2016) phases.]
+
+---
+name: StageEnvelope
+
+### Lake Stage Envelope
+
+&lt;img src="./Plots/Iteration_2/LakeO_Env_AMO.png" width="80%" style="display: block; margin: auto;" /&gt;
+.small[
+.center[Percent of time within normal and recovery stage envelope during dry (1965-1994) and wet (1995-2016) phases for ewach alternative.]
+]
+
+
+---
+name: LakeSDC
+
+### Lake Stage Duration Curves
+
+&lt;img src="./Plots/Iteration_2/LO_StageDuration_AMO.png" width="82%" style="display: block; margin: auto;" /&gt;
+.small[
+.center[Stage duration curves for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016) within each phase for each alternative compared to FWO (NA25) and ECB (ECBr).]
+]
+
+--
+
+&lt;img src="./Plots/Iteration_2/LO_StageDuration_Diff_AMO.png" width="82%" style="display: block; margin: auto;" /&gt;
+.small[
+.center[Difference in stage duration curves (SDC;Cool - Wet) between climate phases for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016) for each alternative includes FWO and ECB.]
+]
+
+---
+name: CRE
+
+.left-column[
+&lt;br&gt;
+Daily time-series of S79 discharges for each alternative with mean discharge for dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase depicted (red and blue, respectively).
+]
+
+.right-column[
+&lt;img src="./Plots/Iteration_2/S79Q_AMO_TS.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+name: CRE_bxp
+
+&lt;img src="./Plots/Iteration_2/S79Q_AMO_bxp.png" width="90%" style="display: block; margin: auto;" /&gt;
+.small[
+.center[Boxplot of daily discharge comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016).]
+]
+
+---
+name: CRE_QCat
+
+&lt;img src="./Plots/Iteration_2/S79Q_AMO_cat_total.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+.small[
+.center[Percent of time within each respective flow category for S-79 comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016).]
+]
+
+---
+class: inverse
+
+---
+name: References
+
+### References
+
+* Enfield DB, Mestas-Nuñez AM, Trimble PJ (2001) The Atlantic Multidecadal Oscillation and its relation to rainfall and river flows in the continental U.S. Geophysical Research Letters 28:2077–2080. doi: 10.1029/2000GL012745
+
+* Mann ME, Steinman BA, Brouillette DJ, Miller SK (2021) Multidecadal climate oscillations during the past millennium driven by volcanic forcing. Science 371:1014–1019. doi: 10.1126/science.abc5810
+
+* Mann ME, Steinman BA, Miller SK (2020) Absence of internal multidecadal and interdecadal oscillations in climate model simulations. Nature Communications 11:49. doi: 10.1038/s41467-019-13823-w
+
+* Steinman BA, Mann ME, Miller SK (2015) Atlantic and Pacific multidecadal oscillations and Northern Hemisphere temperatures. 347:5.
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

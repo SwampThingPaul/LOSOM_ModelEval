@@ -650,7 +650,7 @@ name: EAAQ
 knitr::include_graphics('./Plots/Iteration_2/EAA_discharge_bxp.png')
 ```
 .center[
-Boxplot representing the annual discharge volume from Lake Okeechoee to the EAA via S-354, S-351 and S-352 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
+Boxplot representing the annual discharge volume from Lake Okeechobee to the EAA via S-354, S-351 and S-352 during the simulation period across alternatives. Dashed line represents the FWO median and green point in boxplot indicates period of simulation mean.
 ]
 
 ---
