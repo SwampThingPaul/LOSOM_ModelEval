@@ -126,6 +126,37 @@ knitr::include_graphics('./Plots/Iteration_2/LO_AMO_perDays.png')
 .center[Percent of time where stages `r paste("\u2264")` 10 or `r paste("\u2265")` 17 Ft NGVD29 during the period of simulation (1965 - 2016) broken down into dry (1965-1994) and wet (1995-2016) phases.]
 
 ---
+name: StgEnv1
+
+### Normal/Recovery Envelope
+
+```{r ,fig.align="center",out.width="90%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeO_Env.png')
+```
+.center[Transition between normal and recovery stage envelopes for each alternative during the entire simulation period.]
+.small[
+.pull-left[
+**Shift from normal to recovery:**
+- Stages >17 Ft any time of the year
+*or*
+- Stage in the June1 – July31 window is `r "\u2264"` 13.0 ft for < 30 days
+
+]
+
+.pull-right[
+**Shift from recovery to normal:**
+- Stage `r "\u2264"`16.0 ft from Aug1 – Dec31
+*and* 
+- Stage during May1 - Aug1 falls below 11.5 Ft for 60 or more days
+*or*
+- Stage during Apr15 - Sep15 falls below 12.0 Ft for 90 or more days
+
+
+]
+
+]
+---
 name: StageEnvelope
 
 ### Lake Stage Envelope
@@ -135,7 +166,7 @@ name: StageEnvelope
 knitr::include_graphics('./Plots/Iteration_2/LakeO_Env_AMO.png')
 ```
 .small[
-.center[Percent of time within normal and recovery stage envelope during dry (1965-1994) and wet (1995-2016) phases for ewach alternative.]
+.center[Percent of time within normal and recovery stage envelope during dry (1965-1994) and wet (1995-2016) phases for each alternative across the simulation period of record (52-years).]
 ]
 
 
@@ -198,7 +229,7 @@ knitr::include_graphics('./Plots/Iteration_2/S79Q_AMO_cat_total.png')
 ```
 
 .small[
-.center[Percent of time within each respective flow category for S-79 comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016).]
+.center[Percent of time within each respective flow category for S-79 comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016; 18993 days).]
 ]
 
 ---
@@ -219,7 +250,7 @@ US Army Corps of Engineers ([USACE LOSOM](https://www.saj.usace.army.mil/LOSOM/)
 
   * Interagency Modeling Center
 
-[HTML Slide deck](https://sccf-tech.github.io/slides/LOSOM/SCCF_iter2_TechWorkshopClimate) | [PDF Slide deck](https://sccf-tech.github.io/slides/LOSOM/SCCF_iter2_TechWorkshopClimate.pdf) | [RMarkdown Source](https://github.com/SwampThingPaul/LOSOM_ModelEval) &copy; Julian (2021) [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
+[HTML Slide deck](https://sccf-tech.github.io/slides/LOSOM/SCCF_iter2_TechWorkshopClimate.html) | [PDF Slide deck](https://sccf-tech.github.io/slides/LOSOM/SCCF_iter2_TechWorkshopClimate.pdf) | [RMarkdown Source](https://github.com/SwampThingPaul/LOSOM_ModelEval) &copy; Julian (2021) [![Creative Commons License](https://i.creativecommons.org/l/by/4.0/88x31.png)](http://creativecommons.org/licenses/by/4.0/)
 
 [Analysis Script](https://raw.githubusercontent.com/SwampThingPaul/LOSOM_ModelEval/main/src/iter2_eval_climate.R)
 

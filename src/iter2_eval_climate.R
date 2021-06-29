@@ -251,7 +251,10 @@ ylim.val=c(0,50);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.va
 par(family="serif",mar=c(1.5,0.75,0.25,1),oma=c(3,3.75,1,0.25));
 layout(matrix(1:9,3,3,byrow=T))
 for(i in 1:8){
-x=barplot(t(t((subset(env.rslt.amo,Alt==alts.sort[i])[,3:4]/52)*100)),beside=T,ann=F,axes=F,ylim=ylim.val,names.arg = rep(NA,2))
+  tmp=t(t((subset(env.rslt.amo,Alt==alts.sort[i])[,3:4]/52)*100))
+x=barplot(tmp,beside=T,ann=F,axes=F,ylim=ylim.val,names.arg = rep(NA,2))
+text(x[,1],tmp[,1],round(tmp[,1],1),pos=1,col=c("white","black"),font=2)
+text(x[,2],tmp[,2],round(tmp[,2],1),pos=1,col=c("white","black"),font=2)
 if(i%in%c(7,8,6)){axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,c("Cool/Dry","Warm/Wet"))}else{axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)}
 if(i%in%c(1,4,7)){axis_fun(2,ymaj,ymin,ymaj)}else{axis_fun(2,ymaj,ymin,NA)}
 box(lwd=1)
@@ -288,6 +291,7 @@ q.dat$CY=as.numeric(format(q.dat$Date,"%Y"))
 q.dat.xtab=reshape2::dcast(q.dat,Alt+Date+CY~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
 q.dat.xtab$AMO_period=with(q.dat.xtab,ifelse(CY%in%seq(1965,1994,1),"dry_cold","wet_warm"))
 q.dat.xtab$S79.AF=cfs.to.acftd(q.dat.xtab$S79)
+q.dat.xtab$Alt=factor(q.dat.xtab$Alt,levels=alts.sort)
 
 q.dat.xtab$QLT457=with(q.dat.xtab,ifelse(S79<457,1,0))
 q.dat.xtab$Q457_750=with(q.dat.xtab,ifelse(S79>=457&S79<750,1,0))
@@ -350,46 +354,57 @@ CRE.QCat.POS.sum=ddply(q.dat.xtab,c("Alt","AMO_period"),summarise,
                        N.Q2600_4500=sum(Q2600_4500,na.rm=T),
                        N.Q4500_6500=sum(Q4500_6500,na.rm = T),
                        N.QGT6500=sum(QGT6500,na.rm=T))
+# Within each phase
+# CRE.QCat.POS.per.sum=ddply(q.dat.xtab,c("Alt","AMO_period"),summarise,
+#                        N.total=N.obs(Alt),
+#                        per.LT457=sum(QLT457,na.rm=T)/N.total,
+#                        per.Q457_750=sum(Q457_750,na.rm=T)/N.total,
+#                        per.Q_Opt=sum(Q_Opt,na.rm=T)/N.total,
+#                        per.Q_Stress=sum(Q_Stress,na.rm=T)/N.total,
+#                        per.Q2600_4500=sum(Q2600_4500,na.rm=T)/N.total,
+#                        per.Q4500_6500=sum(Q4500_6500,na.rm = T)/N.total,
+#                        per.QGT6500=sum(QGT6500,na.rm=T)/N.total)
 CRE.QCat.POS.per.sum=ddply(q.dat.xtab,c("Alt","AMO_period"),summarise,
-                       N.total=N.obs(Alt),
-                       per.LT457=sum(QLT457,na.rm=T)/N.total,
-                       per.Q457_750=sum(Q457_750,na.rm=T)/N.total,
-                       per.Q_Opt=sum(Q_Opt,na.rm=T)/N.total,
-                       per.Q_Stress=sum(Q_Stress,na.rm=T)/N.total,
-                       per.Q2600_4500=sum(Q2600_4500,na.rm=T)/N.total,
-                       per.Q4500_6500=sum(Q4500_6500,na.rm = T)/N.total,
-                       per.QGT6500=sum(QGT6500,na.rm=T)/N.total)
+                           N.total=N.obs(Alt),
+                           per.LT457=sum(QLT457,na.rm=T)/18993,
+                           per.Q457_750=sum(Q457_750,na.rm=T)/18993,
+                           per.Q_Opt=sum(Q_Opt,na.rm=T)/18993,
+                           per.Q_Stress=sum(Q_Stress,na.rm=T)/18993,
+                           per.Q2600_4500=sum(Q2600_4500,na.rm=T)/18993,
+                           per.Q4500_6500=sum(Q4500_6500,na.rm = T)/18993,
+                           per.QGT6500=sum(QGT6500,na.rm=T)/18993)
+
 CRE.QCat.POS.per.sum[,4:10]=round(CRE.QCat.POS.per.sum[,4:10]*100,1)
 CRE.QCat.POS.per.sum
 # png(filename=paste0(plot.path,"Iteration_2/S79Q_AMO_cat_total.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
 layout(matrix(c(1:4,4,4),3,2,byrow=F),widths=c(1,0.25))
 
-ylim.val=c(0,8);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
-tmp=cast(CRE.QCat.POS.per.sum,Alt~AMO_period,value="per.Q_Stress",sum)
-x=barplot(t(tmp),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
-text(x[1,],t(tmp)[1,],format(t(tmp)[1,],nsmall=1),cex=0.7,pos=1)
-text(x[2,],t(tmp)[2,],format(t(tmp)[2,],nsmall=1),cex=0.7,col="white",pos=1)
+ylim.val=c(0,5);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(CRE.QCat.POS.per.sum,Alt~AMO_period,value.var="per.Q_Stress",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(t(tmp[,2]),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(t(tmp[,3]),nsmall=1),cex=0.7,col="white",pos=1)
 axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)
 axis_fun(2,ymaj,ymin,ymaj)
 box(lwd=1)
 mtext(side=3,adj=0,"2100 - 2600 cfs")
 
-ylim.val=c(0,25);by.y=10;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
-tmp=cast(CRE.QCat.POS.per.sum,Alt~AMO_period,value="per.Q2600_4500",sum)
-x=barplot(t(tmp),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
-text(x[1,],t(tmp)[1,],format(t(tmp)[1,],nsmall=1),cex=0.7,pos=1)
-text(x[2,],t(tmp)[2,],format(t(tmp)[2,],nsmall=1),cex=0.7,col="white",pos=1)
+ylim.val=c(0,10);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(CRE.QCat.POS.per.sum,Alt~AMO_period,value.var="per.Q2600_4500",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(t(tmp[,2]),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(t(tmp[,3]),nsmall=1),cex=0.7,col="white",pos=1)
 axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)
 axis_fun(2,ymaj,ymin,ymaj)
 box(lwd=1)
 mtext(side=3,adj=0,"2600 - 4500 cfs")
 
-ylim.val=c(0,10);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
-tmp=cast(CRE.QCat.POS.per.sum,Alt~AMO_period,value="per.QGT6500",sum)
-x=barplot(t(tmp),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
-text(x[1,],t(tmp)[1,],format(t(tmp)[1,],nsmall=1),cex=0.7,pos=3)
-text(x[2,],t(tmp)[2,],format(t(tmp)[2,],nsmall=1),cex=0.7,col="white",pos=1)
+ylim.val=c(0,5);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(CRE.QCat.POS.per.sum,Alt~AMO_period,value.var="per.QGT6500",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(t(tmp[,2]),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(t(tmp[,3]),nsmall=1),cex=0.7,col="white",pos=1)
 axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,alts.sort)
 axis_fun(2,ymaj,ymin,ymaj)
 box(lwd=1)
