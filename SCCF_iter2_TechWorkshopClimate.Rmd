@@ -54,8 +54,7 @@ class: left, middle
 
 *Conservancy of Southwest Florida*
 
-`r paste(format(as.Date("2021-06-29"),"%B %d, %Y"))`
-<!-- `r paste(format(as.Date("2021-06-29"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`-->
+`r paste(format(as.Date("2021-06-29"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
 
 ]
 <!-- this ends up being the title slide since seal = FALSE-->
@@ -198,7 +197,13 @@ name: CRE
 
 .left-column[
 <br>
-Daily time-series of S79 discharges for each alternative with mean discharge for dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase depicted (red and blue, respectively).
+<br>
+
+Daily time-series of S79 discharges for each alternative with mean discharge for dry/cool (1965 – 1994) and wet/warm (1995 – 2016) AMO phase depicted (red and blue, respectively).
+
+.small[
+* More extreme and longer duration discharges during warm/wet phase.
+]
 ]
 
 .right-column[
@@ -231,6 +236,34 @@ knitr::include_graphics('./Plots/Iteration_2/S79Q_AMO_cat_total.png')
 .small[
 .center[Percent of time within each respective flow category for S-79 comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016; 18993 days).]
 ]
+
+---
+name: conclusion
+
+```{r ,fig.align="center",out.width="50%"}
+knitr::include_graphics('./Plots/tenor.gif')
+```
+
+--
+
+* During the simulation period of record the climate shifts from a dry/cool phase to a wet/warm phase.
+
+--
+
+* Lake stage extremes are exacerbated in the wet/warm phase
+  * AA and EEs extreme high (>17 ft NGVD29) are much more dramatic in the wet/warm phase.
+
+--
+
+* For all plans we are in a recovery lake envelope more frequently in the wet/warm phase.
+
+--
+
+* While S79/CRE stress events are less frequent in the warm/wet phase, extreme high (>6500 cfs) events increase for all plans.
+
+--
+
+* **It is recommended to consider climate shifts in the simulation period of record and what that means for the systems within the project area. **
 
 ---
 name: Acknowledgments
@@ -282,17 +315,3 @@ name: References
 
 * Steinman BA, Mann ME, Miller SK (2015) Atlantic and Pacific multidecadal oscillations and Northern Hemisphere temperatures. 347:5.
 
----
-class: inverse
-
----
-
-```{r ,fig.align="center",out.width="70%"}
-knitr::include_graphics('./Plots/Iteration_2/S79Q_Consec2100.png')
-```
-
----
-
-```{r ,fig.align="center",out.width="70%"}
-knitr::include_graphics('./Plots/Iteration_2/S79Q_Consec2600.png')
-```
