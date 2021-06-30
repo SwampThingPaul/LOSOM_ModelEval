@@ -101,6 +101,80 @@ lakeO.stage$AMO_period=with(lakeO.stage,ifelse(CY%in%c(1965:1994),"cool_dry","wa
 lakeO.stage$vlow.stg=with(lakeO.stage,ifelse(STAGE<=10,1,0))
 lakeO.stage$vHigh.stg=with(lakeO.stage,ifelse(STAGE>=17,1,0))
 
+lakeO.stage$H_GT17=lakeO.stage$vHigh.stg
+lakeO.stage$H_16_17=with(lakeO.stage,ifelse(STAGE>=16&STAGE<17,1,0))
+lakeO.stage$H_LT16=with(lakeO.stage,ifelse(STAGE<16,1,0))
+lakeO.stage$H_16_10=with(lakeO.stage,ifelse(STAGE>=10&STAGE<16,1,0))
+lakeO.stage$H_LT10=lakeO.stage$vlow.stg
+ddply(lakeO.stage,c("Alt"),summarise,
+      N.val=N.obs(Alt),
+      N.H_GT17=sum(H_GT17,na.rm=T),
+      N.H_16_17=sum(H_16_17,na.rm=T),
+      N.H_16_10=sum(H_16_10,na.rm=T),
+      N.H_LT10=sum(H_LT10,na.rm=T))
+Lake.Stg.per.sum=ddply(lakeO.stage,c("AMO_period","Alt"),summarise,
+      N.val=N.obs(Alt),
+      per.H_GT17=sum(H_GT17,na.rm=T)/18993,
+      per.H_16_17=sum(H_16_17,na.rm=T)/18993,
+      per.H_16_10=sum(H_16_10,na.rm=T)/18993,
+      per.H_LT10=sum(H_LT10,na.rm=T)/18993)
+Lake.Stg.per.sum[,4:7]=Lake.Stg.per.sum[,4:7]*100
+Lake.Stg.per.sum
+Lake.Stg.per.sum$Alt=factor(Lake.Stg.per.sum$Alt,levels=alts.sort)
+
+# png(filename=paste0(plot.path,"Iteration_2/LakeH_AMO_cat.png"),width=6.5,height=5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+layout(matrix(c(1:5,rep(5,3)),4,2,byrow=F),widths=c(1,0.25))
+
+ylim.val=c(0,3);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(Lake.Stg.per.sum,Alt~AMO_period,value.var="per.H_GT17",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(round(t(tmp[,2]),1),nsmall=1),cex=0.7,pos=3)
+text(x[2,],t(tmp[,3]),format(round(t(tmp[,3]),1),nsmall=1),cex=0.7,pos=3)#col="white")
+axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)
+axis_fun(2,ymaj,ymin,ymaj)
+box(lwd=1)
+mtext(side=3,adj=0,"\u2265 17 Ft NGVD")
+
+ylim.val=c(0,10);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(Lake.Stg.per.sum,Alt~AMO_period,value.var="per.H_16_17",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(round(t(tmp[,2]),1),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(round(t(tmp[,3]),1),nsmall=1),cex=0.7,pos=1,col="white")
+axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)
+axis_fun(2,ymaj,ymin,ymaj)
+box(lwd=1)
+mtext(side=3,adj=0,"\u2265 16 & < 17 Ft NGVD")
+
+ylim.val=c(0,60);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(Lake.Stg.per.sum,Alt~AMO_period,value.var="per.H_16_10",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(round(t(tmp[,2]),1),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(round(t(tmp[,3]),1),nsmall=1),cex=0.7,pos=1,col="white")
+axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,NA)
+axis_fun(2,ymaj,ymin,ymaj)
+box(lwd=1)
+mtext(side=3,adj=0,"\u2265 10 & < 16 Ft NGVD")
+
+ylim.val=c(0,4);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+tmp=reshape2::dcast(Lake.Stg.per.sum,Alt~AMO_period,value.var="per.H_LT10",sum)
+x=barplot(t(tmp[,2:3]),beside=T,ylim=ylim.val,col=c("khaki","dodgerblue1"),axes=F,ann=F,names.arg = rep(NA,N.obs(alts.sort)))
+text(x[1,],t(tmp[,2]),format(round(t(tmp[,2]),1),nsmall=1),cex=0.7,pos=1)
+text(x[2,],t(tmp[,3]),format(round(t(tmp[,3]),1),nsmall=1),cex=0.7,pos=1,col="white")
+axis_fun(1,x[1,]+diff(x)/2,x[1,]+diff(x)/2,alts.sort)
+axis_fun(2,ymaj,ymin,ymaj)
+box(lwd=1)
+mtext(side=3,adj=0,"< 10 Ft NGVD")
+mtext(side=2,outer=T,line=1,"% of Time")
+mtext(side=1,line=2.5,"Alternative")
+
+plot(0:1,0:1,ann=F,axes=F,type="n")
+legend(0.5,0.5,legend=c("Dry Phase\n(1965 - 1994)","Wet Phase\n(1995 - 2016)"),
+       pch=22,pt.cex=2,lty=0,pt.bg=c("khaki","dodgerblue1"),
+       bty="n",y.intersp=1.5,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,
+       ncol=1,title="AMO Period",title.adj = 0)
+text(1,0,"Lake Okeechobee\nDaily Stage\n \nPeriod of Simulation\n CY1965 - 2016.",adj=1,cex=0.75,xpd=NA)
+dev.off()
 
 days.stage.POS=ddply(lakeO.stage,c("Alt"),summarise,
                      N.val=N.obs(STAGE),

@@ -125,6 +125,19 @@ knitr::include_graphics('./Plots/Iteration_2/LO_AMO_perDays.png')
 .center[Percent of time where stages `r paste("\u2264")` 10 or `r paste("\u2265")` 17 Ft NGVD29 during the period of simulation (1965 - 2016) broken down into dry (1965-1994) and wet (1995-2016) phases.]
 
 ---
+name: Lake_StageCat
+
+```{r ,fig.align="center",out.width="90%"}
+
+knitr::include_graphics('./Plots/Iteration_2/LakeH_AMO_cat.png')
+```
+
+.small[
+.center[Percent of time within each respective stage elevation category for Lake Okeechobee comparing dry/cold (1965 – 1994) and wet/warm (1995 – 2016) AMO phase for each alternative for the entire period of simulation (Jan 1, 1965 - Dec 31, 2016; 18993 days).]
+]
+
+
+---
 name: StgEnv1
 
 ### Normal/Recovery Envelope
