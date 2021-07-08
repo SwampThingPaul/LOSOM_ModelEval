@@ -51,10 +51,10 @@ SLE.mod.TP.all=mod.TP.all
 # -------------------------------------------------------------------------
 WYs=seq(1966,2016,1)
 alts=list.files(paste0(data.path,"Iteration_2/Model_Output/"))
-# alts=alts[!(alts%in%c("SPEF","SPAS","SPLC"))];# removed the Everglades Foundation, Audubon and Lake Commnuities alteratives
+alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries")]
 n.alts=length(alts)
 alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2")
-cols=c("grey50","grey50",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+cols=c("grey50","grey",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
 
 # Lake Stage --------------------------------------------------------------
 lakeO.stage=data.frame()
@@ -105,6 +105,57 @@ RSM.q.dat.xtab.WY$Q.C44=with(RSM.q.dat.xtab.WY,ifelse(Q.S80<Q.S308,0,Q.S80-Q.S30
 
 RSM.hydro=merge(RSM.q.dat.xtab.WY,RSM.lakeO.stg,c("Alt","WY"))
 RSM.hydro=subset(RSM.hydro,WY%in%seq(1966,2016,1))
+RSM.hydro$Alt=factor(RSM.hydro$Alt,levels=alts.sort)
+
+ylab.cex=0.8
+# png(filename=paste0(plot.path,"Iteration_2/RSM_hydro_ENLM.png"),width=7.5,height=5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,5,0.25,1),oma=c(2.5,1,1,0.25));
+layout(matrix(1:6,3,2,byrow=F))
+
+ylim.val=c(0,180e4);by.y=90e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(Q.C43~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
+axis_fun(2,ymaj,ymin,ymaj/1000)
+axis_fun(1,1:8,1:8,NA)
+box(lwd=1)
+mtext(side=2,line=2.75,"C43 Basin Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
+
+ylim.val=c(0,200e4);by.y=100e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(Q.S77~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
+axis_fun(2,ymaj,ymin,ymaj/1000)
+axis_fun(1,1:8,1:8,NA)
+box(lwd=1)
+mtext(side=2,line=2.75,"S77 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
+
+ylim.val=c(9,17);by.y=4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(mean.stg~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,1:8,1:8,alts.sort,line=-0.5,cex=0.95)
+box(lwd=1)
+mtext(side=2,line=2.75,"Mean Annual\nStage (Ft, NGVD29)",cex=ylab.cex)
+
+ylim.val=c(0,32e4);by.y=15.0e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(Q.C44~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
+axis_fun(2,ymaj,ymin,ymaj/1000)
+axis_fun(1,1:8,1:8,NA)
+box(lwd=1)
+mtext(side=2,line=2.75,"C44 Basin Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
+
+ylim.val=c(0,100e4);by.y=50e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(Q.S308~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
+axis_fun(2,ymaj,ymin,ymaj/1000)
+axis_fun(1,1:8,1:8,NA)
+box(lwd=1)
+mtext(side=2,line=2.75,"S308 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
+
+ylim.val=c(100,100e4);ymaj=log.scale.fun(ylim.val,"major");ymin=log.scale.fun(ylim.val,"minor");#by.y=50e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+boxplot(Q.S80~Alt,subset(RSM.hydro,Q.S80>0),ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5),log="y")
+axis_fun(2,ymaj,ymin,ymaj/1000)
+axis_fun(1,1:8,1:8,alts.sort,line=-0.5,cex=0.95)
+box(lwd=1)
+mtext(side=2,line=2.75,"S80 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
+mtext(side=1,adj=0,line=-1.25,cex=0.45," Zero flow years removed",font=3)
+mtext(side=1,outer=T,line=1,"Alternatives")
+dev.off()
 
 cre.nut.mod=RSM.hydro[,c("Alt","WY","Q.S77","Q.S79","Q.C43","mean.stg")]
 cre.nut.mod$TPLoad.kg.fit=(predict(CRE.mod.TP.all,cre.nut.mod,interval="confidence")[,1])
@@ -209,27 +260,10 @@ cre.nut.mod.sum$TN.FWO.diff=with(cre.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/
 
 cre.nut.mod.sum$TP.FWM.FWO.diff=with(cre.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1])/mean.TP.FWM[1])*100
 cre.nut.mod.sum$TN.FWM.FWO.diff=with(cre.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
-# png(filename=paste0(plot.path,"Iteration_2/S79_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-
-ylim.val=c(0,550000);by.y=250000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
-x=boxplot(TPLoad.kg.fit~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
-points(1:n.alts,cre.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
-abline(h=median(subset(cre.nut.mod,Alt==alts.sort[1])$TPLoad.kg.fit),lty=2)
-abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
-axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
-abline(v=2.5)
-box(lwd=1)
-mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
-mtext(side=1,line=3.5,"Model Alternative")
-mtext(side=3,adj=0,"CRE (S-79)")
-mtext(side=3, adj=1,"FLWY 1966 - 2016")
-dev.off()
 
 # MCDA type analysis
 cre.nut.mod.sum$TP.load.RS=with(cre.nut.mod.sum,(mean.TP.load/max(mean.TP.load,na.rm=T)))
-cre.nut.mod.sum$TP.load.RS=1-cre.nut.mod.sum$TP.load.RS
+cre.nut.mod.sum$TP.load.RS=1-cre.nut.mod.sum$TP.load.RS; # lower the better
 cre.nut.mod.sum$TN.load.RS=with(cre.nut.mod.sum,(mean.TN.load/max(mean.TN.load,na.rm=T)))
 cre.nut.mod.sum$TN.load.RS=1-cre.nut.mod.sum$TN.load.RS
 wts=c(0.5,0.5); # weights do not affect final score.
@@ -264,13 +298,6 @@ for(i in 1:length(wt1)){
   
 }
 
-i=1
-plot(score~TP.wt,rslt,type="n",axes=F,ann=F,ylim=xlim.val,xlim=xlim.val)
-abline(h=xmaj,v=xmaj,lty=3,col=adjustcolor("grey",0.5))
-with(subset(rslt,Alt==alts.sort[i]),lines(score~TP.wt,col=cols[i],lwd=2))
-with(subset(rslt,Alt==alts.sort[i]),lines(score~TN.wt,col=cols[i],lwd=2,lty=2))
-
-
 # png(filename=paste0(plot.path,"Iteration_2/S79_FWM_MCDASense.png"),width=7.5,height=4.5,units="in",res=200,type="windows",bg="white")
 xlim.val=c(0,1);by.x=0.2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 par(family="serif",mar=c(1,0.75,1,1),oma=c(3,3.75,1,0.25));
@@ -295,45 +322,67 @@ mtext(side=2,outer=T,"MCDA Score",line=2)
 mtext(side=1,outer=T,"Variable Weights",line=1.5)
 dev.off()
 
+wt1=seq(0,1,0.2)
+wt2=1-wt1
+vars=paste(c("TP","TN"),"load",sep=".")
+rslt=data.frame()
+for(i in 1:length(wt1)){
+  wts=c(wt1[i],wt2[i])
+  score=apply(cre.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=round(score/max(score,na.rm=T),2)
+  tmp=data.frame(Alt=cre.nut.mod.sum$Alt,score=score)
+  tmp$i.val=i
+  tmp$TP.wt=wt1[i]
+  tmp$TN.wt=wt2[i]
+  rslt=rbind(tmp,rslt)
+  
+}
+
+# png(filename=paste0(plot.path,"Iteration_2/S79_Load_MCDASense.png"),width=7.5,height=4.5,units="in",res=200,type="windows",bg="white")
+xlim.val=c(0,1);by.x=0.2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+par(family="serif",mar=c(1,0.75,1,1),oma=c(3,3.75,1,0.25));
+layout(matrix(1:8,2,4,byrow=T))
+for(i in 1:8){
+  plot(score~TP.wt,rslt,type="n",axes=F,ann=F,ylim=xlim.val,xlim=xlim.val)
+  abline(h=xmaj,v=xmaj,lty=3,col=adjustcolor("grey",0.5))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TP.wt,col=cols[i],lwd=2))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TN.wt,col=cols[i],lwd=2,lty=2))
+  if(i%in%c(1:4)){axis_fun(1,xmaj,xmin,NA,line=-0.5)}else{axis_fun(1,xmaj,xmin,format(xmaj),line=-0.5)}
+  if(i%in%c(1,5)){axis_fun(2,xmaj,xmin,format(xmaj))}else{axis_fun(2,xmaj,xmin,NA)}
+  box(lwd=1)
+  mtext(side=3,adj=0,alts.sort[i])
+  if(i==4){mtext(side=3,adj=1,"CRE (S79) - Load")}
+  if(i==1){
+    legend("topleft",legend=c("TP Weights","TN Weights"),
+           lty=c(1,2),lwd=c(2),col="grey",
+           ncol=2,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.)
+  }
+}
+mtext(side=2,outer=T,"MCDA Score",line=2)
+mtext(side=1,outer=T,"Variable Weights",line=1.5)
+dev.off()
+
 # cre.nut.mod.sum$TP.load.RS2=with(cre.nut.mod.sum,(TP.load.RS/max(TP.load.RS,na.rm=T)))
 # cre.nut.mod.sum[order(-cre.nut.mod.sum$TP.load.RS2),]
 
 
-###
-# obs.dat=data.frame(WY=1991:2020,S79.TPFWM=c(194.172942475321, 174.627760344702, 249.686473330221, 144.979319706607, 
-#   93.6865705865878, 77.6342149200262, 113.323629146915, 85.3890149735639, 
-#   139.332785552204, 165.676457610166, 162.95173681696, 209.993140195582, 
-#   158.634036625188, 104.019301608094, 110.907638976708, 125.021126563642, 
-#   182.212020773742, 233.384689852762, 229.005998451357, 151.468667148604, 
-#   118.869186137397, 150.55523249488, 127.3288944946, 116.608555081983, 
-#   113.649896145235, 113.195471033476, 116.461396384246, 184.658695289428, 
-#   159.005231193847, 145.794670077943),Alt="Obs")
-# 
-# test=rbind(obs.dat,cre.nut.mod[,c("WY","S79.TPFWM","Alt")])
-# 
-# alts.sort2=c("Obs",alts.sort)
-# cols2=c("white",cols)
-# 
-# test$Alt=factor(test$Alt,levels=alts.sort2)
-# 
-# ylim.val=c(0,300);by.y=100;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
-# x=boxplot(S79.TPFWM~Alt,test,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols2)
-# # points(1:n.alts,cre.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
-# abline(h=median(subset(test,Alt==alts.sort[2])$S79.TPFWM),lty=2)
-# # abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
-# axis_fun(2,ymaj,ymin,ymaj)
-# axis_fun(1,1:16,1:16,alts.sort2,las=2)
-# abline(v=3.5)
-# box(lwd=1)
-# mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
-# mtext(side=1,line=3.5,"Model Alternative")
-# mtext(side=3,adj=0,"CRE (S-79)")
-# dev.off()
+# png(filename=paste0(plot.path,"Iteration_2/S79_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
 
-## TMDL "limits"
-test=ddply(cre.nut.mod,"Alt",summarise,N.exceed=sum(ifelse(TNLoad.kg.fit>(9086094*0.453592),1,0)),N.total=N.obs(TNLoad.kg.fit),percent=N.exceed/N.total*100)
-plot(1:15,test$percent)
-abline(h=12)
+ylim.val=c(0,550000);by.y=250000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=boxplot(TPLoad.kg.fit~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
+points(1:n.alts,cre.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
+abline(h=median(subset(cre.nut.mod,Alt==alts.sort[1])$TPLoad.kg.fit),lty=2)
+abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
+axis_fun(2,ymaj,ymin,ymaj/10e3)
+axis_fun(1,1:8,1:8,alts.sort,las=2)
+abline(v=2.5)
+box(lwd=1)
+mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
+mtext(side=1,line=3.5,"Model Alternative")
+mtext(side=3,adj=0,"CRE (S-79)")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
+dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S79_TNLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
@@ -395,6 +444,7 @@ abline(v=0)
 # abline(v=c(10),lty=2)
 with(cre.nut.mod.sum,segments(TP.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
 with(cre.nut.mod.sum,points(TP.FWO.diff,1:n.alts,pch=21,bg="dodgerblue1",lwd=0.1))
+with(cre.nut.mod.sum,text(TP.FWO.diff,1:n.alts,format(round(TP.FWO.diff,1)),pos=ifelse(TP.FWO.diff<0,2,4),cex=0.8))
 axis_fun(2,1:n.alts,1:n.alts,cre.nut.mod.sum$Alt)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"TP Load",font=2,cex=0.75)
@@ -407,6 +457,7 @@ plot(cre.nut.mod.sum$TN.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
 with(cre.nut.mod.sum,segments(TN.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
 with(cre.nut.mod.sum,points(TN.FWO.diff,1:n.alts,pch=21,bg="indianred1",lwd=0.1))
+with(cre.nut.mod.sum,text(TN.FWO.diff,1:n.alts,format(round(TN.FWO.diff,1)),pos=ifelse(TN.FWO.diff<0,2,4),cex=0.8))
 axis_fun(2,1:n.alts,1:n.alts,NA)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"TN Load",font=2,cex=0.75)
@@ -424,6 +475,7 @@ abline(v=0)
 # abline(v=c(10),lty=2)
 with(cre.nut.mod.sum,segments(TP.FWM.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
 with(cre.nut.mod.sum,points(TP.FWM.FWO.diff,1:n.alts,pch=21,bg="dodgerblue1",lwd=0.1))
+with(cre.nut.mod.sum,text(TP.FWM.FWO.diff,1:n.alts,format(round(TP.FWM.FWO.diff,1)),pos=ifelse(TP.FWM.FWO.diff<0,2,4),cex=0.8))
 axis_fun(2,1:n.alts,1:n.alts,cre.nut.mod.sum$Alt)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"TP FWM",font=2,cex=0.75)
@@ -431,11 +483,12 @@ mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
 mtext(side=2,line=4,'Model Alternative')
 mtext(side=3, adj=0,"CRE (S-79)",line=0.8)
 
-xlim.val=c(-2,2);by.x=1;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+xlim.val=c(-2,3);by.x=1;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 plot(cre.nut.mod.sum$TN.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
 with(cre.nut.mod.sum,segments(TN.FWM.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
 with(cre.nut.mod.sum,points(TN.FWM.FWO.diff,1:n.alts,pch=21,bg="indianred1",lwd=0.1))
+with(cre.nut.mod.sum,text(TN.FWM.FWO.diff,1:n.alts,format(round(TN.FWM.FWO.diff,1)),pos=ifelse(TN.FWM.FWO.diff<0,2,4),cex=0.8))
 axis_fun(2,1:n.alts,1:n.alts,NA)
 axis_fun(1,xmaj,xmin,format(xmaj),line=-0.7,cex=0.8);box(lwd=1)
 mtext(side=3,adj=0,"TN FWM",font=2,cex=0.75)
@@ -449,10 +502,10 @@ dev.off()
 # Load duration curves
 # png(filename=paste0(plot.path,"Iteration_2/S80_TPLoadDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-layout(matrix(1:16,4,4,byrow=T))
+layout(matrix(1:8,2,4,byrow=T))
 
 xlim.val=c(0,1);by.x=0.5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-ylim.val=c(0,700000);by.y=250000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,360000);by.y=150000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 
 for(i in 3:n.alts){
   plot(0:1,0:1,ylim=ylim.val,xlim=xlim.val,ann=F,axes=F,type="n")
@@ -464,9 +517,10 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:11)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"SLE (S-80)")}
-  if(i%in%c(3,7,11,15)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
+  if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
+  if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
   box(lwd=1)
 }
 mtext(side=2,line=2,outer=T,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
@@ -475,10 +529,10 @@ dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_TNLoadDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-layout(matrix(1:16,4,4,byrow=T))
+layout(matrix(1:8,2,4,byrow=T))
 
 xlim.val=c(0,1);by.x=0.5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-ylim.val=c(0,10*10e5);by.y=25*10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,5*10e5);by.y=25*10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 
 for(i in 3:n.alts){
   plot(0:1,0:1,ylim=ylim.val,xlim=xlim.val,ann=F,axes=F,type="n")
@@ -490,9 +544,10 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:11)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"SLE (S-80)")}
-  if(i%in%c(3,7,11,15)){axis_fun(2,ymaj,ymin,ymaj/10e4)}else{axis_fun(2,ymaj,ymin,NA)}
+  if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
+  if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
   box(lwd=1)
 }
 mtext(side=2,line=2,outer=T,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
@@ -512,35 +567,37 @@ sle.nut.mod.sum$TN.FWM.FWO.diff=with(sle.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1]
 # png(filename=paste0(plot.path,"Iteration_2/S80_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
 
-ylim.val=c(0,400000);by.y=200000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,30e4);by.y=15e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TPLoad.kg.fit~Alt,sle.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,sle.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=median(subset(sle.nut.mod,Alt==alts.sort[1])$TPLoad.kg.fit),lty=2)
 abline(h=subset(sle.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:15,1:15,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
 mtext(side=1,line=3.5,"Model Alternative")
 mtext(side=3,adj=0,"SLE (S-80)")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_TNLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
 
-ylim.val=c(0,30*10e4);by.y=10*10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,20e5);by.y=10e5;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TNLoad.kg.fit~Alt,sle.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,sle.nut.mod.sum$mean.TN.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=median(subset(sle.nut.mod,Alt==alts.sort[1])$TNLoad.kg.fit),lty=2)
 abline(h=subset(sle.nut.mod.sum,Alt==alts.sort[1])$mean.TN.load,lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e4)
-axis_fun(1,1:15,1:15,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
 mtext(side=1,line=3.5,"Model Alternative")
 mtext(side=3,adj=0,"SLE (S-80)")
+mtext(side=3, adj=1,"FLWY 1966 - 2016")
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_FWM_bxp.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
@@ -575,55 +632,166 @@ dev.off()
 
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_Load_PerDiff.png"),width=4.5,height=5,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
+par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1.75,0.25));
 layout(matrix(1:2,1,2,byrow=T))
 
-xlim.val=c(-100,100);by.x=50;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-plot(sle.nut.mod.sum$TP.FWO.diff,1:15,ann=F,axes=F,type="n",xlim=xlim.val)
+xlim.val=c(-115,100);by.x=50;xmaj=seq(max(c(xlim.val[1],-100)),xlim.val[2],by.x);xmin=seq(max(c(xlim.val[1],-100)),xlim.val[2],by.x/2)
+plot(sle.nut.mod.sum$TP.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
 # abline(v=c(10),lty=2)
-with(sle.nut.mod.sum,segments(TP.FWO.diff,1:15,rep(0,15),1:15))
-with(sle.nut.mod.sum,points(TP.FWO.diff,1:15,pch=21,bg="dodgerblue1",lwd=0.1))
-axis_fun(2,1:15,1:15,sle.nut.mod.sum$Alt)
+with(sle.nut.mod.sum,segments(TP.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
+with(sle.nut.mod.sum,points(TP.FWO.diff,1:n.alts,pch=21,bg="dodgerblue1",lwd=0.1))
+with(sle.nut.mod.sum,text(TP.FWO.diff,1:n.alts,format(round(TP.FWO.diff,1)),pos=ifelse(TP.FWO.diff<0,2,4),cex=0.75))
+axis_fun(2,1:n.alts,1:n.alts,sle.nut.mod.sum$Alt)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
-mtext(side=3,adj=0,"TP Load")
+mtext(side=3,adj=0,"TP Load",font=2,cex=0.75)
 mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
 mtext(side=2,line=4,'Model Alternative')
+mtext(side=3, adj=0,"SLE (S-80)",line=0.8)
 
-xlim.val=c(-100,100);by.x=50;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-plot(sle.nut.mod.sum$TN.FWO.diff,1:15,ann=F,axes=F,type="n",xlim=xlim.val)
+# xlim.val=c(-110,100);by.x=50;xmaj=seq(max(c(xlim.val[1],-100)),xlim.val[2],by.x);xmin=seq(max(c(xlim.val[1],-100)),xlim.val[2],by.x/2)
+plot(sle.nut.mod.sum$TN.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
-with(sle.nut.mod.sum,segments(TN.FWO.diff,1:15,rep(0,15),1:15))
-with(sle.nut.mod.sum,points(TN.FWO.diff,1:15,pch=21,bg="indianred1",lwd=0.1))
-axis_fun(2,1:15,1:15,NA)
+with(sle.nut.mod.sum,segments(TN.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
+with(sle.nut.mod.sum,points(TN.FWO.diff,1:n.alts,pch=21,bg="indianred1",lwd=0.1))
+with(sle.nut.mod.sum,text(TN.FWO.diff,1:n.alts,format(round(TN.FWO.diff,1)),pos=ifelse(TN.FWO.diff<0,2,4),cex=0.75))
+axis_fun(2,1:n.alts,1:n.alts,NA)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
-mtext(side=3,adj=0,"TN Load")
+mtext(side=3,adj=0,"TN Load",font=2,cex=0.75)
 mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
+mtext(side=3, adj=1,"FLWY 1966 - 2016",line=0.8)
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_FWM_PerDiff.png"),width=4.5,height=5,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1,0.25));
+par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1.75,0.25));
 layout(matrix(1:2,1,2,byrow=T))
 
-xlim.val=c(-25,25);by.x=25;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-plot(sle.nut.mod.sum$TP.FWO.diff,1:15,ann=F,axes=F,type="n",xlim=xlim.val)
+xlim.val=c(-50,25);by.x=25;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+plot(sle.nut.mod.sum$TP.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
 # abline(v=c(10),lty=2)
-with(sle.nut.mod.sum,segments(TP.FWM.FWO.diff,1:15,rep(0,15),1:15))
-with(sle.nut.mod.sum,points(TP.FWM.FWO.diff,1:15,pch=21,bg="dodgerblue1",lwd=0.1))
-axis_fun(2,1:15,1:15,sle.nut.mod.sum$Alt)
+with(sle.nut.mod.sum,segments(TP.FWM.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
+with(sle.nut.mod.sum,points(TP.FWM.FWO.diff,1:n.alts,pch=21,bg="dodgerblue1",lwd=0.1))
+with(sle.nut.mod.sum,text(TP.FWM.FWO.diff,1:n.alts,format(round(TP.FWM.FWO.diff,1)),pos=ifelse(TP.FWM.FWO.diff<0,2,4),cex=0.8))
+axis_fun(2,1:n.alts,1:n.alts,sle.nut.mod.sum$Alt)
 axis_fun(1,xmaj,xmin,xmaj,line=-0.7,cex=0.8);box(lwd=1)
-mtext(side=3,adj=0,"TP FWM")
+mtext(side=3,adj=0,"TP FWM",font=2,cex=0.75)
 mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
 mtext(side=2,line=4,'Model Alternative')
+mtext(side=3, adj=0,"SLE (S-80)",line=0.8)
 
 #xlim.val=c(-5,5);by.x=2.5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
-plot(sle.nut.mod.sum$TN.FWO.diff,1:15,ann=F,axes=F,type="n",xlim=xlim.val)
+plot(sle.nut.mod.sum$TN.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
-with(sle.nut.mod.sum,segments(TN.FWM.FWO.diff,1:15,rep(0,15),1:15))
-with(sle.nut.mod.sum,points(TN.FWM.FWO.diff,1:15,pch=21,bg="indianred1",lwd=0.1))
-axis_fun(2,1:15,1:15,NA)
+with(sle.nut.mod.sum,segments(TN.FWM.FWO.diff,1:n.alts,rep(0,n.alts),1:n.alts))
+with(sle.nut.mod.sum,points(TN.FWM.FWO.diff,1:n.alts,pch=21,bg="indianred1",lwd=0.1))
+with(sle.nut.mod.sum,text(TN.FWM.FWO.diff,1:n.alts,format(round(TN.FWM.FWO.diff,1)),pos=ifelse(TN.FWM.FWO.diff<0,2,4),cex=0.8))
+axis_fun(2,1:n.alts,1:n.alts,NA)
 axis_fun(1,xmaj,xmin,format(xmaj),line=-0.7,cex=0.8);box(lwd=1)
-mtext(side=3,adj=0,"TN FWM")
+mtext(side=3,adj=0,"TN FWM",font=2,cex=0.75)
 mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
+mtext(side=3, adj=1,"FLWY 1966 - 2016",line=0.8)
+dev.off()
+
+
+
+# MCDA type analysis
+sle.nut.mod.sum$TP.load.RS=with(sle.nut.mod.sum,(mean.TP.load/max(mean.TP.load,na.rm=T)))
+sle.nut.mod.sum$TP.load.RS=1-sle.nut.mod.sum$TP.load.RS; # lower the better
+sle.nut.mod.sum$TN.load.RS=with(sle.nut.mod.sum,(mean.TN.load/max(mean.TN.load,na.rm=T)))
+sle.nut.mod.sum$TN.load.RS=1-sle.nut.mod.sum$TN.load.RS
+wts=c(0.5,0.5); # weights do not affect final score.
+vars=c("TP.load","TN.load")
+sle.nut.mod.sum$sle.nut.load.score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+sle.nut.mod.sum$sle.nut.load.score=round(sle.nut.mod.sum$sle.nut.load.score/max(sle.nut.mod.sum$sle.nut.load.score,na.rm=T),2)
+sle.nut.mod.sum[order(-sle.nut.mod.sum$sle.nut.load.score),]
+
+sle.nut.mod.sum$TP.FWM.RS=with(sle.nut.mod.sum,(mean.TP.FWM/max(mean.TP.FWM,na.rm=T)))
+sle.nut.mod.sum$TP.FWM.RS=1-sle.nut.mod.sum$TP.FWM.RS
+sle.nut.mod.sum$TN.FWM.RS=with(sle.nut.mod.sum,(mean.TN.FWM/max(mean.TN.FWM,na.rm=T)))
+sle.nut.mod.sum$TN.FWM.RS=1-sle.nut.mod.sum$TN.FWM.RS
+wts=c(0.5,0.5); # weights do not affect final score.
+vars=c("TP.FWM","TN.FWM")
+sle.nut.mod.sum$sle.nut.FWM.score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+sle.nut.mod.sum$sle.nut.FWM.score=round(sle.nut.mod.sum$sle.nut.FWM.score/max(sle.nut.mod.sum$sle.nut.FWM.score,na.rm=T),2)
+sle.nut.mod.sum[order(-sle.nut.mod.sum$sle.nut.FWM.score),]
+
+wt1=seq(0,1,0.2)
+wt2=1-wt1
+vars=paste(c("TP","TN"),"FWM",sep=".")
+rslt=data.frame()
+for(i in 1:length(wt1)){
+  wts=c(wt1[i],wt2[i])
+  score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=round(score/max(score,na.rm=T),2)
+  tmp=data.frame(Alt=sle.nut.mod.sum$Alt,score=score)
+  tmp$i.val=i
+  tmp$TP.wt=wt1[i]
+  tmp$TN.wt=wt2[i]
+  rslt=rbind(tmp,rslt)
+  
+}
+
+# png(filename=paste0(plot.path,"Iteration_2/S80_FWM_MCDASense.png"),width=7.5,height=4.5,units="in",res=200,type="windows",bg="white")
+xlim.val=c(0,1);by.x=0.2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+par(family="serif",mar=c(1,0.75,1,1),oma=c(3,3.75,1,0.25));
+layout(matrix(1:8,2,4,byrow=T))
+for(i in 1:8){
+  plot(score~TP.wt,rslt,type="n",axes=F,ann=F,ylim=xlim.val,xlim=xlim.val)
+  abline(h=xmaj,v=xmaj,lty=3,col=adjustcolor("grey",0.5))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TP.wt,col=cols[i],lwd=2))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TN.wt,col=cols[i],lwd=2,lty=2))
+  if(i%in%c(1:4)){axis_fun(1,xmaj,xmin,NA,line=-0.5)}else{axis_fun(1,xmaj,xmin,format(xmaj),line=-0.5)}
+  if(i%in%c(1,5)){axis_fun(2,xmaj,xmin,format(xmaj))}else{axis_fun(2,xmaj,xmin,NA)}
+  box(lwd=1)
+  mtext(side=3,adj=0,alts.sort[i])
+  if(i==4){mtext(side=3,adj=1,"SLE (S80) - FWM")}
+  if(i==1){
+    legend("topleft",legend=c("TP Weights","TN Weights"),
+           lty=c(1,2),lwd=c(2),col="grey",
+           ncol=2,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.)
+  }
+}
+mtext(side=2,outer=T,"MCDA Score",line=2)
+mtext(side=1,outer=T,"Variable Weights",line=1.5)
+dev.off()
+
+wt1=seq(0,1,0.2)
+wt2=1-wt1
+vars=paste(c("TP","TN"),"load",sep=".")
+rslt=data.frame()
+for(i in 1:length(wt1)){
+  wts=c(wt1[i],wt2[i])
+  score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=round(score/max(score,na.rm=T),2)
+  tmp=data.frame(Alt=sle.nut.mod.sum$Alt,score=score)
+  tmp$i.val=i
+  tmp$TP.wt=wt1[i]
+  tmp$TN.wt=wt2[i]
+  rslt=rbind(tmp,rslt)
+  
+}
+
+# png(filename=paste0(plot.path,"Iteration_2/S80_Load_MCDASense.png"),width=7.5,height=4.5,units="in",res=200,type="windows",bg="white")
+xlim.val=c(0,1);by.x=0.2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+par(family="serif",mar=c(1,0.75,1,1),oma=c(3,3.75,1,0.25));
+layout(matrix(1:8,2,4,byrow=T))
+for(i in 1:8){
+  plot(score~TP.wt,rslt,type="n",axes=F,ann=F,ylim=xlim.val,xlim=xlim.val)
+  abline(h=xmaj,v=xmaj,lty=3,col=adjustcolor("grey",0.5))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TP.wt,col=cols[i],lwd=2))
+  with(subset(rslt,Alt==alts.sort[i]),lines(score~TN.wt,col=cols[i],lwd=2,lty=2))
+  if(i%in%c(1:4)){axis_fun(1,xmaj,xmin,NA,line=-0.5)}else{axis_fun(1,xmaj,xmin,format(xmaj),line=-0.5)}
+  if(i%in%c(1,5)){axis_fun(2,xmaj,xmin,format(xmaj))}else{axis_fun(2,xmaj,xmin,NA)}
+  box(lwd=1)
+  mtext(side=3,adj=0,alts.sort[i])
+  if(i==4){mtext(side=3,adj=1,"SLE (S80) - Load")}
+  if(i==1){
+    legend("topleft",legend=c("TP Weights","TN Weights"),
+           lty=c(1,2),lwd=c(2),col="grey",
+           ncol=2,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.)
+  }
+}
+mtext(side=2,outer=T,"MCDA Score",line=2)
+mtext(side=1,outer=T,"Variable Weights",line=1.5)
 dev.off()
