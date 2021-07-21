@@ -71,6 +71,18 @@ knitr::include_graphics('./Plots/ConSWFL.jpeg')
 
 ]
 
+
+```{r xaringanExtra, include=FALSE, warnint=FALSE}
+# devtools::install_github("gadenbuie/xaringanExtra")
+# xaringanExtra::use_webcam()
+xaringanExtra::use_tile_view()
+# xaringanExtra::use_scribble()
+```
+.footnote[
+Paul Julian PhD<br>[`r fontawesome::fa("fas fa-envelope")`](mailto: pjulian@sccf.org) .small[pjulian@sccf.org]
+
+.small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
+]
 ---
 name: alternatives
 
