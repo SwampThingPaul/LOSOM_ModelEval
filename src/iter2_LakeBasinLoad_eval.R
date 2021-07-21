@@ -37,11 +37,11 @@ data.path=paths[3]
 
 
 # Simulated WQ ------------------------------------------------------------
-dates=as.Date(c("2000-05-01","2020-04-30"))
+dates=as.Date(c("1999-05-01","2020-04-30"))
 
 params=data.frame(Test.Number=c(18,21,80,20,25,23,61,179,7,16),param=c("NOx","TKN","TN","NH4","TP","SRP","Chla","Chla","Temp","TSS"))
 params=subset(params,param%in%c("TP","TN","NOx","TKN","NH4","SRP"))
-wq.sites=c("S77","S308C")
+wq.sites=c("S77","S308C","S65E")
 wq.dat=DBHYDRO_WQ(dates[1],dates[2],wq.sites,params$Test.Number)
 wq.dat=merge(wq.dat,params,"Test.Number")
 unique(wq.dat$Collection.Method)
@@ -92,10 +92,55 @@ S308.TN.trend=kendallSeasonalTrendTest(mean.TN~month+CY,data=subset(wq.dat.xtab.
 print(S308.TN.trend)
 
 
+##
+WY.mean=ddply(wq.dat.xtab,c("Station.ID","WY"),summarise,
+                 TP.GM=exp(mean(log(TP),na.rm=T)),mean.TP=mean(TP,na.rm=T),SD.TP=sd(TP,na.rm=T),N.TP=N.obs(TP),
+                 TN.GM=exp(mean(log(TN),na.rm=T)),mean.TN=mean(TN,na.rm=T),SD.TN=sd(TN,na.rm=T),N.TN=N.obs(TN))
+# png(filename=paste0(plot.path,"S77_S308_S65E_WQgrab.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2,3.75,1,0.25));
+layout(matrix(1:2,2,1,byrow=T))
+
+cols=c("dodgerblue1","indianred1","forestgreen")
+ylim.val=c(0,0.30);by.y=0.10;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+xlim.val=c(2000,2020);by.x=5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+plot(mean.TP~WY,WY.mean,ylim=ylim.val,xlim=xlim.val,axes=F,ann=F,type="n")
+abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+for(i in 1:3){
+  with(subset(WY.mean,Station.ID==wq.sites[i]),pt_line(WY,TP.GM,2,cols[i],2,21,cols[i]))
+}
+axis_fun(2,ymaj,ymin,ymaj*1000)
+axis_fun(1,xmaj,xmin,NA);box(lwd=1)
+mtext(side=2,line=2.5,"TP GM (\u03BCg L\u207B\u00B9)")
+legend("topleft",legend=c("S77","S308","S65E"),
+       lty=c(2),lwd=c(2),col=cols,
+       pch=NA,pt.bg=cols,pt.cex = 1.25,
+       ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,text.col="white"
+       )
+legend("topleft",legend=c("S77","S308","S65E"),
+       lty=NA,lwd=c(0.1),col="black",
+       pch=21,pt.bg=cols,pt.cex = 1.25,
+       ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5,text.col="black"
+)
+
+ylim.val=c(0,2.5);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+plot(mean.TP~WY,WY.mean,ylim=ylim.val,xlim=xlim.val,axes=F,ann=F,type="n")
+abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+for(i in 1:3){
+  with(subset(WY.mean,Station.ID==wq.sites[i]),pt_line(WY,TN.GM,2,cols[i],2,21,cols[i]))
+}
+axis_fun(2,ymaj,ymin,format(ymaj))
+axis_fun(1,xmaj,xmin,xmaj,line=-0.5);box(lwd=1)
+mtext(side=2,line=2.5,"TN GM (mg L\u207B\u00B9)")
+mtext(side=1,line=2,"Florida Water Year")
+dev.off()
+
+
 # POS WQ data --------------------------------------------------------------
-month.mean=ddply(wq.dat.xtab,c("Station.ID","month"),summarise,
+month.mean=ddply(subset(wq.dat.xtab,Station.ID%in%wq.sites[1:2]),c("Station.ID","month"),summarise,
                  mean.TP=mean(TP,na.rm=T),SD.TP=sd(TP,na.rm=T),N.TP=N.obs(TP),
                  mean.TN=mean(TN,na.rm=T),SD.TN=sd(TN,na.rm=T),N.TN=N.obs(TN))
+
+
 # write.csv(month.mean,paste0(export.path,"S77S308_monthlymean.csv"),row.names = F)
 S77.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2020-12-31"),"1 month"))
 S77.WQ.sim$WY=WY(S77.WQ.sim$Date.EST)
@@ -121,8 +166,36 @@ loc=log(m^2/sqrt(s^2+m^2))
 shp=sqrt(log(1+(s^2/m^2)))
 set.seed(1)
 rlnorm(100,loc,shp)
-
 ## 
+
+set.seed(123)
+mean.val<-0.1168
+sd.val<-0.0826
+
+sim.TP<-rnorm(1,
+              mean=mean.val,
+              sd=sd.val)
+sim.TP
+
+x <- seq(-4,4,length=100)*sd.val + mean.val
+hx <- dnorm(x,mean.val,sd.val)
+# png(filename=paste0(plot.path,"normdist_ex.png"),width=5,height=3,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,1.5,0.5,0.5),oma=c(2,1,1,1));
+ylim.val=c(-0.1,5);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+xlim.val=c(-0.300,0.500);by.x=0.100;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+par(family="serif",mar=c(2,1.5,0.5,0.5),oma=c(2,1,1,1));
+plot(hx~x,xaxs="i",yaxs="i",ylim=ylim.val,xlim=xlim.val,axes=F,ann=F,type="n")
+lines(hx~x,lwd=2,col=adjustcolor("dodgerblue1",0.5))
+segments(sim.TP,-1,sim.TP,dnorm(sim.TP,mean.val,sd.val),col="red",lwd=2)
+segments(mean.val,-1,mean.val,dnorm(mean.val,mean.val,sd.val),lty=2,col=adjustcolor("dodgerblue1",0.5))
+segments(mean.val-sd.val,-1,mean.val-sd.val,dnorm(mean.val-sd.val,mean.val,sd.val),lty=3,col=adjustcolor("dodgerblue1",0.5))
+segments(mean.val+sd.val,-1,mean.val+sd.val,dnorm(mean.val+sd.val,mean.val,sd.val),lty=3,col=adjustcolor("dodgerblue1",0.5))
+points(sim.TP,dnorm(sim.TP,mean.val,sd.val),pch=21,bg="red",cex=2)
+axis_fun(1,round(xmaj,1),round(xmin,1),round(xmaj,1)*1000,line=-0.5)
+mtext(side=1,line=2,"Simulated TP (\u03BCg L\u207B\u00B9)")
+dev.off()
+###
+
 
 S77.WQ.sim$sim.TP=NA
 S77.WQ.sim$sim.TN=NA
@@ -187,10 +260,10 @@ sd(subset(wq.dat.xtab,Station.ID=="S308C")$TN,na.rm=T)
 # -------------------------------------------------------------------------
 WYs=seq(1966,2016,1)
 alts=list.files(paste0(data.path,"Iteration_2/Model_Output/"))
-alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries")]
+alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries","Iteration2_STL_Flows_13Jul2021.xlsx")]
 n.alts=length(alts)
-alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2")
-cols=c("grey50","grey50",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2","SR3.5")
+cols=c("grey50","grey80",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-3,"continuous")),"deeppink")
 
 # Discharge ---------------------------------------------------------------
 RSM.sites=c("S77","S308","S77_QFC","S308_QFC","S308BF")
@@ -247,14 +320,14 @@ ann.beta=ddply(subset(S77.q.dat.xtab,S77>0),c("Alt","WY"),summarise,
                TN.beta=as.numeric(coef(sma(log_sim.TN~log_S77))[2]))
 
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-layout(matrix(1:8,2,4,byrow=T))
+layout(matrix(1:10,2,5,byrow=T))
 for(i in 1:n.alts){
   plot(TP.beta~WY,subset(ann.beta,Alt==alts.sort[i]),ylim=c(-3,3))
   abline(h=0)
   mtext(side=3,line=-1.25,alts.sort[i])
 }
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-layout(matrix(1:8,2,4,byrow=T))
+layout(matrix(1:10,2,5,byrow=T))
 for(i in 1:n.alts){
   plot(TN.beta~WY,subset(ann.beta,Alt==alts.sort[i]),ylim=c(-3,3))
   abline(h=0)
@@ -299,7 +372,7 @@ points(1:n.alts,S77.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex
 abline(h=median(subset(S77.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2)
 abline(h=mean(subset(S77.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
@@ -317,7 +390,7 @@ points(1:n.alts,S77.nut.mod.sum$mean.TN.load,pch=21,bg="springgreen",lwd=0.1,cex
 abline(h=median(subset(S77.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2)
 abline(h=mean(subset(S77.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e4)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
@@ -336,7 +409,7 @@ points(1:n.alts,S77.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex
 abline(h=median(subset(S77.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2)
 abline(h=mean(subset(S77.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:8,1:8,NA,las=2)
+axis_fun(1,1:n.alts,1:n.alts,NA,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
@@ -349,7 +422,7 @@ points(1:n.alts,S77.nut.mod.sum$mean.TN.load,pch=21,bg="springgreen",lwd=0.1,cex
 abline(h=median(subset(S77.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2)
 abline(h=mean(subset(S77.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e4)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
@@ -519,7 +592,7 @@ points(1:n.alts,S308.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,ce
 abline(h=median(subset(S308.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2)
 abline(h=mean(subset(S308.Load.WY,Alt==alts.sort[1])$TPLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:8,1:8,NA,las=2)
+axis_fun(1,1:n.alts,1:n.alts,NA,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
@@ -532,7 +605,7 @@ points(1:n.alts,S308.nut.mod.sum$mean.TN.load,pch=21,bg="springgreen",lwd=0.1,ce
 abline(h=median(subset(S308.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2)
 abline(h=mean(subset(S308.Load.WY,Alt==alts.sort[1])$TNLoad),lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e4)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
@@ -573,7 +646,7 @@ dev.off()
 par(family="serif",mar=c(2.75,0.7,0.25,1),oma=c(2,5,1.75,0.25));
 layout(matrix(1:2,1,2,byrow=T))
 
-xlim.val=c(-120,70);by.x=50;xmaj=seq(max(c(100,xlim.val[1])),xlim.val[2],by.x);xmin=seq(max(c(100,xlim.val[1])),xlim.val[2],by.x/2)
+xlim.val=c(-120,70);by.x=50;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 plot(S308.nut.mod.sum$TP.FWO.diff,1:n.alts,ann=F,axes=F,type="n",xlim=xlim.val)
 abline(v=0)
 # abline(v=c(10),lty=2)

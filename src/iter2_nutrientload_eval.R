@@ -51,10 +51,10 @@ SLE.mod.TP.all=mod.TP.all
 # -------------------------------------------------------------------------
 WYs=seq(1966,2016,1)
 alts=list.files(paste0(data.path,"Iteration_2/Model_Output/"))
-alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries")]
+alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries","Iteration2_STL_Flows_13Jul2021.xlsx")]
 n.alts=length(alts)
-alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2")
-cols=c("grey50","grey",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2","SR3.5")
+cols=c("grey50","grey80",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-3,"continuous")),"deeppink")
 
 # Lake Stage --------------------------------------------------------------
 lakeO.stage=data.frame()
@@ -109,52 +109,52 @@ RSM.hydro$Alt=factor(RSM.hydro$Alt,levels=alts.sort)
 
 ylab.cex=0.8
 # png(filename=paste0(plot.path,"Iteration_2/RSM_hydro_ENLM.png"),width=7.5,height=5,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(1,5,0.25,1),oma=c(2.5,1,1,0.25));
+par(family="serif",mar=c(1,5,0.25,1),oma=c(3.25,1,1,0.25));
 layout(matrix(1:6,3,2,byrow=F))
 
 ylim.val=c(0,180e4);by.y=90e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(Q.C43~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
 axis_fun(2,ymaj,ymin,ymaj/1000)
-axis_fun(1,1:8,1:8,NA)
+axis_fun(1,1:n.alts,1:n.alts,NA)
 box(lwd=1)
 mtext(side=2,line=2.75,"C43 Basin Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
 
 ylim.val=c(0,200e4);by.y=100e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(Q.S77~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
 axis_fun(2,ymaj,ymin,ymaj/1000)
-axis_fun(1,1:8,1:8,NA)
+axis_fun(1,1:n.alts,1:n.alts,NA)
 box(lwd=1)
 mtext(side=2,line=2.75,"S77 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
 
 ylim.val=c(9,17);by.y=4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(mean.stg~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
 axis_fun(2,ymaj,ymin,ymaj)
-axis_fun(1,1:8,1:8,alts.sort,line=-0.5,cex=0.95)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,cex=0.95,las=2)
 box(lwd=1)
 mtext(side=2,line=2.75,"Mean Annual\nStage (Ft, NGVD29)",cex=ylab.cex)
 
 ylim.val=c(0,32e4);by.y=15.0e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(Q.C44~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
 axis_fun(2,ymaj,ymin,ymaj/1000)
-axis_fun(1,1:8,1:8,NA)
+axis_fun(1,1:n.alts,1:n.alts,NA)
 box(lwd=1)
 mtext(side=2,line=2.75,"C44 Basin Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
 
 ylim.val=c(0,100e4);by.y=50e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(Q.S308~Alt,RSM.hydro,ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5))
 axis_fun(2,ymaj,ymin,ymaj/1000)
-axis_fun(1,1:8,1:8,NA)
+axis_fun(1,1:n.alts,1:n.alts,NA)
 box(lwd=1)
 mtext(side=2,line=2.75,"S308 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
 
 ylim.val=c(100,100e4);ymaj=log.scale.fun(ylim.val,"major");ymin=log.scale.fun(ylim.val,"minor");#by.y=50e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(Q.S80~Alt,subset(RSM.hydro,Q.S80>0),ylim=ylim.val,ann=F,axes=F,outline=F,col=adjustcolor(cols,0.5),log="y")
 axis_fun(2,ymaj,ymin,ymaj/1000)
-axis_fun(1,1:8,1:8,alts.sort,line=-0.5,cex=0.95)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,cex=0.95,las=2)
 box(lwd=1)
 mtext(side=2,line=2.75,"S80 Q\n(kAc-Ft WY\u207B\u00B9)",cex=ylab.cex)
 mtext(side=1,adj=0,line=-1.25,cex=0.45," Zero flow years removed",font=3)
-mtext(side=1,outer=T,line=1,"Alternatives")
+mtext(side=1,outer=T,line=2,"Alternatives")
 dev.off()
 
 cre.nut.mod=RSM.hydro[,c("Alt","WY","Q.S77","Q.S79","Q.C43","mean.stg")]
@@ -192,7 +192,7 @@ sle.nut.mod$Alt=factor(sle.nut.mod$Alt,levels=alts.sort)
 # subset(sle.nut.mod,Q.S80<200&is.na(S80.TPFWM)==F)
 # subset(sle.nut.mod,TPLoad.kg.fit<5&is.na(S80.TPFWM)==F)
 # -------------------------------------------------------------------------
-cols=c("grey50","grey50",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
+cols=c("grey50","grey80",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-3,"continuous")),"deeppink")
 
 # Load duration curves
 # png(filename=paste0(plot.path,"Iteration_2/S79_TPLoadDuration.png"),width=7.5,height=5.5,units="in",res=200,type="windows",bg="white")
@@ -212,7 +212,7 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:5)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"CRE (S-79)")}
   if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
   if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
@@ -239,7 +239,7 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:5)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"CRE (S-79)")}
   if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
   if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e4)}else{axis_fun(2,ymaj,ymin,NA)}
@@ -262,25 +262,26 @@ cre.nut.mod.sum$TP.FWM.FWO.diff=with(cre.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1]
 cre.nut.mod.sum$TN.FWM.FWO.diff=with(cre.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
 
 # MCDA type analysis
-cre.nut.mod.sum$TP.load.RS=with(cre.nut.mod.sum,(mean.TP.load/max(mean.TP.load,na.rm=T)))
-cre.nut.mod.sum$TP.load.RS=1-cre.nut.mod.sum$TP.load.RS; # lower the better
-cre.nut.mod.sum$TN.load.RS=with(cre.nut.mod.sum,(mean.TN.load/max(mean.TN.load,na.rm=T)))
-cre.nut.mod.sum$TN.load.RS=1-cre.nut.mod.sum$TN.load.RS
+cre.nut.mod.sum2=subset(cre.nut.mod.sum,Alt!="SR3.5")
+cre.nut.mod.sum2$TP.load.RS=with(cre.nut.mod.sum2,(mean.TP.load/max(mean.TP.load,na.rm=T)))
+cre.nut.mod.sum2$TP.load.RS=1-cre.nut.mod.sum2$TP.load.RS; # lower the better
+cre.nut.mod.sum2$TN.load.RS=with(cre.nut.mod.sum2,(mean.TN.load/max(mean.TN.load,na.rm=T)))
+cre.nut.mod.sum2$TN.load.RS=1-cre.nut.mod.sum2$TN.load.RS
 wts=c(0.5,0.5); # weights do not affect final score.
 vars=c("TP.load","TN.load")
-cre.nut.mod.sum$cre.nut.load.score=apply(cre.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
-cre.nut.mod.sum$cre.nut.load.score=round(cre.nut.mod.sum$cre.nut.load.score/max(cre.nut.mod.sum$cre.nut.load.score,na.rm=T),2)
-cre.nut.mod.sum[order(-cre.nut.mod.sum$cre.nut.load.score),]
+cre.nut.mod.sum2$cre.nut.load.score=apply(cre.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+cre.nut.mod.sum2$cre.nut.load.score=round(cre.nut.mod.sum2$cre.nut.load.score/max(cre.nut.mod.sum2$cre.nut.load.score,na.rm=T),2)
+cre.nut.mod.sum2[order(-cre.nut.mod.sum2$cre.nut.load.score),]
 
-cre.nut.mod.sum$TP.FWM.RS=with(cre.nut.mod.sum,(mean.TP.FWM/max(mean.TP.FWM,na.rm=T)))
-cre.nut.mod.sum$TP.FWM.RS=1-cre.nut.mod.sum$TP.FWM.RS
-cre.nut.mod.sum$TN.FWM.RS=with(cre.nut.mod.sum,(mean.TN.FWM/max(mean.TN.FWM,na.rm=T)))
-cre.nut.mod.sum$TN.FWM.RS=1-cre.nut.mod.sum$TN.FWM.RS
+cre.nut.mod.sum2$TP.FWM.RS=with(cre.nut.mod.sum2,(mean.TP.FWM/max(mean.TP.FWM,na.rm=T)))
+cre.nut.mod.sum2$TP.FWM.RS=1-cre.nut.mod.sum2$TP.FWM.RS
+cre.nut.mod.sum2$TN.FWM.RS=with(cre.nut.mod.sum2,(mean.TN.FWM/max(mean.TN.FWM,na.rm=T)))
+cre.nut.mod.sum2$TN.FWM.RS=1-cre.nut.mod.sum2$TN.FWM.RS
 wts=c(0.5,0.5); # weights do not affect final score.
 vars=c("TP.FWM","TN.FWM")
-cre.nut.mod.sum$cre.nut.FWM.score=apply(cre.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
-cre.nut.mod.sum$cre.nut.FWM.score=round(cre.nut.mod.sum$cre.nut.FWM.score/max(cre.nut.mod.sum$cre.nut.FWM.score,na.rm=T),2)
-cre.nut.mod.sum[order(-cre.nut.mod.sum$cre.nut.FWM.score),]
+cre.nut.mod.sum2$cre.nut.FWM.score=apply(cre.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+cre.nut.mod.sum2$cre.nut.FWM.score=round(cre.nut.mod.sum2$cre.nut.FWM.score/max(cre.nut.mod.sum2$cre.nut.FWM.score,na.rm=T),2)
+cre.nut.mod.sum2[order(-cre.nut.mod.sum2$cre.nut.FWM.score),]
 
 wt1=seq(0,1,0.2)
 wt2=1-wt1
@@ -288,16 +289,16 @@ vars=paste(c("TP","TN"),"FWM",sep=".")
 rslt=data.frame()
 for(i in 1:length(wt1)){
   wts=c(wt1[i],wt2[i])
-  score=apply(cre.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=apply(cre.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
   score=round(score/max(score,na.rm=T),2)
-  tmp=data.frame(Alt=cre.nut.mod.sum$Alt,score=score)
+  tmp=data.frame(Alt=cre.nut.mod.sum2$Alt,score=score)
   tmp$i.val=i
   tmp$TP.wt=wt1[i]
   tmp$TN.wt=wt2[i]
   rslt=rbind(tmp,rslt)
   
 }
-
+unique(rslt$Alt)
 # png(filename=paste0(plot.path,"Iteration_2/S79_FWM_MCDASense.png"),width=7.5,height=4.5,units="in",res=200,type="windows",bg="white")
 xlim.val=c(0,1);by.x=0.2;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
 par(family="serif",mar=c(1,0.75,1,1),oma=c(3,3.75,1,0.25));
@@ -328,9 +329,9 @@ vars=paste(c("TP","TN"),"load",sep=".")
 rslt=data.frame()
 for(i in 1:length(wt1)){
   wts=c(wt1[i],wt2[i])
-  score=apply(cre.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=apply(cre.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
   score=round(score/max(score,na.rm=T),2)
-  tmp=data.frame(Alt=cre.nut.mod.sum$Alt,score=score)
+  tmp=data.frame(Alt=cre.nut.mod.sum2$Alt,score=score)
   tmp$i.val=i
   tmp$TP.wt=wt1[i]
   tmp$TN.wt=wt2[i]
@@ -365,48 +366,41 @@ dev.off()
 # cre.nut.mod.sum$TP.load.RS2=with(cre.nut.mod.sum,(TP.load.RS/max(TP.load.RS,na.rm=T)))
 # cre.nut.mod.sum[order(-cre.nut.mod.sum$TP.load.RS2),]
 
+# png(filename=paste0(plot.path,"Iteration_2/S79_Load_bxp.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,0.75,0.25,1),oma=c(4,3.75,1,0.25));
+layout(matrix(1:2,2,1,byrow=T))
 
-# png(filename=paste0(plot.path,"Iteration_2/S79_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-
-ylim.val=c(0,550000);by.y=250000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,500000);by.y=250000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TPLoad.kg.fit~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,cre.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=median(subset(cre.nut.mod,Alt==alts.sort[1])$TPLoad.kg.fit),lty=2)
 abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,NA,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
-mtext(side=1,line=3.5,"Model Alternative")
 mtext(side=3,adj=0,"CRE (S-79)")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
-dev.off()
 
-# png(filename=paste0(plot.path,"Iteration_2/S79_TNLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
-
-ylim.val=c(0,70*10e4);by.y=20*10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(0,60*10e4);by.y=20*10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TNLoad.kg.fit~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,cre.nut.mod.sum$mean.TN.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=median(subset(cre.nut.mod,Alt==alts.sort[1])$TNLoad.kg.fit),lty=2)
 abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TN.load,lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e4)
-axis_fun(1,1:8,1:8,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
 mtext(side=1,line=3.5,"Model Alternative")
-mtext(side=3,adj=0,"CRE (S-79)")
-mtext(side=3, adj=1,"FLWY 1966 - 2016")
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S79_FWM_bxp.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(4,3.75,1,0.25));
 layout(matrix(1:2,2,1,byrow=T))
 
-ylim.val=c(100,300);by.y=100;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(100,230);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(S79.TPFWM~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,cre.nut.mod.sum$mean.TP.FWM,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TP.FWM,lty=2,col="springgreen")
@@ -419,7 +413,7 @@ mtext(side=3, adj=0,"CRE (S-79)")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
 mtext(side=2,line=2.5,"TP FWM (\u03BCg L\u207B\u00B9)")
 
-ylim.val=c(1.3,1.9);by.y=0.3;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(1.3,1.8);by.y=0.2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 boxplot(S79.TNFWM~Alt,cre.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,cre.nut.mod.sum$mean.TN.FWM,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=subset(cre.nut.mod.sum,Alt==alts.sort[1])$mean.TN.FWM,lty=2,col="springgreen")
@@ -517,7 +511,7 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:5)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"SLE (S-80)")}
   if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
   if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
@@ -544,7 +538,7 @@ for(i in 3:n.alts){
   legend("topright",legend=alts.sort[c(1,2,i)],
          lty=c(1,2,1),lwd=c(1.5,1.5,1.5),col=c(cols[1:2],adjustcolor(as.character(cols[i]),0.5)),
          ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
-  if(i%in%c(3:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+  if(i%in%c(3:5)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
   if(i==3){mtext(side=3, adj=0,"SLE (S-80)")}
   if(i==6){mtext(side=3, adj=1,"FLWY 1966 - 2016")}
   if(i%in%c(3,7)){axis_fun(2,ymaj,ymin,ymaj/10e3)}else{axis_fun(2,ymaj,ymin,NA)}
@@ -564,26 +558,23 @@ sle.nut.mod.sum$TN.FWO.diff=with(sle.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/
 
 sle.nut.mod.sum$TP.FWM.FWO.diff=with(sle.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1])/mean.TP.FWM[1])*100
 sle.nut.mod.sum$TN.FWM.FWO.diff=with(sle.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
-# png(filename=paste0(plot.path,"Iteration_2/S80_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
 
-ylim.val=c(0,30e4);by.y=15e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+# png(filename=paste0(plot.path,"Iteration_2/S80_Load_bxp.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,0.75,0.25,1),oma=c(4,3.75,1,0.25));
+layout(matrix(1:2,2,1,byrow=T))
+
+ylim.val=c(0,24e4);by.y=10e4;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TPLoad.kg.fit~Alt,sle.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,sle.nut.mod.sum$mean.TP.load,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=median(subset(sle.nut.mod,Alt==alts.sort[1])$TPLoad.kg.fit),lty=2)
 abline(h=subset(sle.nut.mod.sum,Alt==alts.sort[1])$mean.TP.load,lty=2,col="springgreen")
 axis_fun(2,ymaj,ymin,ymaj/10e3)
-axis_fun(1,1:n.alts,1:n.alts,alts.sort,las=2)
+axis_fun(1,1:n.alts,1:n.alts,NA,las=2)
 abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TP Load (x10\u00B3 kg WY\u207B\u00B9)")
-mtext(side=1,line=3.5,"Model Alternative")
 mtext(side=3,adj=0,"SLE (S-80)")
 mtext(side=3, adj=1,"FLWY 1966 - 2016")
-dev.off()
-
-# png(filename=paste0(plot.path,"Iteration_2/S80_TNLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
 
 ylim.val=c(0,20e5);by.y=10e5;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 x=boxplot(TNLoad.kg.fit~Alt,sle.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
@@ -596,15 +587,13 @@ abline(v=2.5)
 box(lwd=1)
 mtext(side=2,line=2.5,"TN Load (x10\u2074 kg WY\u207B\u00B9)")
 mtext(side=1,line=3.5,"Model Alternative")
-mtext(side=3,adj=0,"SLE (S-80)")
-mtext(side=3, adj=1,"FLWY 1966 - 2016")
 dev.off()
 
 # png(filename=paste0(plot.path,"Iteration_2/S80_FWM_bxp.png"),width=6.5,height=5.5,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(1,0.75,0.25,1),oma=c(4,3.75,1,0.25));
 layout(matrix(1:2,2,1,byrow=T))
 
-ylim.val=c(50,300);by.y=100;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+ylim.val=c(75,240);by.y=100;ymaj=seq(100,ylim.val[2],by.y);ymin=seq(100,ylim.val[2],by.y/2)
 boxplot(S80.TPFWM~Alt,sle.nut.mod,ylim=ylim.val,axes=F,ann=F,outline=F,col=cols)
 points(1:n.alts,sle.nut.mod.sum$mean.TP.FWM,pch=21,bg="springgreen",lwd=0.1,cex=1.25)
 abline(h=subset(sle.nut.mod.sum,Alt==alts.sort[1])$mean.TP.FWM,lty=2,col="springgreen")
@@ -696,25 +685,26 @@ dev.off()
 
 
 # MCDA type analysis
-sle.nut.mod.sum$TP.load.RS=with(sle.nut.mod.sum,(mean.TP.load/max(mean.TP.load,na.rm=T)))
-sle.nut.mod.sum$TP.load.RS=1-sle.nut.mod.sum$TP.load.RS; # lower the better
-sle.nut.mod.sum$TN.load.RS=with(sle.nut.mod.sum,(mean.TN.load/max(mean.TN.load,na.rm=T)))
-sle.nut.mod.sum$TN.load.RS=1-sle.nut.mod.sum$TN.load.RS
+sle.nut.mod.sum2=subset(sle.nut.mod.sum,Alt!="SR3.5")
+sle.nut.mod.sum2$TP.load.RS=with(sle.nut.mod.sum2,(mean.TP.load/max(mean.TP.load,na.rm=T)))
+sle.nut.mod.sum2$TP.load.RS=1-sle.nut.mod.sum2$TP.load.RS; # lower the better
+sle.nut.mod.sum2$TN.load.RS=with(sle.nut.mod.sum2,(mean.TN.load/max(mean.TN.load,na.rm=T)))
+sle.nut.mod.sum2$TN.load.RS=1-sle.nut.mod.sum2$TN.load.RS
 wts=c(0.5,0.5); # weights do not affect final score.
 vars=c("TP.load","TN.load")
-sle.nut.mod.sum$sle.nut.load.score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
-sle.nut.mod.sum$sle.nut.load.score=round(sle.nut.mod.sum$sle.nut.load.score/max(sle.nut.mod.sum$sle.nut.load.score,na.rm=T),2)
-sle.nut.mod.sum[order(-sle.nut.mod.sum$sle.nut.load.score),]
+sle.nut.mod.sum2$sle.nut.load.score=apply(sle.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+sle.nut.mod.sum2$sle.nut.load.score=round(sle.nut.mod.sum2$sle.nut.load.score/max(sle.nut.mod.sum2$sle.nut.load.score,na.rm=T),2)
+sle.nut.mod.sum2[order(-sle.nut.mod.sum2$sle.nut.load.score),]
 
-sle.nut.mod.sum$TP.FWM.RS=with(sle.nut.mod.sum,(mean.TP.FWM/max(mean.TP.FWM,na.rm=T)))
-sle.nut.mod.sum$TP.FWM.RS=1-sle.nut.mod.sum$TP.FWM.RS
-sle.nut.mod.sum$TN.FWM.RS=with(sle.nut.mod.sum,(mean.TN.FWM/max(mean.TN.FWM,na.rm=T)))
-sle.nut.mod.sum$TN.FWM.RS=1-sle.nut.mod.sum$TN.FWM.RS
+sle.nut.mod.sum2$TP.FWM.RS=with(sle.nut.mod.sum2,(mean.TP.FWM/max(mean.TP.FWM,na.rm=T)))
+sle.nut.mod.sum2$TP.FWM.RS=1-sle.nut.mod.sum2$TP.FWM.RS
+sle.nut.mod.sum2$TN.FWM.RS=with(sle.nut.mod.sum2,(mean.TN.FWM/max(mean.TN.FWM,na.rm=T)))
+sle.nut.mod.sum2$TN.FWM.RS=1-sle.nut.mod.sum2$TN.FWM.RS
 wts=c(0.5,0.5); # weights do not affect final score.
 vars=c("TP.FWM","TN.FWM")
-sle.nut.mod.sum$sle.nut.FWM.score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
-sle.nut.mod.sum$sle.nut.FWM.score=round(sle.nut.mod.sum$sle.nut.FWM.score/max(sle.nut.mod.sum$sle.nut.FWM.score,na.rm=T),2)
-sle.nut.mod.sum[order(-sle.nut.mod.sum$sle.nut.FWM.score),]
+sle.nut.mod.sum2$sle.nut.FWM.score=apply(sle.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+sle.nut.mod.sum2$sle.nut.FWM.score=round(sle.nut.mod.sum2$sle.nut.FWM.score/max(sle.nut.mod.sum2$sle.nut.FWM.score,na.rm=T),2)
+sle.nut.mod.sum2[order(-sle.nut.mod.sum2$sle.nut.FWM.score),]
 
 wt1=seq(0,1,0.2)
 wt2=1-wt1
@@ -722,9 +712,9 @@ vars=paste(c("TP","TN"),"FWM",sep=".")
 rslt=data.frame()
 for(i in 1:length(wt1)){
   wts=c(wt1[i],wt2[i])
-  score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=apply(sle.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
   score=round(score/max(score,na.rm=T),2)
-  tmp=data.frame(Alt=sle.nut.mod.sum$Alt,score=score)
+  tmp=data.frame(Alt=sle.nut.mod.sum2$Alt,score=score)
   tmp$i.val=i
   tmp$TP.wt=wt1[i]
   tmp$TN.wt=wt2[i]
@@ -762,9 +752,9 @@ vars=paste(c("TP","TN"),"load",sep=".")
 rslt=data.frame()
 for(i in 1:length(wt1)){
   wts=c(wt1[i],wt2[i])
-  score=apply(sle.nut.mod.sum[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
+  score=apply(sle.nut.mod.sum2[,paste0(vars,".RS")],1,FUN=function(x) Hmisc::wtd.mean(x,wts,na.rm=T))
   score=round(score/max(score,na.rm=T),2)
-  tmp=data.frame(Alt=sle.nut.mod.sum$Alt,score=score)
+  tmp=data.frame(Alt=sle.nut.mod.sum2$Alt,score=score)
   tmp$i.val=i
   tmp$TP.wt=wt1[i]
   tmp$TN.wt=wt2[i]

@@ -38,7 +38,7 @@ data.path=paths[3]
 # -------------------------------------------------------------------------
 WYs=seq(1966,2016,1)
 alts=list.files(paste0(data.path,"Iteration_2/Model_Output/"))
-# alts=alts[!(alts%in%c("SPEF","SPAS","SPLC"))];# removed the Everglades Foundation, Audubon and Lake Commnuities alteratives
+alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries")]
 n.alts=length(alts)
 alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2")
 cols=c("grey50","grey50",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-2,"continuous")))
@@ -72,29 +72,29 @@ range(lakeO.stage$Date)
 # with(ecdf_fun(subset(lakeO.stage,Alt=="ABNE")$STAGE),lines(1-proportion,value,col="green"))
 
 ## Experimenting with wavelet analysis
-library(WaveletComp)
-# http://www.hs-stat.com/projects/WaveletComp/WaveletComp_guided_tour.pdf
-test=subset(lakeO.stage1,Alt=='NA25')
-wave1=analyze.wavelet(test,"STAGE",
-                      loess.span = 0,
-                      make.pval = TRUE, n.sim = 10)
-
-
-test2=subset(lakeO.stage1,Alt=='CC')
-wave2=analyze.wavelet(test2,"STAGE",
-                      loess.span = 0,
-                      make.pval = TRUE, n.sim = 10)
-
-layout(matrix(1:2,2,1))
-par(family="serif",mar=c(3,3,0.25,1),oma=c(1,2,1,0.25));
-wt.image(wave1,graphics.reset = FALSE)
-wt.image(wave2,graphics.reset = FALSE)
-
-wt.avg(wave1)
-wt.avg(wave2)
-
-my.rec <- reconstruct(wave1)
-my.rec <- reconstruct(wave2)
+# library(WaveletComp)
+# # http://www.hs-stat.com/projects/WaveletComp/WaveletComp_guided_tour.pdf
+# test=subset(lakeO.stage1,Alt=='NA25')
+# wave1=analyze.wavelet(test,"STAGE",
+#                       loess.span = 0,
+#                       make.pval = TRUE, n.sim = 10)
+# 
+# 
+# test2=subset(lakeO.stage1,Alt=='CC')
+# wave2=analyze.wavelet(test2,"STAGE",
+#                       loess.span = 0,
+#                       make.pval = TRUE, n.sim = 10)
+# 
+# layout(matrix(1:2,2,1))
+# par(family="serif",mar=c(3,3,0.25,1),oma=c(1,2,1,0.25));
+# wt.image(wave1,graphics.reset = FALSE)
+# wt.image(wave2,graphics.reset = FALSE)
+# 
+# wt.avg(wave1)
+# wt.avg(wave2)
+# 
+# my.rec <- reconstruct(wave1)
+# my.rec <- reconstruct(wave2)
 
 # LOK MFL -----------------------------------------------------------------
 ## Date functions
@@ -462,8 +462,120 @@ for(i in 3:n.alts){
 mtext(side=1,line=1,outer=T,"Stage Elevation (Ft, NGVD29)")
 dev.off()
 
+test=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[1])$STAGE)
+max(subset(test,max(proportion)>0.40)$value)
+max(subset(test,min(proportion)<0.40)$proportion)
 
+subset(test,round(proportion,2)==0.70)
 
+SDC_seg=ddply(lakeO.stage,"Alt",summarise,
+      SDC_point_10=min(subset(ecdf_fun(STAGE),(1-proportion)<0.10)$value),
+      SDC_point_20=min(subset(ecdf_fun(STAGE),1-proportion<0.20)$value),
+      SDC_point_30=min(subset(ecdf_fun(STAGE),1-proportion<0.30)$value),
+      SDC_point_40=min(subset(ecdf_fun(STAGE),1-proportion<0.40)$value),
+      SDC_point_50=min(subset(ecdf_fun(STAGE),1-proportion<0.50)$value),
+      SDC_point_60=min(subset(ecdf_fun(STAGE),1-proportion<0.60)$value),
+      SDC_point_70=min(subset(ecdf_fun(STAGE),1-proportion<0.70)$value),
+      SDC_point_80=min(subset(ecdf_fun(STAGE),1-proportion<0.80)$value),
+      SDC_point_90=min(subset(ecdf_fun(STAGE),1-proportion<0.90)$value))
+SDC_seg=SDC_seg[match(alts.sort,SDC_seg$Alt),]
+SDC_seg[,2:10]=round(SDC_seg[,2:10],2)
+SDC_seg%>%
+flextable()%>%
+  colformat_double(j=2:10,digits=2,na_str="---")%>%
+  fontsize(size=13,part="body")%>%
+  fontsize(size=14,part="header")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  align(j=2:10,part="all",align="center")%>%
+  bold(part="header")%>%
+  padding(padding=1,part="all")%>%
+  set_header_labels("SDC_point_10"="10% Pt", 
+                    "SDC_point_20"="20% Pt", 
+                    "SDC_point_30"="30% Pt", 
+                    "SDC_point_40"="40% Pt", 
+                    "SDC_point_50"="50% Pt", 
+                    "SDC_point_60"="60% Pt", 
+                    "SDC_point_70"="70% Pt", 
+                    "SDC_point_80"="80% Pt", 
+                    "SDC_point_90"="90% Pt")%>%
+  autofit()#%>%print(preview="pptx")
+
+par(family="serif",mar=c(1,1.5,0.1,0.1),oma=c(3,3.5,0.75,0.5));
+layout(matrix(1:72,8,8))
+
+tmp.comp=data.frame()
+for(i in 1:8){
+  for(j in 1:8){
+    alt.comp1=subset(SDC_seg,Alt==alts.sort[i])[,2:10]
+    alt.comp2=subset(SDC_seg,Alt==alts.sort[j])[,2:10]
+    tmp=t(alt.comp1-alt.comp2)
+    tmp.comp=rbind(tmp.comp,data.frame(prop=seq(0.1,0.9,0.1),
+               Alt1=alts.sort[i],
+               Alt2=alts.sort[j],
+               value=as.numeric(tmp)))
+  }
+}
+tmp.comp
+
+# png(filename=paste0(plot.path,"Iteration_2/LO_StageDuration_diff.png"),width=7.5,height=5.25,units="in",res=200,type="windows",bg="white")
+xlim.val=c(0,1);by.x=0.5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x)
+ylim.val=c(-1,1);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+
+par(family="serif",mar=c(1,1.5,0.1,0.1),oma=c(3,2.5,1,1.5));
+layout(matrix(1:49,7,7,byrow = T))
+for(i in 1:7){
+  if(i!=1){for(k in 1:(i-1)){plot(0:1,0:1,axes=F,type="n",ylab=NA,xlab=NA)}}
+  
+  alts2=alts.sort[-1:-i]
+  for(j in 1:length(alts2)){
+    plot(value~prop,subset(tmp.comp,Alt1==alts.sort[i]&Alt2==alts2[j]),ylim=ylim.val,xlim=xlim.val,ann=F,axes=F,type="n")
+    
+    abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+    abline(h=0)
+    with(subset(tmp.comp,Alt1==alts.sort[i]&Alt2==alts2[j]),points(prop,value,pch=21,bg="red",lwd=0.1))
+    if(j==1){axis_fun(1,xmaj,xmin,format(xmaj),cex=0.8,line=-0.75)}else{axis_fun(1,xmaj,xmin,NA,cex=0.8,line=-0.5)}
+    if(j==1){axis_fun(2,ymaj,ymin,format(ymaj),cex=0.8)}else{axis_fun(2,ymaj,ymin,NA,cex=0.8)}
+    box(lwd=1)
+    if(i==1){mtext(side=3,alts2[j])}
+    if(j==length(alts2)){mtext(side=4,line=0.25,alts.sort[i])}
+    }
+}
+mtext(side=2,outer=T,"Difference in SDC (Ft)")
+mtext(side=1,outer=T,"Proportion of Time")
+dev.off()
+
+# png(filename=paste0(plot.path,"Iteration_2/LO_StageDuration_segments.png"),width=7.5,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
+layout(matrix(1:8,2,4,byrow=T))
+
+xlim.val=c(0,1.05);by.x=0.5;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],0.1)
+ylim.val=c(8,18);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+for(j in 1:n.alts){
+test=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[j])$STAGE)
+test$proportion=1-test$proportion
+plot(value~proportion,test,ylim=ylim.val,xlim=xlim.val,ann=F,axes=F,type="n")
+abline(h=ymaj,v=xmaj,lty=3,col="grey")
+with(test,lines(proportion,value,col=adjustcolor(cols[j],0.5),lwd=2))
+
+prop.val=seq(0.1,0.9,0.1)
+for(i in 1:length(prop.val)){
+  tmp=min(subset(test,proportion<prop.val[i])$value)
+  segments(prop.val[i],0,prop.val[i],tmp,col=adjustcolor("red",0.25))
+  points(prop.val[i],tmp,pch=21,bg=adjustcolor("red",0.25),col=adjustcolor("black",0.25))
+  text(prop.val[i],tmp,pos=4,format(round(tmp,2),nsmall=2),cex=0.75)
+}
+if(j%in%c(1:4)){axis_fun(1,xmaj,xmin,NA)}else{axis_fun(1,xmaj,xmin,format(xmaj))}
+if(j%in%c(1,5)){axis_fun(2,ymaj,ymin,ymaj)}else{axis_fun(2,ymaj,ymin,NA)}
+box(lwd=1)
+if(j==1){mtext(side=3, adj=0,"Lake Okeechobee")}
+if(j==4){mtext(side=3, adj=1,"CY 1965 - 2016")}
+mtext(side=3, adj=1,line=-1.25,paste0(alts.sort[j]," "))
+}
+mtext(side=2,line=1.5,outer=T,"Stage Elevation (Ft, NGVD29)")
+mtext(side=1,line=1,outer=T,"Proportion of Time \u2265 Stage Elevation")
+dev.off()
+
+###
 x.val=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[1])$STAGE)
 x.val$value=round(x.val$value,4)
 y.val=ecdf_fun(subset(lakeO.stage,Alt==alts.sort[3])$STAGE)
@@ -671,16 +783,17 @@ stg.scr.sum=ddply(lakeO.stage.scr,"Alt",summarise,mean.val=mean(cum.abs.pen,na.r
 stg.scr.sum$FWO.perdiff=with(stg.scr.sum,((mean.val-mean.val[1])/mean.val[1])*100)
 
 env.pen.sum=ddply(lakeO.stage.scr,"Alt",summarise,
-      pen_above=sum(score>0,na.rm=T),
-      pen_below=sum(score<0,na.rm=T),
-      per_below=(pen_below/N.obs(score))*100,
+                  N.val=N.obs(score),
+      pen_above=sum(score[score>0],na.rm=T),
+      pen_below=sum(abs(score)[score<0],na.rm=T),
+      per_below=(sum(score<0)/N.obs(score))*100,
       per0=(sum(score==0,na.rm=T)/N.obs(score))*100,
-      per_above=(pen_above/N.obs(score))*100)
+      per_above=(sum(score>0)/N.obs(score))*100)
 env.pen.sum=env.pen.sum[match(alts.sort,env.pen.sum$Alt),]
 env.pen.sum$FWO_PerBelow=with(env.pen.sum,(per_below-per_below[1])/per_below[1])*100
 env.pen.sum$FWO_PerWith=with(env.pen.sum,(per0-per0[1])/per0[1])*100
 env.pen.sum$FWO_PerAbove=with(env.pen.sum,(per_above-per_above[1])/per_above[1])*100
-
+# write.csv(env.pen.sum,paste0(export.path,"Iteration2/iter2_LOMetrics.csv"),row.names=F)
 # png(filename=paste0(plot.path,"Iteration_2/LakeO_EnvScore_BWA.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
 ylim.val=c(0,60);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
 par(family="serif",mar=c(1,1,0.5,0.25),oma=c(2,2.5,0.75,1),lwd=0.5);
@@ -883,7 +996,8 @@ mtext(side=1,line=2.5,"Average Percent\nDifference to FWO")
 dev.off()
 
 # Discharge ---------------------------------------------------------------
-RSM.sites=c("S77","S78","S79","S80","S308","S351","S352","S354")
+RSM.sites=c("S77","S78","S79","S80","S308","S351","S352","S354","S77_QFC",
+            "S308_QFC","S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE","S79_QFC","S80_QFC","TMC2EST","S48","S49","NSF2EST")
 q.dat=data.frame()
 
 for(j in 1:n.alts){
@@ -906,9 +1020,6 @@ q.dat=q.dat[order(q.dat$Alt,q.dat$SITE,q.dat$Date),]
 q.dat$WY=WY(q.dat$Date)
 q.dat$CY=as.numeric(format(q.dat$Date,"%Y"))
 
-ddply(q.dat1,"Alt",summarise,stress.count=sum(CRE.stress,na.rm=T))
-ddply(subset(q.dat1,SITE=="S79"),"Alt",summarise,stress.Q=sum(Q.14[CRE.stress==1],na.rm=T)/1000)
-
 q.dat$Alt_SITE=paste(q.dat$Alt,q.dat$SITE,sep="_")
 q.dat$Q.14=with(q.dat,ave(FLOW,Alt_SITE,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 
@@ -930,6 +1041,8 @@ q.dat$bloom.period=with(q.dat,ifelse(SITE%in%c("S77","S78","S79"),
 q.dat1=q.dat
 q.dat=subset(q.dat,WY%in%WYs);# Full Florida WY (MAy - April) 
 
+ddply(q.dat1,"Alt",summarise,stress.count=sum(CRE.stress,na.rm=T))
+ddply(subset(q.dat1,SITE=="S79"),"Alt",summarise,stress.Q=sum(Q.14[CRE.stress==1],na.rm=T)/1000)
 
 est.allPOS.sum=ddply(q.dat1,c("SITE","CY","Alt"),summarise,TQ=sum(cfs.to.acftd(FLOW),na.rm=T))
 est.allPOS.sum=ddply(est.allPOS.sum,c("SITE","Alt"),summarise,Avg.TQ.kacft=mean(TQ/1000))
@@ -963,17 +1076,36 @@ q.dat1.xtab$exceed=with(q.dat1.xtab,ifelse(is.na(S79.30d)==T,0,ifelse(S79.30d<45
 ## CRE Team flow categories analysis
 q.dat1.xtab$S79.14d=with(q.dat1.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 q.dat1.xtab$Alt=factor(q.dat1.xtab$Alt,levels=alts.sort)
-# q.dat1.xtab$QLT457=with(q.dat1.xtab,ifelse(S79.14d<457,1,0))
-# q.dat1.xtab$Q457_750=with(q.dat1.xtab,ifelse(S79.14d>=457&S79.14d<750,1,0))
-# q.dat1.xtab$Q_Opt=with(q.dat1.xtab,ifelse(S79.14d>=750&S79.14d<2100,1,0))
-# q.dat1.xtab$Q_Stress=with(q.dat1.xtab,ifelse(S79.14d>=2100&S79.14d<2600,1,0))
-# q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79.14d>=2600&S79.14d<4500,1,0))
-# q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79.14d>=4500&S79.14d<6500,1,0))
-# q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79.14d>6500,1,0))
+# based on 14-day
+q.dat1.xtab$QLT457=with(q.dat1.xtab,ifelse(S79.14d<457,1,0))
+q.dat1.xtab$Q457_750=with(q.dat1.xtab,ifelse(S79.14d>=457&S79.14d<750,1,0))
+q.dat1.xtab$Q_Opt=with(q.dat1.xtab,ifelse(S79.14d>=750&S79.14d<2100,1,0))
+q.dat1.xtab$Q_Stress=with(q.dat1.xtab,ifelse(S79.14d>=2100&S79.14d<2600,1,0))
+q.dat1.xtab$Q_Dam=with(q.dat1.xtab,ifelse(S79.14d>=2600,1,0))
+q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79.14d>=2600&S79.14d<4500,1,0))
+q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79.14d>=4500&S79.14d<6500,1,0))
+q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79.14d>6500,1,0))
+
+CRE.QCat.POS.sum=ddply(q.dat1.xtab,"Alt",summarise,
+                       N.LT457=sum(QLT457,na.rm=T),
+                       N.Q457_750=sum(Q457_750,na.rm=T),
+                       N.Q_Opt=sum(Q_Opt,na.rm=T),
+                       N.Q_Stress=sum(Q_Stress,na.rm=T),
+                       N.Q_Dam=sum(Q_Dam,na.rm=T),
+                       N.Q2600_4500=sum(Q2600_4500,na.rm=T),
+                       N.Q4500_6500=sum(Q4500_6500,na.rm = T),
+                       N.QGT6500=sum(QGT6500,na.rm=T),
+                       N.total=N.obs(Alt))
+CRE.QCat.POS.sum
+CRE.QCat.POS.sum=merge(CRE.QCat.POS.sum,
+                       reshape2::dcast(est.allPOS.sum,Alt~SITE,value.var="Avg.TQ.kacft",sum)[,c("Alt","S77_QFC","S79",'S77')],"Alt")
+# write.csv(CRE.QCat.POS.sum,paste0(export.path,"Iteration2/iter2_CREQ_metrics.csv"),row.names=F)
+
 q.dat1.xtab$QLT457=with(q.dat1.xtab,ifelse(S79<457,1,0))
 q.dat1.xtab$Q457_750=with(q.dat1.xtab,ifelse(S79>=457&S79<750,1,0))
 q.dat1.xtab$Q_Opt=with(q.dat1.xtab,ifelse(S79>=750&S79<2100,1,0))
 q.dat1.xtab$Q_Stress=with(q.dat1.xtab,ifelse(S79>=2100&S79<2600,1,0))
+q.dat1.xtab$Q_Dam=with(q.dat1.xtab,ifelse(S79>=2600,1,0))
 q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79>=2600&S79<4500,1,0))
 q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79>=4500&S79<6500,1,0))
 q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79>6500,1,0))
@@ -991,6 +1123,7 @@ CRE.QCat.POS.sum=ddply(q.dat1.xtab,"Alt",summarise,
       N.QGT6500=sum(QGT6500,na.rm=T),
       N.total=N.obs(Alt))
 CRE.QCat.POS.sum
+
 
 CRE.QCat.POS=ddply(q.dat1.xtab,"Alt",summarise,
                        Q.LT457=sum(cfs.to.acftd(S79[QLT457==1])/1000,na.rm=T),
@@ -1072,6 +1205,29 @@ plot(0:1,0:1,ann=F,axes=F,type="n")
 text(1,0,"Period of Simulation\n CY1965 - 2016.",adj=1)
 dev.off()
 
+
+#### SLE version
+q.dat1.xtab$S80.14d=with(q.dat1.xtab,ave(S80,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$S80_QFC.14d=with(q.dat1.xtab,ave(S80_QFC,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$Alt=factor(q.dat1.xtab$Alt,levels=alts.sort)
+# based on 14-day
+q.dat1.xtab$QLT150=with(q.dat1.xtab,ifelse(S80.14d<150,1,0))
+q.dat1.xtab$Q_Opt_SLE=with(q.dat1.xtab,ifelse(S80.14d>=150&S80.14d<1400,1,0))
+q.dat1.xtab$Q_Stress_SLE=with(q.dat1.xtab,ifelse(S80.14d>=1400&S80.14d<1700,1,0))
+q.dat1.xtab$Q_Dam_SLE=with(q.dat1.xtab,ifelse(S80.14d>=1700,1,0))
+
+SLE.QCat.POS.sum=ddply(q.dat1.xtab,"Alt",summarise,
+                       N.LT150=sum(QLT150,na.rm=T),
+                       N.Q_Opt_SLE=sum(Q_Opt_SLE,na.rm=T),
+                       N.Q_Stress_SLE=sum(Q_Stress_SLE,na.rm=T),
+                       N.Q_Dam_SLE=sum(Q_Dam_SLE,na.rm=T),
+                       N.total=N.obs(Alt))
+SLE.QCat.POS.sum
+SLE.QCat.POS.sum=merge(SLE.QCat.POS.sum,
+                       reshape2::dcast(est.allPOS.sum,Alt~SITE,value.var="Avg.TQ.kacft",sum)[,c("Alt","S308_QFC","S308",'S80')],"Alt")
+# write.csv(SLE.QCat.POS.sum,paste0(export.path,"Iteration2/iter2_SLEQ_metrics.csv"),row.names=F)
+
+
 ## Monthly average flow
 consec.startend=function(var){
   runs=rle(var)
@@ -1085,6 +1241,140 @@ consec.startend=function(var){
   return(rslt)
 }
 
+## RECOVER plots
+q.dat1.xtab$S77_QFC.14d=with(q.dat1.xtab,ave(S77_QFC,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$S79_QFC.14d=with(q.dat1.xtab,ave(S79_QFC,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$CRE.low=with(q.dat1.xtab,ifelse(S79.14d<750,1,0)) # RECOVER Low
+q.dat1.xtab$CRE.low1=with(q.dat1.xtab,ifelse(S79.14d<457,1,0))
+q.dat1.xtab$CRE.low2=with(q.dat1.xtab,ifelse(S79.14d>=457&S79.14d<750,1,0))
+q.dat1.xtab$CRE.opt=with(q.dat1.xtab,ifelse(S79.14d>=750&S79.14d<2100,1,0)) # RECOVER Optimum
+q.dat1.xtab$CRE.high=with(q.dat1.xtab,ifelse(S79.14d>=2100&S79.14d<2600,1,0)) # RECOVER Stress
+q.dat1.xtab$CRE.high1=with(q.dat1.xtab,ifelse(S79.14d>=2600&S79.14d<4500,1,0))
+q.dat1.xtab$CRE.high2=with(q.dat1.xtab,ifelse(S79.14d>=4500&S79.14d<6500,1,0))
+q.dat1.xtab$CRE.high3=with(q.dat1.xtab,ifelse(S79.14d>=6500,1,0))
+q.dat1.xtab$CRE.dam=with(q.dat1.xtab,ifelse(S79.14d>=2600,1,0)) # RECOVER Damaging
+
+
+q.dat1.xtab$SLE.S80trib=rowSums(q.dat1.xtab[,c("S80","TMC2EST","S48","S49","NSF2EST")],na.rm=T)
+q.dat1.xtab$SLE.S80trib.14d=with(q.dat1.xtab,ave(SLE.S80trib,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat1.xtab$SLE.low=with(q.dat1.xtab,ifelse(SLE.S80trib.14d<150,1,0)) # RECOVER Low
+q.dat1.xtab$SLE.opt=with(q.dat1.xtab,ifelse(SLE.S80trib.14d>=150&SLE.S80trib.14d<1400,1,0)) # RECOVER Optimum
+q.dat1.xtab$SLE.high=with(q.dat1.xtab,ifelse(SLE.S80trib.14d>=1400&SLE.S80trib.14d<1700,1,0)) # RECOVER stress
+q.dat1.xtab$SLE.dam=with(q.dat1.xtab,ifelse(SLE.S80trib.14d>=1700,1,0)) # RECOVER damaging
+q.dat1.xtab$SLE.high1=with(q.dat1.xtab,ifelse(SLE.S80trib.14d>=1700&SLE.S80trib.14d<4000,1,0))
+q.dat1.xtab$SLE.high2=with(q.dat1.xtab,ifelse(SLE.S80trib.14d>=4000,1,0))
+
+
+head(q.dat1.xtab)
+
+q.dat1.xtab$consec.CRE.low=0
+
+q.dat1.xtab$CRE.low.count=0
+q.dat1.xtab$CRE.low1.count=0
+q.dat1.xtab$CRE.low2.count=0
+q.dat1.xtab$CRE.opt.count=0
+q.dat1.xtab$CRE.high.count=0
+q.dat1.xtab$CRE.high1.count=0
+q.dat1.xtab$CRE.high2.count=0
+q.dat1.xtab$CRE.high3.count=0
+q.dat1.xtab$CRE.high.LOK.count=0
+q.dat1.xtab$CRE.high.basin.count=0
+q.dat1.xtab$CRE.dam.count=0
+q.dat1.xtab$CRE.dam.LOK.count=0
+q.dat1.xtab$CRE.dam.basin.count=0
+
+q.dat1.xtab$SLE.low.count=0
+q.dat1.xtab$SLE.opt.count=0
+q.dat1.xtab$SLE.high.count=0
+q.dat1.xtab$SLE.high1.count=0
+q.dat1.xtab$SLE.high2.count=0
+q.dat1.xtab$SLE.high.LOK.count=0
+q.dat1.xtab$SLE.high.basin.count=0
+q.dat1.xtab$SLE.dam.count=0
+q.dat1.xtab$SLE.dam.LOK.count=0
+q.dat1.xtab$SLE.dam.basin.count=0
+
+
+q.dat1.xtab2=data.frame()
+
+for(j in 1:length(alts.sort)){
+tmp=subset(q.dat1.xtab,Alt==alts.sort[j])
+for(i in 14:nrow(tmp)){
+  ## CRE
+  tmp$CRE.low.count[i]=with(tmp,ifelse(CRE.low[i]==1&sum(CRE.low.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$CRE.low1.count[i]=with(tmp,ifelse(CRE.low1[i]==1&sum(CRE.low1.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$CRE.low2.count[i]=with(tmp,ifelse(CRE.low2[i]==1&sum(CRE.low2.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$CRE.opt.count[i]=with(tmp,ifelse(CRE.opt[i]==1&sum(CRE.opt.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.high.count[i]=with(tmp,ifelse(CRE.high[i]==1&sum(CRE.high.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.high1.count[i]=with(tmp,ifelse(CRE.high1[i]==1&sum(CRE.high1.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.high2.count[i]=with(tmp,ifelse(CRE.high2[i]==1&sum(CRE.high2.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.high3.count[i]=with(tmp,ifelse(CRE.high3[i]==1&sum(CRE.high3.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.high.LOK.count[i]=with(tmp,
+                                 ifelse(CRE.high.count[i]==1,
+                                          ifelse((S79.14d[i]-S77_QFC.14d[i])<=2100,1,0),0))
+  tmp$CRE.high.basin.count[i]=with(tmp,CRE.high.count[i]-CRE.high.LOK.count[i])
+  tmp$CRE.dam.count[i]=with(tmp,ifelse(CRE.dam[i]==1&sum(CRE.dam.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$CRE.dam.LOK.count[i]=with(tmp,
+                                 ifelse(CRE.dam.count[i]==1,
+                                        ifelse((S79.14d[i]-S77_QFC.14d[i])<=2600,1,0),0))
+  tmp$CRE.dam.basin.count[i]=with(tmp,CRE.dam.count[i]-CRE.dam.LOK.count[i])
+  ## SLE
+  tmp$SLE.low.count[i]=with(tmp,ifelse(SLE.low[i]==1&sum(SLE.low.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$SLE.opt.count[i]=with(tmp,ifelse(SLE.opt[i]==1&sum(SLE.opt.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$SLE.high.count[i]=with(tmp,ifelse(SLE.high[i]==1&sum(SLE.high.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$SLE.high.LOK.count[i]=with(tmp,
+                                 ifelse(SLE.high.count[i]==1,
+                                        ifelse((SLE.S80trib.14d[i]-S80_QFC.14d[i])<=1400,1,0),0))
+  tmp$SLE.high.basin.count[i]=with(tmp,SLE.high.count[i]-SLE.high.LOK.count[i])
+  tmp$SLE.dam.count[i]=with(tmp,ifelse(SLE.dam[i]==1&sum(SLE.dam.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
+  tmp$SLE.dam.LOK.count[i]=with(tmp,
+                                ifelse(SLE.dam.count[i]==1,
+                                       ifelse((SLE.S80trib.14d[i]-S80_QFC.14d[i])<=1700,1,0),0))
+  tmp$SLE.dam.basin.count[i]=with(tmp,SLE.dam.count[i]-SLE.dam.LOK.count[i])
+  tmp$SLE.high1.count[i]=with(tmp,ifelse(SLE.high1[i]==1&sum(SLE.high1.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+  tmp$SLE.high2.count[i]=with(tmp,ifelse(SLE.high2[i]==1&sum(SLE.high2.count[(i-13):(i-1)],na.rm=T)==0,1,0))
+}
+q.dat1.xtab2=rbind(q.dat1.xtab2,tmp)
+print(j)
+}
+
+vars=c("CRE.low.count","CRE.opt.count", 
+       "CRE.high.basin.count", "CRE.high.LOK.count", 
+       "CRE.dam.basin.count","CRE.dam.LOK.count",
+       "CRE.low1.count","CRE.low2.count","CRE.high.count",
+       "CRE.high1.count","CRE.high2.count","CRE.high3.count")
+# apply(tmp[,vars],2,FUN=function(x)sum(x,na.rm=T))
+tmp=reshape2::melt(q.dat1.xtab2[,c("Alt",vars)],id.vars = "Alt")
+reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
+
+vars=c("SLE.low.count", "SLE.opt.count",
+       "SLE.high.LOK.count", "SLE.high.basin.count", 
+       "SLE.dam.LOK.count", "SLE.dam.basin.count", 
+       "SLE.dam.count","SLE.high.count",
+       "SLE.high1.count", "SLE.high2.count")
+tmp=reshape2::melt(q.dat1.xtab2[,c("Alt",vars)],id.vars = "Alt")
+reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
+
+# tmp$CRE.low.count=with(tmp,ave(CRE.low,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)sum(x,na.rm=T)))))
+# tmp$CRE.low.count=with(tmp,ifelse(CRE.low==1&CRE.low.count==0,1,0))
+# sum(tmp$CRE.low.count,na.rm=T)
+# 
+# for(i in 2:nrow(tmp)){
+#   # tmp$consec[i]=with(tmp,ifelse(Q_GT2100[i-1]>0&Q_GT2100[i]>0,1,0))
+#   tmp$consec.CRE.low[i]=with(tmp,ifelse(CRE.low[i-1]==0&CRE.low[i]>0,1,
+#                                          ifelse(CRE.low[i-1]>0&CRE.low[i]>0,1,0)))
+# }
+# consec.low=consec.startend(tmp$consec.CRE.low>0)
+# tmp$sum.CRE.low=0
+# for(i in 1:length(consec.low$ends)){
+#   tmp[consec.low$ends[i],]$sum.CRE.low=with(tmp[c(consec.low$starts[i]:consec.low$ends[i]),],sum(consec.CRE.low,na.rm=T))
+# }
+# sum(tmp$sum.CRE.low>=14)
+##
+##
+
+consec_2600=consec.startend(tmp$consec.2600.mon>0)
+  
 q.dat1.xtab.mon=ddply(q.dat1.xtab,c("Alt","CY","month"),summarise,
                       Q.S79=mean(S79),
                       Q_GT2100=sum(S79>2100,na.rm=T),
@@ -1171,6 +1461,32 @@ mtext(side=2,line=0.5,outer=T,"Freq. Monthly Mean S79 Discharge > 2600 cfs")
 mtext(side=1,line=2,"Consecutive Months")
 dev.off()
 
+rslt.2100.melt=reshape2::melt(rslt.2100,id.vars="sum.2100")
+rslt.2100.melt$cumsum.freq=with(rslt.2100.melt,ave(value,variable,FUN=function(x)cumsum(x)))
+rslt.2100.melt
+
+lty.val=c(1,2,1,1,1,1,1,1)
+layout(matrix(c(1:6),1,6,byrow=F))
+par(family="serif",mar=c(1,2,0.25,1),oma=c(2,2,2,0.25),lwd=0.5);
+
+xlim.val=c(0,30);by.x=12;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/2)
+ylim.val=c(0,75);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+for(i in 3:8){
+  plot(value~sum.2100,rslt.2100.melt,xlim=xlim.val,ylim=ylim.val,ann=F,axes=F,type="n",xaxs="i",yaxs="i")
+  abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+  with(subset(rslt.2100.melt,variable==alts.sort[1]),lines(sum.2100,cumsum.freq,lty=lty.val[1],col=cols[1],lwd=2))
+  with(subset(rslt.2100.melt,variable==alts.sort[2]),lines(sum.2100,cumsum.freq,lty=lty.val[2],col=cols[2],lwd=2))
+  with(subset(rslt.2100.melt,variable==alts.sort[i]),lines(sum.2100,cumsum.freq,lty=lty.val[i],col=cols[i],lwd=2))
+  axis_fun(1,xmaj,xmin,xmaj)
+  if(i==3){axis_fun(2,ymaj,ymin,ymaj)}else{axis_fun(2,ymaj,ymin,NA)}
+  box(lwd=1)
+  if(i==3){mtext(side=2,line=2,"Cum Freq. Monthly Mean S79 Q > 2100 cfs")}
+  legend("bottomleft",legend=c("NA25","ECBr",alts.sort[i]),
+         lty=c(1,2,1),lwd=c(2),col=c(cols[1:2],cols[i]),
+         ncol=1,cex=0.8,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0.5,yjust=0.5)
+  
+}
+mtext(side=1,line=1,outer=T,"Consecutive Months")
 
 # AMO analysis (S79) ------------------------------------------------------
 head(q.dat1.xtab)

@@ -73,6 +73,7 @@ h1, h2, h3 {
 
 .remark-code, .remark-inline-code {
   font-family: 'Inconsolata', 'Lucida Console', Monaco, monospace;
+  font-size: 75%;
 }
 
 .fancy{
@@ -96,6 +97,19 @@ h1, h2, h3 {
   font-size: 70%;
 }
 
+.left-code{
+  color: #777;
+  width: 35%;
+  height: 92%;
+  float: left;
+}
+
+.right-plot{
+  width: 62%;
+  float: right;
+  padding-left: 1%;
+}
+
 /* https://stackoverflow.com/questions/50919104/horizontally-scrollable-output-on-xaringan-slides */
   
   pre {
@@ -110,3 +124,4 @@ img.lil {
   margin-left: auto;
   margin-right: auto;
 }
+

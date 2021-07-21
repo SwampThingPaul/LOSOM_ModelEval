@@ -75,6 +75,45 @@ for(i in 1:length(alts)){
 }
 ## Downloaded 2021-06-09
 
+## Northern Estuaries
+alts=c("ECBr","NA25","AA","BB","CC")
+for(i in 1:length(alts)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/Model_Output/",alts[i],"/RSMGL/RSMGL_output.dss")
+  dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/RSMGL_output.dss")
+  download.file(url,dest,mode="wb")
+}
+
+## LOK Daily waterbalance
+alts=c("ECBr","NA25","AA","BB","CC")
+for(i in 1:length(alts)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/WaterBudgets/RSMBN/",alts[i],"/lok.csv")
+  dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/lok_WB.csv")
+  download.file(url,dest,mode="wb")
+}
+
+alts=c("DD","EE1","EE2")
+for(i in 1:length(alts)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/WaterBudgets/RSMBN/",alts[i],"/lok.csv")
+  dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/lok_WB.csv")
+  download.file(url,dest,mode="wb")
+}
+
+
+# Northern Estuaries Summary
+data.path.new=paste0(data.path,"Iteration_2/Model_Output/Northern_Estuaries/")
+# Folder.Maker(data.path.new)
+files=c("cre_flow_envelope","sle_flow_envelope","lake_worth_lagoon_report")
+for(i in 1:length(files)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/Northern_Estuaries/",files[i],".txt")
+  dest=paste0(data.path.new,files[i],"AA_BB_CC.txt")
+  download.file(url,dest,mode="wb")
+  
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/Northern_Estuaries/",files[i],".txt")
+  dest=paste0(data.path.new,files[i],"DD_EE1_EE2.txt")
+  download.file(url,dest,mode="wb")
+  print(i)
+}
+
 ## DMSTA
 alts=c("ECBr","NA25","AA","BB","CC")
 for(i in 1:length(alts)){
@@ -99,6 +138,7 @@ for(i in 1:length(alts)){
   download.file(url,dest,mode="wb")
 }
 
+
 alts=c("DD","EE1","EE2")
 for(i in 1:length(alts)){
   url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/Model_Output/",alts[i],"/DMSTA/project_",alts[i],".xlsm")
@@ -120,4 +160,15 @@ for(i in 1:length(alts)){
   url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/Model_Output/",alts[i],"/DMSTA/PROJECT_",alts[i],".xlsm_NET_Central_STA34.xlsx")
   dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/PROJECT_",alts[i],".xlsm_NET_Central_STA34.xlsx")
   download.file(url,dest,mode="wb")
+}
+
+## Batch Results
+dest=paste0(data.path,"Iteration_2/Model_Output/_Batch_Results/")
+# Folder.Maker(dest)
+
+alts.val=c("AA","BB","CC","DD")
+for(i in 1:length(alts.val)){
+  url=paste0("ftp://ftppub.sfwmd.gov/pub/jabarne/Batch_Results/LOSOM_Iteration2_Alternative",alts.val[i],"_19May2021.xlsx")
+  dest2=paste0(dest,"LOSOM_Iteration2_Alternative",alts.val[i],"_19May2021.xlsx")
+  download.file(url,dest2,mode="wb")
 }

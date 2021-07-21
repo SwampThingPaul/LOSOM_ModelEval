@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM iter2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+.pull-left[
+#### Iteration 2 Modeling Evaluation&lt;br&gt;(with SFWMD Sensitivity Run)
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+**DRAFT** - July 14, 2021 &lt;br&gt;(Updated: July 21, 2021 )
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+name: alternatives
+
+### Iteration 2 - Model runs
+
+
+&lt;template id="e2d1c44c-57b2-4d60-999a-b21102fca830"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4bf34670{border-collapse:collapse;}.cl-4be6ff1e{font-family:'Times New Roman';font-size:12pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4be6ff1f{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4be6ff20{font-family:'Times New Roman';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-4be6ff21{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-4be6ff22{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4be725f2{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-4be725f3{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4be77520{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77521{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77522{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77523{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77524{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77525{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77526{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4be77527{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4bf34670'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77526"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1e"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77527"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1e"&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;ECBr&lt;/span&gt;&lt;span class="cl-4be6ff20"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;LOSOM Existing Condition Baseline 2019&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;NA25&lt;/span&gt;&lt;span class="cl-4be6ff20"&gt; 2 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;LOSOM No Action 2025 (FWO)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;ESLE Framework. Enhances SLE ecology.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;SPLC Framework. Improve water supply to pre-LORS08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;Pareto Plan D Framework. Enhances CRE ecology and improves water supply&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;Pareto Plan A Framework. Incremental improvement over LORS.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;Stage Target Operation Framework. Improve water supply performance by reducing flows south.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77520"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77521"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;Stage Target Operations Framework. Reduce flows to SLE by reducing Zone B release rate.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4be77522"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4be77523"&gt;&lt;p class="cl-4be725f2"&gt;&lt;span class="cl-4be6ff1f"&gt;SFWMD Sensitivity Run for CC (NOT an offical alternative)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="2"class="cl-4be77524"&gt;&lt;p class="cl-4be725f3"&gt;&lt;span class="cl-4be6ff21"&gt; 1 &lt;/span&gt;&lt;span class="cl-4be6ff22"&gt;Existing Conditions Baseline 2019, revised (replaces LSMECB)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="2"class="cl-4be77524"&gt;&lt;p class="cl-4be725f3"&gt;&lt;span class="cl-4be6ff21"&gt; 2 &lt;/span&gt;&lt;span class="cl-4be6ff22"&gt;No action Condition 2025 (replaces LSM25B)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="ff9b8802-d9fa-4d5c-81dd-ef2c0f3fc0cf"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("ff9b8802-d9fa-4d5c-81dd-ef2c0f3fc0cf");
+var template = document.getElementById("e2d1c44c-57b2-4d60-999a-b21102fca830");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+.small[
+
+**SR3.5**
+* Built from alternative CC
+
+* SFWMD sensitivity run which serves as an example run incorporating policy direction (as informed by the Governing Board) and trade-offs between the different systems
+
+* Presented at the July 15th 2021 Governing Board
+
+]
+
+---
+name: sdc
+
+### Lake Stage Duration Curves
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/LOK_StageDuration.png" alt="Lake Okeechobee stage duration curves comparing FWO and ECB relative to each alternative during the simulation period of record (CY1965 - 2016)." width="100%" /&gt;
+&lt;p class="caption"&gt;Lake Okeechobee stage duration curves comparing FWO and ECB relative to each alternative during the simulation period of record (CY1965 - 2016).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: sdc
+
+### Lake Stage Duration Curves
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/LOK_StageDuration_segments.png" alt="Lake Okeechobee stage duration curves for all alternatives including SR3.5 with stage values identified along the curve during the simulation period of record (CY1965 - 2016)." width="100%" /&gt;
+&lt;p class="caption"&gt;Lake Okeechobee stage duration curves for all alternatives including SR3.5 with stage values identified along the curve during the simulation period of record (CY1965 - 2016).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: sdc
+
+### Lake Stage Duration Curves
+
+
+&lt;template id="54f7b67a-a0d5-4947-89a0-f3f7a587a653"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4c4522b0{border-collapse:collapse;}.cl-4c3a89b8{font-family:'Times New Roman';font-size:12pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c3a89b9{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c3ab0aa{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c3ab0ab{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c3aeeee{width:48.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeeef{width:37.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef0{width:48.2pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef1{width:37.1pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef2{width:48.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef3{width:37.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef4{width:37.1pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c3aeef5{width:48.2pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4c4522b0'&gt;&lt;caption class="Table Caption"&gt;Stage values for each segment of the stage duration curve for each alternative including SR3.5 during the simulation period of record (CY1965 - 2016).&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeef4"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b8"&gt;Alt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;10% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;20% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;30% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;40% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;50% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;60% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;70% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;80% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef5"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b8"&gt;90% Pt&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.50&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.90&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.37&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.97&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.43&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.82&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.32&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.65&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.76&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeef1"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.44&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.85&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.32&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.88&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.35&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.76&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.29&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.61&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.70&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;16.17&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.49&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.82&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.30&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.78&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.18&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.44&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.65&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.62&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;16.04&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.49&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.97&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.65&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.59&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.98&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.32&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.34&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeef1"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.99&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.33&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.73&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.14&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.59&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.04&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.57&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.79&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef0"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.96&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.64&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.90&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.38&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.91&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.43&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.93&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.44&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.81&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.88&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;16.12&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.43&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.27&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.74&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.05&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.37&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.67&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.67&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeeef"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.88&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.19&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.63&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.22&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.65&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.00&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.37&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeeee"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.63&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c3aeef3"&gt;&lt;p class="cl-4c3ab0aa"&gt;&lt;span class="cl-4c3a89b9"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;16.35&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.85&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;15.28&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.70&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;14.16&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;13.41&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;12.66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;11.94&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c3aeef2"&gt;&lt;p class="cl-4c3ab0ab"&gt;&lt;span class="cl-4c3a89b9"&gt;10.92&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="b23507a4-5ed5-4b96-8ee8-1b3aae721c14"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("b23507a4-5ed5-4b96-8ee8-1b3aae721c14");
+var template = document.getElementById("54f7b67a-a0d5-4947-89a0-f3f7a587a653");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: LOFreq3
+
+### High/Low Stages 
+
+&lt;img src="./Plots/Iteration_2/w_SR35/LOK_totalDays.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+.center[Total number of days during the simulation period where (Top) stage elevations were ≤ 11 or &gt; 16 Ft NGVD29 and (Bottom) ≤ 10 or ≥ 17 Ft NGVD29.]
+
+---
+name: envelope1
+
+### Normal/Recovery Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/LOK_Env.png" alt="Lake Okeechobee ecological stage envelope across alternatives and period of simulation. Upper step signifies the year during which the normal stage envelope applies and the lower is the recovery envelope. Counts of each evelope are identified on the secondary y-axis (right)." width="95%" /&gt;
+&lt;p class="caption"&gt;Lake Okeechobee ecological stage envelope across alternatives and period of simulation. Upper step signifies the year during which the normal stage envelope applies and the lower is the recovery envelope. Counts of each evelope are identified on the secondary y-axis (right).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: envelope1
+
+### Normal/Recovery Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/LOK_EnvScore_BWA_FWO.png" alt="Percent average difference relative to FWO of the percent of time below, within and above the ecological stage envelope across alternatives including SR3.5 during the period of simulation." width="95%" /&gt;
+&lt;p class="caption"&gt;Percent average difference relative to FWO of the percent of time below, within and above the ecological stage envelope across alternatives including SR3.5 during the period of simulation.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: CREQ
+
+### Caloosahatchee Estuary
+
+
+&lt;template id="fd584573-5709-4099-9fe4-8ff4ba77d081"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4c7a7eb0{border-collapse:collapse;}.cl-4c70a87c{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c70a87d{font-family:'Times New Roman';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-4c70a87e{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c70a87f{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-4c70a880{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c70cf78{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c70cf79{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c70cf7a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4c70f66a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f66b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f66c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f66d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f66e{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f66f{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f670{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c70f671{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4c7a7eb0'&gt;&lt;caption class="Table Caption"&gt;S77 and S79 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66e"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87c"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4c70f66f"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;Average Total&lt;br&gt;Annual Discharge&lt;br&gt;(x1000 Ac-Ft Yr⁻¹)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4c70f66f"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;% Change Compared to FWO&lt;/span&gt;&lt;span class="cl-4c70a87d"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f670"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87c"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f671"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;S77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f671"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;S79&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f671"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;S77&lt;/span&gt;&lt;span class="cl-4c70a87d"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f671"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87c"&gt;S79&lt;/span&gt;&lt;span class="cl-4c70a87d"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;584.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1293.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;571.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1298.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-2.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;0.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;633.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1342.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;8.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;3.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;467.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1188.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-20.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-8.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;635.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1347.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;8.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;4.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;574.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1286.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-1.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-0.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;521.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1229.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-10.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-5.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66b"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;552.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1258.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-5.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66a"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-2.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c70f66d"&gt;&lt;p class="cl-4c70cf78"&gt;&lt;span class="cl-4c70a87e"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66c"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;529.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66c"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;1242.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66c"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-9.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c70f66c"&gt;&lt;p class="cl-4c70cf79"&gt;&lt;span class="cl-4c70a87e"&gt;-4.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="5"class="cl-4c70f66e"&gt;&lt;p class="cl-4c70cf7a"&gt;&lt;span class="cl-4c70a87f"&gt; 1 &lt;/span&gt;&lt;span class="cl-4c70a880"&gt;FWO = NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="36b9e018-274e-4fe6-a1d6-71f99d325cdc"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("36b9e018-274e-4fe6-a1d6-71f99d325cdc");
+var template = document.getElementById("fd584573-5709-4099-9fe4-8ff4ba77d081");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: CRE
+
+### Caloosahatchee Estuary
+
+&lt;template id="690e41af-dd7d-4317-9c0a-02d17cca61c4"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4ca35786{border-collapse:collapse;}.cl-4c94a2b8{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c94a2b9{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4c94f088{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c94f089{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4c953e80{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e81{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e82{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e83{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e84{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e85{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e86{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4c953e87{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4ca35786'&gt;&lt;caption class="Table Caption"&gt;S77 and S79 total discharge volume for the 52 year simulation period (Jan 1965 - Dec 2016) for each alternative.&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e84"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b8"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4c953e85"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b8"&gt;Total Discharge&lt;br&gt;(x1000 Ac-Ft)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e87"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b8"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e86"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b8"&gt;S77&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e86"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b8"&gt;S79&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;30,402.49&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;67,280.74&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;29,704.66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;67,537.25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;32,933.91&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;69,791.61&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;24,296.17&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;61,780.24&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;33,035.20&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;70,062.62&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;29,864.39&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;66,877.83&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;27,133.82&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;63,940.76&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e81"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;28,707.46&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e80"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;65,462.67&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4c953e82"&gt;&lt;p class="cl-4c94f088"&gt;&lt;span class="cl-4c94a2b9"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e83"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;27,543.08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4c953e83"&gt;&lt;p class="cl-4c94f089"&gt;&lt;span class="cl-4c94a2b9"&gt;64,582.75&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="4503b90b-7672-48de-8e28-3febcd054f53"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("4503b90b-7672-48de-8e28-3febcd054f53");
+var template = document.getElementById("690e41af-dd7d-4317-9c0a-02d17cca61c4");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: CRE_RECOVER
+
+### RECOVER Salinity Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/CRE_cat_total.png" alt="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79." width="100%" /&gt;
+&lt;p class="caption"&gt;Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: CRE_RECOVER_Tab
+
+### RECOVER Salinity Envelope
+
+&lt;template id="ded1a6ec-890c-4a1d-947c-c01b360dde34"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4cd497ce{border-collapse:collapse;}.cl-4ccb0164{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ccb0165{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4ccb0166{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4ccb0167{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4ccb4f48{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f49{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4a{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4c{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4d{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f4f{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4ccb4f50{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4cd497ce'&gt;&lt;caption class="Table Caption"&gt;Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. &lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4e"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0164"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f50"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;&amp;lt;457 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;457 - 750&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;750 - 2100 cfs&lt;br&gt;(Optimum)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;2100 - 2600 cfs&lt;br&gt;(Stress)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f50"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;&amp;gt; 2600 cfs&lt;br&gt;(Damaging)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;2600 - 4500&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;2600 - 4500&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4f"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0164"&gt;4500 - 6500&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;630.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-43.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-21.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;14.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;19.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;23.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;15.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;13.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-26.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-11.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;1.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-6.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;16.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;20.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;15.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-13.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-9.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;10.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-17.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-15.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-15.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-13.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;5.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-9.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-34.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;20.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;25.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-8.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-3.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-14.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-1.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-17.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-4.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;2.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-26.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;7.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;12.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;16.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-1.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;11.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-35.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;25.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-31.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-6.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;6.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-15.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-50.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4a"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;13.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-30.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;18.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-36.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f48"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;9.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-13.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f49"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-48.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4ccb4f4c"&gt;&lt;p class="cl-4ccb0166"&gt;&lt;span class="cl-4ccb0165"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4b"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-15.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-44.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;45.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-29.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4b"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-28.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-27.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;-19.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4ccb4f4d"&gt;&lt;p class="cl-4ccb0167"&gt;&lt;span class="cl-4ccb0165"&gt;15.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="40e63ae3-922c-4286-ad7c-967af35fc671"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("40e63ae3-922c-4286-ad7c-967af35fc671");
+var template = document.getElementById("ded1a6ec-890c-4a1d-947c-c01b360dde34");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: CRE_RECOVER_Tab2
+
+### RECOVER Salinity Envelope
+
+
+&lt;template id="67056aff-e908-440d-ad9f-c3cc6d8ed572"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4cfbc326{border-collapse:collapse;}.cl-4cf0e6f4{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4cf0e6f5{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4cf10df0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4cf10df1{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4cf134d8{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134d9{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134da{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134db{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134dc{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134dd{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134de{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4cf134df{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4cfbc326'&gt;&lt;caption class="Table Caption"&gt;Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. &lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134dc"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f4"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4cf134dd"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;2100 - 2600 cfs&lt;br&gt;(High)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4cf134dd"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;&amp;gt; 2600 cfs&lt;br&gt;(Damaging)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134df"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f4"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134de"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;Lake&lt;br&gt;Regulatory&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134de"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;Basin&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134de"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;Lake&lt;br&gt;Regulatory&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134de"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f4"&gt;Basin&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;3.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;29.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;10.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;30.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-17.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;27.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;4.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-39.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;17.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-36.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;6.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;57.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-24.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-16.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;0.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-38.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-8.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;11.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;2.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-59.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;11.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-18.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;7.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134d9"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-61.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;2.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-11.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134d8"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;10.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4cf134db"&gt;&lt;p class="cl-4cf10df0"&gt;&lt;span class="cl-4cf0e6f5"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134da"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-65.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134da"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;25.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134da"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;-64.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4cf134da"&gt;&lt;p class="cl-4cf10df1"&gt;&lt;span class="cl-4cf0e6f5"&gt;9.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="999948fe-f66f-414b-be02-9510c7da0139"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("999948fe-f66f-414b-be02-9510c7da0139");
+var template = document.getElementById("67056aff-e908-440d-ad9f-c3cc6d8ed572");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: CRE
+
+### Monthly Mean Discharge
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/CRE_S79Q_Consec2100.png" alt="Frequency of consecutive months of monthly mean S79 discharges greater than 2100 cfs for each alternative across the simulation period of record (CY 1965 - 2016)." width="50%" /&gt;
+&lt;p class="caption"&gt;Frequency of consecutive months of monthly mean S79 discharges greater than 2100 cfs for each alternative across the simulation period of record (CY 1965 - 2016).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: CRE
+
+### Monthly Mean Discharge
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/CRE_S79Q_Consec2600.png" alt="Frequency of consecutive months of monthly mean S79 discharges greater than 2600 cfs for each alternative across the simulation period of record (CY 1965 - 2016)." width="50%" /&gt;
+&lt;p class="caption"&gt;Frequency of consecutive months of monthly mean S79 discharges greater than 2600 cfs for each alternative across the simulation period of record (CY 1965 - 2016).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: CRE MFL
+
+### Caloosahatchee MFL
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/CRE_MFL_sum.png" alt="Percent average difference relative to FWO of MFL exceedances for the Caloosahatchee River estuary across alternatives including SR3.5 during the period of simulation." width="70%" /&gt;
+&lt;p class="caption"&gt;Percent average difference relative to FWO of MFL exceedances for the Caloosahatchee River estuary across alternatives including SR3.5 during the period of simulation.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: SLEQ
+
+### St Lucie Estuary
+
+
+&lt;template id="46357229-7314-4a6b-95c2-54fc9778cfce"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4d41de74{border-collapse:collapse;}.cl-4d386ede{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d386edf{font-family:'Times New Roman';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-4d386ee0{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d386ee1{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-4d386ee2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d3895ee{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d3895ef{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d3895f0{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4d38e3be{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3bf{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c1{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c2{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c3{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c4{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d38e3c5{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4d41de74'&gt;&lt;caption class="Table Caption"&gt;S308, S80 and S308 backflow (return to Lake) average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3c2"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ede"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="3"class="cl-4d38e3c3"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;Average Total&lt;br&gt;Annual Discharge&lt;br&gt;(x1000 Ac-Ft Yr⁻¹)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="3"class="cl-4d38e3c3"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;% Change Compared to FWO&lt;/span&gt;&lt;span class="cl-4d386edf"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3c5"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ede"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S308&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S308&lt;br&gt;Backflow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S80&lt;/span&gt;&lt;span class="cl-4d386edf"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S308&lt;/span&gt;&lt;span class="cl-4d386edf"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c4"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ede"&gt;S308&lt;br&gt;Backflow&lt;/span&gt;&lt;span class="cl-4d386edf"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;276.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;195.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;38.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;334.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;246.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;45.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;21.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;26.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;18.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;130.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;56.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;45.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-52.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-71.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;19.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;316.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;234.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;36.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;14.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;20.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-4.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;153.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;79.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;45.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-44.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-59.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;19.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;230.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;152.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;41.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-16.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-22.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;8.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;269.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;194.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;45.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-2.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-0.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;18.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3bf"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;248.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;173.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;44.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-10.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-10.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3be"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;17.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d38e3c0"&gt;&lt;p class="cl-4d3895ee"&gt;&lt;span class="cl-4d386ee0"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;216.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;151.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;54.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-21.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;-22.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d38e3c1"&gt;&lt;p class="cl-4d3895ef"&gt;&lt;span class="cl-4d386ee0"&gt;43.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="7"class="cl-4d38e3c2"&gt;&lt;p class="cl-4d3895f0"&gt;&lt;span class="cl-4d386ee1"&gt; 1 &lt;/span&gt;&lt;span class="cl-4d386ee2"&gt;FWO = NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="dc17a8d3-9903-40a6-82c9-c76c265a15fd"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("dc17a8d3-9903-40a6-82c9-c76c265a15fd");
+var template = document.getElementById("46357229-7314-4a6b-95c2-54fc9778cfce");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: SLE
+
+### St Lucie Estuary
+
+&lt;template id="5b5a634a-afc2-4838-97c1-431786e33aca"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4d5bfcdc{border-collapse:collapse;}.cl-4d5385b6{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d5385b7{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d53aca8{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d53aca9{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d53d39a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d39b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d39c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d39d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d39e{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d39f{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d3a0{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d53d3a1{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4d5bfcdc'&gt;&lt;caption class="Table Caption"&gt;S308, S80 and S308 backflow (return to Lake) total discharge volume for the 52 year simulation period (Jan 1965 - Dec 2016) for each alternative.&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39e"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b6"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="3"class="cl-4d53d39f"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b6"&gt;Total Discharge&lt;br&gt;(x1000 Ac-Ft)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d3a0"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b6"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d3a1"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b6"&gt;S80&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d3a1"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b6"&gt;S308&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d3a1"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b6"&gt;S308&lt;br&gt;Backflow&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;14,376.736&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;10,139.770&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;1,979.257&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;17,395.150&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;12,806.565&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,339.480&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;6,775.453&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,925.595&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,367.484&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;16,477.730&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;12,171.089&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;1,888.303&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;7,978.168&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;4,124.103&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,357.296&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;11,960.700&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;7,903.481&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,150.896&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;13,999.453&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;10,131.840&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,346.470&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39b"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;12,932.328&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;9,039.271&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39a"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,323.471&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d53d39d"&gt;&lt;p class="cl-4d53aca8"&gt;&lt;span class="cl-4d5385b7"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39c"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;11,247.518&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39c"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;7,870.025&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d53d39c"&gt;&lt;p class="cl-4d53aca9"&gt;&lt;span class="cl-4d5385b7"&gt;2,829.621&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="77087e6d-29ba-446b-8115-2a48e2d4d9c2"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("77087e6d-29ba-446b-8115-2a48e2d4d9c2");
+var template = document.getElementById("5b5a634a-afc2-4838-97c1-431786e33aca");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: SLE_RECOVER
+
+### RECOVER Salinity Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/SLE_cat_total.png" alt="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries." width="100%" /&gt;
+&lt;p class="caption"&gt;Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+name: SLE_RECOVER_Tab
+
+### RECOVER Salinity Envelope
+
+&lt;template id="125271e4-d163-4667-af9b-b86d35505b03"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4d804aa6{border-collapse:collapse;}.cl-4d77fca2{font-family:'Times New Roman';font-size:10pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d77fca3{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d77fca4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d77fca5{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d784a90{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a91{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a92{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a93{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a94{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a95{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a96{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a97{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d784a98{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4d804aa6'&gt;&lt;caption class="Table Caption"&gt;Percent difference relative to FWO for the St Lucie River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a96"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca2"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a98"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;&amp;lt; 150 cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a97"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;150 - 1400 cfs&lt;br&gt;(Optimum)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a97"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;1400 - 1700 cfs&lt;br&gt;(Stress)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a98"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;&amp;gt; 1700 cfs&lt;br&gt;(Damaging)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a97"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;1700 - 4000&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a98"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca2"&gt;&amp;gt; 4000&lt;br&gt;cfs&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;3.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-4.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-2.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;3.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;11.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;58.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;7.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-7.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-15.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-15.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-13.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;41.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-9.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-1.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-7.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;14.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;61.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;7.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-10.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-14.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-16.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-8.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;48.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-0.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-0.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-1.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-1.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;55.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-3.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-15.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-0.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-3.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;8.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a92"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;51.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-3.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;0.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-3.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a91"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a90"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;3.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d784a93"&gt;&lt;p class="cl-4d77fca4"&gt;&lt;span class="cl-4d77fca3"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a95"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;71.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a94"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;6.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a94"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-14.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a95"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-14.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a94"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;-19.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d784a95"&gt;&lt;p class="cl-4d77fca5"&gt;&lt;span class="cl-4d77fca3"&gt;5.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="49738883-f83a-4200-a4a4-563ab4184653"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("49738883-f83a-4200-a4a4-563ab4184653");
+var template = document.getElementById("125271e4-d163-4667-af9b-b86d35505b03");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+---
+name: SLE_RECOVER_Tab2
+
+### RECOVER Salinity Envelope
+
+&lt;template id="7c688316-c548-475a-b767-b1703db188f6"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4da1552a{border-collapse:collapse;}.cl-4d986da2{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d986da3{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4d986da4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d986da5{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4d98bb68{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb69{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6b{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6c{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6d{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6e{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4d98bb6f{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4da1552a'&gt;&lt;caption class="Table Caption"&gt;Percent difference relative to FWO for the St Lucie River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb6c"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da2"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4d98bb6d"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;2100 - 2600 cfs&lt;br&gt;(High)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4d98bb6d"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;&amp;gt; 2600 cfs&lt;br&gt;(Damaging)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb6f"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da2"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6e"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;Lake&lt;br&gt;Regulatory&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6e"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;Basin&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6e"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;Lake&lt;br&gt;Regulatory&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6e"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da2"&gt;Basin&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;9.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-11.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;12.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;0.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-84.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;46.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-85.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;7.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-43.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;14.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-16.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-91.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;46.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-88.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;9.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-7.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;6.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-4.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;1.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-64.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;19.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-19.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;5.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb69"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-18.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;14.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-23.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb68"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4d98bb6b"&gt;&lt;p class="cl-4d986da4"&gt;&lt;span class="cl-4d986da3"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6a"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-88.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6a"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;38.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6a"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;-78.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4d98bb6a"&gt;&lt;p class="cl-4d986da5"&gt;&lt;span class="cl-4d986da3"&gt;6.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="5a5b8c6d-c43d-47fd-b828-eb1d4c5ac5fe"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("5a5b8c6d-c43d-47fd-b828-eb1d4c5ac5fe");
+var template = document.getElementById("7c688316-c548-475a-b767-b1703db188f6");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: FlowSouth
+
+### Flow South 
+
+
+&lt;template id="36911f82-5529-4fbe-a082-87778c6cbc78"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-4e8ea7d0{border-collapse:collapse;}.cl-4e852bba{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4e852bbb{font-family:'Times New Roman';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-4e852bbc{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4e852bbd{font-family:'Times New Roman';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-4e852bbe{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-4e85527a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4e85527b{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-4e85527c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-4e85a068{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a069{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06a{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06b{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06c{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06d{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a06f{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-4e85a070{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-4e8ea7d0'&gt;&lt;caption class="Table Caption"&gt;S351 and S354 (Flow South) and S2, S3, and S4 (backflow to Lake) average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).&lt;/caption&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a06d"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bba"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4e85a06e"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;Average Total&lt;br&gt;Annual Discharge&lt;br&gt;(x1000 Ac-Ft Yr⁻¹)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-4e85a06e"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;% Change Compared to FWO&lt;/span&gt;&lt;span class="cl-4e852bbb"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a070"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bba"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06f"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;∑ S351, S354&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06f"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;∑ S2, S3, S4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06f"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;∑ S351, S354&lt;/span&gt;&lt;span class="cl-4e852bbb"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06f"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bba"&gt;∑ S2, S3, S4&lt;/span&gt;&lt;span class="cl-4e852bbb"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;294.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;46.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;0.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;ECBr&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;296.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;52.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;0.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;11.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;AA&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;466.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;81.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;58.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;75.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;BB&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;375.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;60.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;27.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;29.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;423.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;64.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;43.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;37.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;DD&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;383.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;63.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;30.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;35.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;EE1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;413.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;64.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;40.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;38.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a069"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;EE2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;410.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;66.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;39.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a068"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;43.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-4e85a06b"&gt;&lt;p class="cl-4e85527a"&gt;&lt;span class="cl-4e852bbc"&gt;SR3.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06a"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;462.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06a"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;72.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06a"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;56.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-4e85a06a"&gt;&lt;p class="cl-4e85527b"&gt;&lt;span class="cl-4e852bbc"&gt;55.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="5"class="cl-4e85a06d"&gt;&lt;p class="cl-4e85527c"&gt;&lt;span class="cl-4e852bbd"&gt; 1 &lt;/span&gt;&lt;span class="cl-4e852bbe"&gt;FWO = NA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="c232f944-d5f8-42cd-8f7c-5e4bf6905792"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("c232f944-d5f8-42cd-8f7c-5e4bf6905792");
+var template = document.getElementById("36911f82-5529-4fbe-a082-87778c6cbc78");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+---
+name: SouthQ
+
+### Flow South
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/EVER_FlowSouth_bxp.png" alt="Boxplots of annual (calendar year) discharge for flows south (S351 and S354) for each alterntive across the simulation period of record including SR3.5." width="100%" /&gt;
+&lt;p class="caption"&gt;Boxplots of annual (calendar year) discharge for flows south (S351 and S354) for each alterntive across the simulation period of record including SR3.5.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: SouthQ2
+
+### Flow South - Backflow
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration_2/w_SR35/EVER_FlowSouth_BF_bxp.png" alt="Boxplots of annual (calendar year) discharge for S2, S3 and S4 (backflow to Lake) for each alterntive across the simulation period of record including SR3.5." width="100%" /&gt;
+&lt;p class="caption"&gt;Boxplots of annual (calendar year) discharge for S2, S3 and S4 (backflow to Lake) for each alterntive across the simulation period of record including SR3.5.&lt;/p&gt;
+&lt;/div&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

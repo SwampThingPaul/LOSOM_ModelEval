@@ -84,6 +84,50 @@ mtext(side=1,line=2,"Date (Year)")
 mtext(side=1,outer=T,adj=1,"Kaplan SST dataset\nN Atlantic temp (0 to 70N)",cex=0.75)
 dev.off()
 
+
+# Northern Atlantic Oscillation -------------------------------------------
+## NOAA
+noaa.path="https://www.ncdc.noaa.gov/teleconnections/nao/data.csv"
+
+nao.dat=read.csv(noaa.path,header=T,skip=2,na.string="-99.990",col.names = c("Date","Value"))
+nao.dat$year=substring(nao.dat$Date,1,4)
+nao.dat$month=substring(nao.dat$Date,5,6)
+nao.dat$Date.mon=with(nao.dat,date.fun(paste(year,month,"01",sep="-")))
+head(nao.dat)
+plot(Value~Date.mon,nao.dat)
+
+x=barplot(nao.dat$Value,col=ifelse(nao.dat$Value<0,"dodgerblue1","indianred1"),border=NA)
+abline(v=x[which(nao.dat$Date.mon==date.fun("1965-01-01"))],col="black",lwd=2)
+abline(v=x[which(nao.dat$Date.mon==date.fun("2017-01-01"))],col="black",lwd=2)
+
+## NCAR Data
+## https://climatedataguide.ucar.edu/climate-data/hurrell-north-atlantic-oscillation-nao-index-station-based
+
+dat.path="https://climatedataguide.ucar.edu/sites/default/files/nao_station_annual.txt"
+nao.dat=read.table(dat.path,skip=1,col.names = c("Yr","Value"))
+
+# png(filename=paste0(plot.path,"NOAIndex.png"),width=6.5,height=3,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(3,2,0.25,1),oma=c(1,2,1,0.25));
+
+ylim.val=c(-6,6);by.y=2;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+xlim.val=c(1860,2021);by.x=20;xmaj=seq(xlim.val[1],xlim.val[2],by.x);xmin=seq(xlim.val[1],xlim.val[2],by.x/by.x)
+
+plot(Value~Yr,nao.dat,xlim=xlim.val,ylim=ylim.val,type="n",ann=F,axes=F)
+abline(v=xmaj,h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+# with(nao.dat,lines(Yr,Value,col="black",lwd=2))
+with(subset(nao.dat,is.na(Value)==F),shaded.range(Yr,rep(0,length(Yr)),ifelse(Value>0,Value,0),"indianred1",lty=1))
+with(subset(nao.dat,is.na(Value)==F),shaded.range(Yr,ifelse(Value<0,Value,0),rep(0,length(Yr)),"dodgerblue1",lty=1))
+abline(h=0)
+axis_fun(1,xmaj,xmin,xmaj,line=-0.5)
+axis_fun(2,ymaj,ymin,format(ymaj));box(lwd=1)
+abline(v=c("1965","2017"))
+text(1965+diff(c(1965,2017))/2,ylim.val[2],"RSM P.O.S.",font=2,cex=0.75)
+
+mtext(side=2,line=2.5,"Observed NAO Index")
+mtext(side=1,line=2,"Date (Year)")
+mtext(side=1,outer=T,adj=1,"Normalized sea level pressure (SLP)\nbetween Lisbon, Portugal and Stykkisholmur/Reykjavik",cex=0.75)
+dev.off()
+
 # Lake Stage --------------------------------------------------------------
 lakeO.stage=data.frame()
 for(i in 1:n.alts){
@@ -494,3 +538,5 @@ legend(0.5,0.5,legend=c("Dry Phase\n(1965 - 1994)","Wet Phase\n(1995 - 2016)"),
 text(1,0,"S79 Daily Discharge\n \nPeriod of Simulation\n CY1965 - 2016.",adj=1,cex=0.5,xpd=NA)
 
 dev.off()
+
+## End
