@@ -563,7 +563,7 @@ dev.off()
 
 # Discharge ---------------------------------------------------------------
 RSM.sites=c("S77","S78","S79","S80","S308","S351","S352","S354","S77_QFC",
-            "S308_QFC","S79_QFC","S80_QFC","TMC2EST","S48","S49","NSF2EST","S80_QPFCSOURCE_LAKE","S308BF","S2","S3","S4BP")
+            "S308_QFC","S79_QFC","S80_QFC","TMC2EST","S48","S49","NSF2EST","S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE","S308BF","S2","S3","S4BP")
 q.dat=data.frame()
 
 for(j in 1:n.alts){
@@ -644,6 +644,8 @@ q.dat.CY=ddply(q.dat,c("CY","Alt",'SITE'),summarise,TFlow.acft=sum(cfs.to.acftd(
 
 CRE.Q.sum=dcast(subset(q.dat.CY,SITE%in%c("S79","S77","S77_QFC")),Alt~SITE,value.var="TFlow.acft",mean)
 CRE.Q.sum=CRE.Q.sum[match(alts.sort,CRE.Q.sum$Alt),]
+CRE.Q.sum$perFWO.S77QFC=with(CRE.Q.sum,(S77_QFC-S77_QFC[1])/S77_QFC[1])*100
+CRE.Q.sum$perFWO.S77=with(CRE.Q.sum,(S77-S77[1])/S77[1])*100
 CRE.Q.sum
 
 sites.val=c("NSF2EST","S4BP", "S2", "S3", "S308", "S308_QFC", "S308BF", "S351","S352", "S354", "S48", "S49", "S77", "S77_QFC", "S78", "S79","S79_QFC", "S80", "S80_QFC", "S80_QPFCSOURCE_LAKE", "TMC2EST")
@@ -668,6 +670,7 @@ Flowsouth.sum_1995
 # RECOVER plots -----------------------------------------------------------
 ## CRE
 q.dat.xtab$S77_QFC.14d=with(q.dat.xtab,ave(S77_QFC,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
+q.dat.xtab$S79_QPFCSOURCE_LAKE.14d=with(q.dat.xtab,ave(S79_QPFCSOURCE_LAKE,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 q.dat.xtab$S79_QFC.14d=with(q.dat.xtab,ave(S79_QFC,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 q.dat.xtab$CRE.low=with(q.dat.xtab,ifelse(S79.14d<750,1,0)) # RECOVER Low
 q.dat.xtab$CRE.low1=with(q.dat.xtab,ifelse(S79.14d<457,1,0))
@@ -745,12 +748,12 @@ for(j in 1:length(alts.sort)){
     tmp$CRE.high3.count[i]=with(tmp,ifelse(CRE.high3[i]==1&sum(CRE.high3.count[(i-13):(i-1)],na.rm=T)==0,1,0))
     tmp$CRE.high.LOK.count[i]=with(tmp,
                                    ifelse(CRE.high.count[i]==1,
-                                          ifelse((S79.14d[i]-S77_QFC.14d[i])<=2100,1,0),0))
+                                          ifelse((S79.14d[i]-S79_QPFCSOURCE_LAKE.14d[i])<=2100,1,0),0))
     tmp$CRE.high.basin.count[i]=with(tmp,CRE.high.count[i]-CRE.high.LOK.count[i])
     tmp$CRE.dam.count[i]=with(tmp,ifelse(CRE.dam[i]==1&sum(CRE.dam.count[(i-13):(i-1)],na.rm=T)==0,1,0))
     tmp$CRE.dam.LOK.count[i]=with(tmp,
                                   ifelse(CRE.dam.count[i]==1,
-                                         ifelse((S79.14d[i]-S77_QFC.14d[i])<=2600,1,0),0))
+                                         ifelse((S79.14d[i]-S79_QPFCSOURCE_LAKE.14d[i])<=2600,1,0),0))
     tmp$CRE.dam.basin.count[i]=with(tmp,CRE.dam.count[i]-CRE.dam.LOK.count[i])
     ## SLE
     tmp$SLE.low.count[i]=with(tmp,ifelse(SLE.low[i]==1&sum(SLE.low.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
@@ -758,12 +761,12 @@ for(j in 1:length(alts.sort)){
     tmp$SLE.high.count[i]=with(tmp,ifelse(SLE.high[i]==1&sum(SLE.high.count[(i-13):(i-1)],na.rm=T)==0,1,0))
     tmp$SLE.high.LOK.count[i]=with(tmp,
                                    ifelse(SLE.high.count[i]==1,
-                                          ifelse((SLE.S80trib.14d[i]-S308.14d[i])<=1400,1,0),0))
+                                          ifelse((SLE.S80trib.14d[i]-S80_QPFCSOURCE_LAKE.14d[i])<=1400,1,0),0))
     tmp$SLE.high.basin.count[i]=with(tmp,SLE.high.count[i]-SLE.high.LOK.count[i])
     tmp$SLE.dam.count[i]=with(tmp,ifelse(SLE.dam[i]==1&sum(SLE.dam.count[(i-13):(i-1)],na.rm=T)==0,1,0))  
     tmp$SLE.dam.LOK.count[i]=with(tmp,
                                   ifelse(SLE.dam.count[i]==1,
-                                         ifelse((SLE.S80trib.14d[i]-S308.14d[i])<=1700,1,0),0))
+                                         ifelse((SLE.S80trib.14d[i]-S80_QPFCSOURCE_LAKE.14d[i])<=1700,1,0),0))
     tmp$SLE.dam.basin.count[i]=with(tmp,SLE.dam.count[i]-SLE.dam.LOK.count[i])
     tmp$SLE.high1.count[i]=with(tmp,ifelse(SLE.high1[i]==1&sum(SLE.high1.count[(i-13):(i-1)],na.rm=T)==0,1,0))
     tmp$SLE.high2.count[i]=with(tmp,ifelse(SLE.high2[i]==1&sum(SLE.high2.count[(i-13):(i-1)],na.rm=T)==0,1,0))
@@ -771,7 +774,7 @@ for(j in 1:length(alts.sort)){
   q.dat.xtab2=rbind(q.dat.xtab2,tmp)
   print(j)
 }
-
+# q.dat.xtab2
 
 # CRE ---------------------------------------------------------------------
 cumsum_reset <- function(x, reset=NA) {
@@ -813,6 +816,7 @@ vars=c("CRE.low.count","CRE.opt.count",
 tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars)],id.vars = "Alt")
 CRE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
 CRE.SalEnv_count=CRE.SalEnv_count[match(alts.sort,CRE.SalEnv_count$Alt),]
+# write.csv(CRE.SalEnv_count,paste0(export.path,"CRE_SalEnv_count.csv"),row.names=F)
 
 CRE.SalEnv_count$perFWO.opt=with(CRE.SalEnv_count,(CRE.opt.count-CRE.opt.count[1])/CRE.opt.count[1])*100
 CRE.SalEnv_count$perFWO.stress=with(CRE.SalEnv_count,(CRE.high.count-CRE.high.count[1])/CRE.high.count[1])*100
@@ -884,6 +888,40 @@ mtext(side=2,line=0.75,outer=T,"Count of 14-Day periods")
 mtext(side=3,adj=0,outer=T,line=1.5,"Caloosahatchee Estuary - Salinity Envelope")
 dev.off()
 
+## Table
+vars=c("Alt", "CRE.low1.count", "CRE.low2.count", "CRE.opt.count", 
+       "CRE.high.count", "CRE.high1.count", "CRE.high2.count", "CRE.high3.count")
+CRE.SalEnv_count
+CRE.SalEnv_count$PerFWO.low1=with(CRE.SalEnv_count,(CRE.low1.count-CRE.low1.count[1])/CRE.low1.count[1])*100
+CRE.SalEnv_count$PerFWO.low2=with(CRE.SalEnv_count,(CRE.low2.count-CRE.low2.count[1])/CRE.low2.count[1])*100
+CRE.SalEnv_count$PerFWO.opt=with(CRE.SalEnv_count,(CRE.opt.count-CRE.opt.count[1])/CRE.opt.count[1])*100
+CRE.SalEnv_count$PerFWO.high=with(CRE.SalEnv_count,(CRE.high.count-CRE.high.count[1])/CRE.high.count[1])*100
+CRE.SalEnv_count$PerFWO.high1=with(CRE.SalEnv_count,(CRE.high1.count-CRE.high1.count[1])/CRE.high1.count[1])*100
+CRE.SalEnv_count$PerFWO.high2=with(CRE.SalEnv_count,(CRE.high2.count-CRE.high2.count[1])/CRE.high2.count[1])*100
+CRE.SalEnv_count$PerFWO.high3=with(CRE.SalEnv_count,(CRE.high3.count-CRE.high3.count[1])/CRE.high3.count[1])*100
+
+vars=c("Alt","PerFWO.low1", "PerFWO.low2", "PerFWO.opt", "PerFWO.high", "PerFWO.high1","PerFWO.high2", "PerFWO.high3")
+labs=c("<457","457 - 750","750 - 2100","2100 - 2600","2600 - 4500","4500 - 6500",">6500")
+CRE.SalEnv_count[,vars]%>%
+  flextable()%>%
+  colformat_double(j=2:8,digits=1,big.mark="",na_str="---")%>%
+  set_header_labels("Alt"="Alternative",
+                    "PerFWO.low1"="<457 cfs", 
+                    "PerFWO.low2" = "457 - 750 cfs", 
+                    "PerFWO.opt"="750 - 2100 cfs\n(Optimum)",
+                    "PerFWO.high"="2100 - 2600 cfs\n(Stress)",
+                    "PerFWO.high1"="2600 - 4500 cfs",
+                    "PerFWO.high2"="2600 - 4500 cfs",
+                    "PerFWO.high3"="4500 - 6500 cfs")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  align(j=2:8,align="center",part="all")%>%
+  set_caption("Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. ")
+
+#%>%
+#  print(preview="docx")
+##
+
 head(q.dat.xtab2)
 
 CRE.QCat.POS=ddply(q.dat.xtab2,"Alt",summarise,
@@ -895,6 +933,9 @@ CRE.QCat.POS=ddply(q.dat.xtab2,"Alt",summarise,
                    Q.Q4500_6500=sum(cfs.to.acftd(S79.14d[CRE.high2.count==1])/1000,na.rm = T),
                    Q.QGT6500=sum(cfs.to.acftd(S79.14d[CRE.high3.count==1])/1000,na.rm=T))
 CRE.QCat.POS=CRE.QCat.POS[match(alts.sort,CRE.QCat.POS$Alt),]
+
+
+
 # png(filename=paste0(plot.path,"Iteration_2/w_SR35/CRE_Qcat_total.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
 layout(matrix(c(1:8),2,4,byrow=T))
 par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
@@ -1190,6 +1231,7 @@ vars=c("SLE.low.count", "SLE.opt.count",
 tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars)],id.vars = "Alt")
 SLE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
 SLE.SalEnv_count=SLE.SalEnv_count[match(alts.sort,SLE.SalEnv_count$Alt),]
+# write.csv(SLE.SalEnv_count,paste0(export.path,"SLE_SalEnv_count.csv"),row.names = F)
 
 vars=c("SLE.low.count","SLE.opt.count","SLE.high.count","SLE.dam.count","SLE.high1.count","SLE.high2.count")
 SLE.SalEnv_count=SLE.SalEnv_count[,c("Alt",vars)]
@@ -1214,6 +1256,38 @@ mtext(side=1,line=0.75,outer=T,"Alternative")
 mtext(side=2,line=0.75,outer=T,"Count of 14-Day periods")
 mtext(side=3,adj=0,outer=T,line=1.5,"St Lucie Estuary - Salinity Envelope")
 dev.off()
+
+### Table
+vars=c("SLE.low.count","SLE.opt.count","SLE.high.count","SLE.dam.count","SLE.high1.count","SLE.high2.count")
+
+SLE.SalEnv_count
+SLE.SalEnv_count$PerFWO.low=with(SLE.SalEnv_count,(SLE.low.count-SLE.low.count[1])/SLE.low.count[1])*100
+SLE.SalEnv_count$PerFWO.opt=with(SLE.SalEnv_count,(SLE.opt.count-SLE.opt.count[1])/SLE.opt.count[1])*100
+SLE.SalEnv_count$PerFWO.high=with(SLE.SalEnv_count,(SLE.high.count-SLE.high.count[1])/SLE.high.count[1])*100
+SLE.SalEnv_count$PerFWO.dam=with(SLE.SalEnv_count,(SLE.dam.count-SLE.dam.count[1])/SLE.dam.count[1])*100
+SLE.SalEnv_count$PerFWO.high1=with(SLE.SalEnv_count,(SLE.high1.count-SLE.high1.count[1])/SLE.high1.count[1])*100
+SLE.SalEnv_count$PerFWO.high2=with(SLE.SalEnv_count,(SLE.high2.count-SLE.high2.count[1])/SLE.high2.count[1])*100
+
+
+vars=c("Alt","PerFWO.low", "PerFWO.opt", "PerFWO.high", "PerFWO.dam", "PerFWO.high1", "PerFWO.high2")
+labs=c("<150","150 - 1400","1400 - 1700","> 1700","1700 - 4000","> 4000")
+SLE.SalEnv_count[,vars]%>%
+  flextable()%>%
+  colformat_double(j=2:7,digits=1,big.mark="",na_str="---")%>%
+  set_header_labels("Alt"="Alternative",
+                    "PerFWO.low"="< 150 cfs",
+                    "PerFWO.opt"="150 - 1400 cfs (Optimum)",
+                    "PerFWO.high"="1400 - 1700 cfs (Stress)",
+                    "PerFWO.dam"="> 1700 cfs (Damaging)",
+                    "PerFWO.high1" = "1700 - 4000 cfs",
+                    "PerFWO.high2" = "> 4000 cfs")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  align(j=2:7,align="center",part="all")%>%
+  set_caption("Percent difference relative to FWO for the St Lucie River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.")
+#%>%
+#  print(preview="docx")
+##
 
 
 q.dat1.xtab.mon=ddply(q.dat1.xtab,c("Alt","CY","month"),summarise,

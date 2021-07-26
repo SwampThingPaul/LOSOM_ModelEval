@@ -300,8 +300,8 @@ CRE.SalEnv_count[,vars]%>%
                     "PerFWO.high"="2100 - 2600 cfs\n(Stress)",
                     "PerFWO.dam"="> 2600 cfs\n(Damaging)",
                     "PerFWO.high1"="2600 - 4500\ncfs",
-                    "PerFWO.high2"="2600 - 4500\ncfs",
-                    "PerFWO.high3"="4500 - 6500\ncfs")%>%
+                    "PerFWO.high2"="4500 - 6500\ncfs",
+                    "PerFWO.high3"=">6500 cfs")%>%
   align(j=2:9,align="center",part="all")%>%
   padding(padding=1,part="all")%>%
   set_caption("Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. ")%>%
