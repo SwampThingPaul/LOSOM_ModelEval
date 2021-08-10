@@ -49,13 +49,13 @@ class: left, middle
 ### Lake Okeechobee System Operating Manual
 
 .pull-left[
-#### Iteration 2 Modeling Evaluation<br>(with SFWMD Sensitivity Run)
+#### Iteration 2 Modeling Evaluation
 
 *Sanibel-Captiva Conservation Foundation*
 
 *Conservancy of Southwest Florida*
 
-**DRAFT** - `r paste(format(as.Date("2021-07-14"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
+**DRAFT** - `r paste(format(as.Date("2021-08-10"),"%B %d, %Y"))#,"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
 
 ]
 <!-- this ends up being the title slide since seal = FALSE-->
@@ -82,122 +82,23 @@ xaringanExtra::use_tile_view()
 Paul Julian PhD<br>[`r fontawesome::fa("fas fa-envelope")`](mailto: pjulian@sccf.org) .small[pjulian@sccf.org]
 
 .small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
+
+```{r} 
+bsplus::bs_button("Click me", button_type = "primary", button_size = "small")
+```
 ]
 ---
-name: alternatives
+name: USACE CRE
+class: middle
 
-### Iteration 2 - Model runs
 
-```{r}
-
-data.frame(Alternative=c("ECBr","NA25","AA","BB","CC","DD","EE1","EE2","SR3.5"),
-           Description=c("LOSOM Existing Condition Baseline 2019", "LOSOM No Action 2025 (FWO)", "ESLE Framework. Enhances SLE ecology.","SPLC Framework. Improve water supply to pre-LORS08","Pareto Plan D Framework. Enhances CRE ecology and improves water supply","Pareto Plan A Framework. Incremental improvement over LORS.","Stage Target Operation Framework. Improve water supply performance by reducing flows south.","Stage Target Operations Framework. Reduce flows to SLE by reducing Zone B release rate.","SFWMD Sensitivity Run for CC (NOT an offical alternative)"))%>%
-  flextable()%>%
-  colformat_char(na_str="---")%>%
-  width(width=c(1,5))%>%
-  padding(padding=0.1,part="all")%>%
-  font(fontname="Times New Roman",part="all")%>%
-  fontsize(size=10,part="body")%>%
-  fontsize(size=12,part="header")%>%
-  bold(part="header")%>%
-  footnote(i=c(1,2),j=1,
-           value=as_paragraph(c("Existing Conditions Baseline 2019, revised (replaces LSMECB)","No action Condition 2025 (replaces LSM25B)")),
-           ref_symbols = c(" 1 "," 2 "),part="body")
-  
+```{r ,fig.align="center",out.width="150%"}
+knitr::include_graphics('./Plots/USACE_CRE_MCDA.png')
 ```
 
-.small[
-
-**SR3.5**
-* Built from alternative CC
-
-* SFWMD sensitivity run which serves as an example run incorporating policy direction (as informed by the Governing Board) and trade-offs between the different systems
-
-* Presented at the July 15th 2021 Governing Board
-
+.footnote[
+.small[from 17 June 2021 PDT Meeting Presentation]
 ]
-
----
-name: sdc
-
-### Lake Stage Duration Curves
-
-```{r ,fig.align="center",out.width="100%",fig.cap="Lake Okeechobee stage duration curves comparing FWO and ECB relative to each alternative during the simulation period of record (CY1965 - 2016)."}
-
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/LOK_StageDuration.png')
-```
-
----
-name: sdc
-
-### Lake Stage Duration Curves
-
-```{r ,fig.align="center",out.width="100%",fig.cap="Lake Okeechobee stage duration curves for all alternatives including SR3.5 with stage values identified along the curve during the simulation period of record (CY1965 - 2016)."}
-
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/LOK_StageDuration_segments.png')
-```
-
----
-name: sdc
-
-### Lake Stage Duration Curves
-
-```{r}
-SDC_seg=read.csv(paste0(export.path,"Iteration2/w_SR35/iter2_SDC_seg_analysis.csv"))
-
-SDC_seg%>%
-flextable()%>%
-  colformat_double(j=2:10,digits=2,na_str="---")%>%
-  fontsize(size=11,part="body")%>%
-  fontsize(size=12,part="header")%>%
-  font(fontname="Times New Roman",part="all")%>%
-  align(j=2:10,part="all",align="center")%>%
-  bold(part="header")%>%
-  padding(padding=1,part="all")%>%
-  set_header_labels("SDC_point_10"="10% Pt", 
-                    "SDC_point_20"="20% Pt", 
-                    "SDC_point_30"="30% Pt", 
-                    "SDC_point_40"="40% Pt", 
-                    "SDC_point_50"="50% Pt", 
-                    "SDC_point_60"="60% Pt", 
-                    "SDC_point_70"="70% Pt", 
-                    "SDC_point_80"="80% Pt", 
-                    "SDC_point_90"="90% Pt")%>%
-  autofit()%>%
-  set_caption(caption="Stage values for each segment of the stage duration curve for each alternative including SR3.5 during the simulation period of record (CY1965 - 2016).")
-```
-
----
-name: LOFreq3
-
-### High/Low Stages 
-
-```{r ,fig.align="center",out.width="50%"}
-
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/LOK_totalDays.png')
-```
-
-.center[Total number of days during the simulation period where (Top) stage elevations were `r paste("\u2264")` 11 or `r paste("\u003E")` 16 Ft NGVD29 and (Bottom) `r paste("\u2264")` 10 or `r paste("\u2265")` 17 Ft NGVD29.]
-
----
-name: envelope1
-
-### Normal/Recovery Envelope
-
-```{r ,fig.align="center",out.width="95%",fig.cap="Lake Okeechobee ecological stage envelope across alternatives and period of simulation. Upper step signifies the year during which the normal stage envelope applies and the lower is the recovery envelope. Counts of each evelope are identified on the secondary y-axis (right)."}
-
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/LOK_Env.png')
-```
-
----
-name: envelope1
-
-### Normal/Recovery Envelope
-
-```{r ,fig.align="center",out.width="95%",fig.cap="Percent average difference relative to FWO of the percent of time below, within and above the ecological stage envelope across alternatives including SR3.5 during the period of simulation."}
-
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/LOK_EnvScore_BWA_FWO.png')
-```
 
 ---
 name: CREQ
@@ -230,43 +131,12 @@ CRE.Q.sum%>%
   fontsize(size=9,part="body")%>%
   fontsize(size=10,part="header")%>%
   align(j=2:5,align="center",part="all")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   footnote(j=4:5,
            part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "))%>%
   set_caption(caption="S77 and S79 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
   
 
-```
-
----
-name: CRE
-
-### Caloosahatchee Estuary
-```{r}
-CRE.Q.sum=dcast(subset(q.dat.CY,SITE%in%c("S79","S77")),Alt~SITE,value.var="TFlow.acft",fun.aggregate=function(x) sum(x/1000))
-CRE.Q.sum=CRE.Q.sum[match(alts.sort,CRE.Q.sum$Alt),]
-
-CRE.Q.sum%>%
-  flextable()%>%
-  set_header_labels("Alt"="Alternative")%>%
-  add_header("S77"="Total Discharge\n(x1000 Ac-Ft)",
-             "S79"="Total Discharge\n(x1000 Ac-Ft)")%>%
-  merge_h(part="header")%>%
-  padding(padding=1,part="all")%>%
-  font(fontname="Times New Roman",part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
-  align(j=2:3,align="center",part="all")%>%
-  set_caption(caption="S77 and S79 total discharge volume for the 52 year simulation period (Jan 1965 - Dec 2016) for each alternative.")
-  
-```
-
----
-name: CRE_RECOVER
-
-### RECOVER Salinity Envelope
-
-```{r ,fig.align="center",out.width="100%",fig.cap="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/CRE_cat_total.png')
 ```
 
 ---
@@ -308,6 +178,7 @@ CRE.SalEnv_count[,vars]%>%
   font(fontname="Times New Roman",part="all")%>%
   fontsize(size=9,part="body")%>%
   fontsize(size=10,part="header")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   width(width=c(1,0.75,1,1,1,0.75,1,1,1))
 ```
 
@@ -333,8 +204,9 @@ CRE.SalEnv_count[,vars]%>%
                     "PerFWO.high.basin" = "Basin")%>%
   add_header("PerFWO.Dam.LOK"="> 2600 cfs\n(Damaging)",
              "PerFWO.Dam.basin"="> 2600 cfs\n(Damaging)",
-             "PerFWO.high.LOK"="2100 - 2600 cfs\n(High)", # "\u2265 2100 - < 2600 cfs\n(High)",
-             "PerFWO.high.basin"="2100 - 2600 cfs\n(High)")%>%
+             "PerFWO.high.LOK"="2100 - 2600 cfs\n(Stress)", # "\u2265 2100 - < 2600 cfs\n(High)",
+             "PerFWO.high.basin"="2100 - 2600 cfs\n(Stress)")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   merge_h(part="header")%>%
   padding(padding=1,part="all")%>%
   align(j=2:5,align="center",part="all")%>%
@@ -346,32 +218,38 @@ CRE.SalEnv_count[,vars]%>%
 
 ```
 
+
 ---
-name: CRE
+name: CRE_RECOVER
 
-### Monthly Mean Discharge
+### RECOVER Salinity Envelope
 
-```{r ,fig.align="center",out.width="50%",fig.cap="Frequency of consecutive months of monthly mean S79 discharges greater than 2100 cfs for each alternative across the simulation period of record (CY 1965 - 2016)."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/CRE_S79Q_Consec2100.png')
+```{r ,fig.align="center",out.width="100%",fig.cap="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79."}
+knitr::include_graphics('./Plots/Iteration_2/w_SR35/CRE_cat_total.png')
 ```
 
 ---
-name: CRE
+name: CRE_LakeDam
 
-### Monthly Mean Discharge
+### Damaging Lake Discharges
 
-```{r ,fig.align="center",out.width="50%",fig.cap="Frequency of consecutive months of monthly mean S79 discharges greater than 2600 cfs for each alternative across the simulation period of record (CY 1965 - 2016)."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/CRE_S79Q_Consec2600.png')
+```{r ,fig.align="center",out.width="100%",fig.cap="Mean annual lake discharge volume when S79 flows are greater than 2100 cfs."}
+knitr::include_graphics('./Plots/Iteration_2/w_SR35/S79Q_GT2100_annualmean.png')
 ```
 
 ---
-name: CRE MFL
+name: USACE SLE
+class: middle
 
-### Caloosahatchee MFL
 
-```{r ,fig.align="center",out.width="70%",fig.cap="Percent average difference relative to FWO of MFL exceedances for the Caloosahatchee River estuary across alternatives including SR3.5 during the period of simulation."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/CRE_MFL_sum.png')
+```{r ,fig.align="center",out.width="150%"}
+knitr::include_graphics('./Plots/USACE_SLE_MCDA.png')
 ```
+
+.footnote[
+.small[from 17 June 2021 PDT Meeting Presentation]
+]
+
 
 ---
 name: SLEQ
@@ -409,47 +287,13 @@ SLE.Q.sum%>%
   fontsize(size=9,part="body")%>%
   fontsize(size=10,part="header")%>%
   align(j=2:7,align="center",part="all")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   footnote(j=5:7,
            part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "))%>%
   set_caption(caption="S308, S80 and S308 backflow (return to Lake) average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
   
 
 ```
-
----
-name: SLE
-
-### St Lucie Estuary
-```{r}
-SLE.Q.sum=dcast(subset(q.dat.CY,SITE%in%c("S80","S308","S308BF")),Alt~SITE,value.var="TFlow.acft",fun.aggregate=function(x) sum(x/1000))
-SLE.Q.sum=SLE.Q.sum[match(alts.sort,SLE.Q.sum$Alt),c("Alt","S80","S308","S308BF")]
-
-SLE.Q.sum%>%
-  flextable()%>%
-  set_header_labels("Alt"="Alternative",
-                    "S308BF"="S308\nBackflow")%>%
-  add_header("S80"="Total Discharge\n(x1000 Ac-Ft)",
-             "S308"="Total Discharge\n(x1000 Ac-Ft)",
-             "S308BF"="Total Discharge\n(x1000 Ac-Ft)")%>%
-  merge_h(part="header")%>%
-  padding(padding=1,part="all")%>%
-  font(fontname="Times New Roman",part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
-  align(j=2:4,align="center",part="all")%>%
-  set_caption(caption="S308, S80 and S308 backflow (return to Lake) total discharge volume for the 52 year simulation period (Jan 1965 - Dec 2016) for each alternative.")
-
-```
-
----
-name: SLE_RECOVER
-
-### RECOVER Salinity Envelope
-
-```{r ,fig.align="center",out.width="100%",fig.cap="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/SLE_cat_total.png')
-```
-
 
 ---
 name: SLE_RECOVER_Tab
@@ -482,6 +326,7 @@ SLE.SalEnv_count[,vars]%>%
   padding(padding=1,part="all")%>%
   bold(part="header")%>%
   align(j=2:7,align="center",part="all")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   set_caption("Percent difference relative to FWO for the St Lucie River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.")%>%
   font(fontname="Times New Roman",part="all")%>%
   fontsize(size=9,part="body")%>%
@@ -513,16 +358,35 @@ SLE.SalEnv_count[,vars]%>%
                     "PerFWO.high.basin" = "Basin")%>%
   add_header("PerFWO.Dam.LOK"="> 1700 cfs\n(Damaging)",
              "PerFWO.Dam.basin"="> 1700 cfs\n(Damaging)",
-             "PerFWO.high.LOK"="1400 - 1700 cfs\n(High)", # "\u2265 2100 - < 2600 cfs\n(High)",
-             "PerFWO.high.basin"="1400 - 1700 cfs\n(High)")%>%
+             "PerFWO.high.LOK"="1400 - 1700 cfs\n(Stress)", # "\u2265 2100 - < 2600 cfs\n(High)",
+             "PerFWO.high.basin"="1400 - 1700 cfs\n(Stress)")%>%
   merge_h(part="header")%>%
   padding(padding=1,part="all")%>%
   align(j=2:5,align="center",part="all")%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   set_caption("Percent difference relative to FWO for the St Lucie River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries.")%>%
   font(fontname="Times New Roman",part="all")%>%
   fontsize(size=9,part="body")%>%
   fontsize(size=10,part="header")
               
+```
+
+---
+name: SLE_RECOVER
+
+### RECOVER Salinity Envelope
+
+```{r ,fig.align="center",out.width="100%",fig.cap="Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S80 and Tributaries."}
+knitr::include_graphics('./Plots/Iteration_2/w_SR35/SLE_cat_total.png')
+```
+
+---
+name: SLE_LakeDam
+
+### Damaging Lake Discharges
+
+```{r ,fig.align="center",out.width="100%",fig.cap="Mean annual lake discharge volume when S80 flows are greater than 1400 cfs."}
+knitr::include_graphics('./Plots/Iteration_2/w_SR35/S80Q_GT1400_annualmean.png')
 ```
 
 ---
@@ -564,6 +428,7 @@ Flowsouth.sum%>%
   fontsize(size=10,part="header")%>%
   align(j=2:5,align="center",part="all")%>%
   width(width=c(0.5,1,1,1,1))%>%
+  bg(i=~Alt%in%c("NA25","CC","SR3.5"),bg="yellow",part="body")%>%
   footnote(j=4:5,
            part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "))%>%
   set_caption(caption="S351 and S354 (Flow South) and S2, S3, and S4 (backflow to Lake) average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")%>%
@@ -572,19 +437,10 @@ Flowsouth.sum%>%
 ```
 
 ---
-name: SouthQ
+name: FloodControl
 
-### Flow South
+### Flood Control
 
-```{r ,fig.align="center",out.width="100%",fig.cap="Boxplots of annual (calendar year) discharge for flows south (S351 and S354) for each alterntive across the simulation period of record including SR3.5."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/EVER_FlowSouth_bxp.png')
-```
-
----
-name: SouthQ2
-
-### Flow South - Backflow
-
-```{r ,fig.align="center",out.width="100%",fig.cap="Boxplots of annual (calendar year) discharge for S2, S3 and S4 (backflow to Lake) for each alterntive across the simulation period of record including SR3.5."}
-knitr::include_graphics('./Plots/Iteration_2/w_SR35/EVER_FlowSouth_BF_bxp.png')
+```{r ,fig.align="center",out.width="90%",fig.cap="Mean annual flood control releases from Lake Okeechobee over the 52 year (1965 - 2016) simulation period of record."}
+knitr::include_graphics('./Plots/Iteration_2/w_SR35/AvgFloodControl.png')
 ```

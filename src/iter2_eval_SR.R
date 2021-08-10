@@ -563,7 +563,8 @@ dev.off()
 
 # Discharge ---------------------------------------------------------------
 RSM.sites=c("S77","S78","S79","S80","S308","S351","S352","S354","S77_QFC",
-            "S308_QFC","S79_QFC","S80_QFC","TMC2EST","S48","S49","NSF2EST","S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE","S308BF","S2","S3","S4BP")
+            "S308_QFC","S79_QFC","S80_QFC","TMC2EST","S48","S49","NSF2EST",
+            "S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE","S308BF","S2","S3","S4BP")
 q.dat=data.frame()
 
 for(j in 1:n.alts){
@@ -776,6 +777,32 @@ for(j in 1:length(alts.sort)){
 }
 # q.dat.xtab2
 
+
+CRE.Q.sum=dcast(subset(q.dat.CY,SITE%in%c("S79","S77")),Alt~SITE,value.var="TFlow.acft",fun.aggregate=function(x) mean(x/1000))
+CRE.Q.sum=CRE.Q.sum[match(alts.sort,CRE.Q.sum$Alt),]
+CRE.Q.sum$perFWO.S77=with(CRE.Q.sum,(S77-S77[1])/S77[1])*100
+CRE.Q.sum$perFWO.S79=with(CRE.Q.sum,(S79-S79[1])/S79[1])*100
+CRE.Q.sum%>%
+  flextable()%>%
+  colformat_double(j=2:3,digits=1,big.mark = "")%>%
+  colformat_double(j=4:5,digits=1)%>%
+  set_header_labels("Alt"="Alternative",
+                    "perFWO.S77"="S77",
+                    "perFWO.S79"="S79")%>%
+  add_header("S77"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+             "S79"="Average Total\nAnnual Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)",
+             "perFWO.S77"="% Change Compared to FWO",
+             "perFWO.S79"="% Change Compared to FWO")%>%
+  merge_h(part="header")%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")%>%
+  align(j=2:5,align="center",part="all")%>%
+  footnote(j=4:5,
+           part="header",value=as_paragraph("FWO = NA25"),ref_symbols =c(" 1 "))%>%
+  set_caption(caption="S77 and S79 average total discharge comparison between alternatives with percent change relative to FWO and ECB across the entire simulation period of record (Jan 1965 - Dec 2016).")
+
 # CRE ---------------------------------------------------------------------
 cumsum_reset <- function(x, reset=NA) {
   # from https://rdrr.io/github/billdenney/bsd.report/src/R/math_helpers.R
@@ -899,24 +926,46 @@ CRE.SalEnv_count$PerFWO.high=with(CRE.SalEnv_count,(CRE.high.count-CRE.high.coun
 CRE.SalEnv_count$PerFWO.high1=with(CRE.SalEnv_count,(CRE.high1.count-CRE.high1.count[1])/CRE.high1.count[1])*100
 CRE.SalEnv_count$PerFWO.high2=with(CRE.SalEnv_count,(CRE.high2.count-CRE.high2.count[1])/CRE.high2.count[1])*100
 CRE.SalEnv_count$PerFWO.high3=with(CRE.SalEnv_count,(CRE.high3.count-CRE.high3.count[1])/CRE.high3.count[1])*100
+CRE.SalEnv_count$PerFWO.dam=with(CRE.SalEnv_count,(CRE.dam.count-CRE.dam.count[1])/CRE.dam.count[1])*100
 
-vars=c("Alt","PerFWO.low1", "PerFWO.low2", "PerFWO.opt", "PerFWO.high", "PerFWO.high1","PerFWO.high2", "PerFWO.high3")
-labs=c("<457","457 - 750","750 - 2100","2100 - 2600","2600 - 4500","4500 - 6500",">6500")
+vars=c("Alt","CRE.low1.count", "CRE.low2.count", "CRE.opt.count", "CRE.high.count","CRE.dam.count", "CRE.high1.count","CRE.high2.count", "CRE.high3.count")
+
 CRE.SalEnv_count[,vars]%>%
   flextable()%>%
-  colformat_double(j=2:8,digits=1,big.mark="",na_str="---")%>%
+  colformat_double(j=2:9,digits=0,big.mark="",na_str="---")%>%
+  set_header_labels("Alt"="Alternative",
+                    "CRE.low1.count"="<457 cfs", 
+                    "CRE.low2.count" = "457 - 750 cfs", 
+                    "CRE.opt.count"="750 - 2100 cfs\n(Optimum)",
+                    "CRE.high.count"="2100 - 2600 cfs\n(Stress)",
+                    "CRE.dam.count"="> 2600 cfs\n(Damaging)",
+                    "CRE.high1.count"="2600 - 4500 cfs",
+                    "CRE.high2.count"="4500 - 6500 cfs",
+                    "CRE.high3.count"=">6500 cfs")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  bold(part="header")%>%
+  align(j=2:9,align="center",part="all")%>%
+  set_caption("Count of 14-day period within each respective flow category for each alternative across the simulation period of record for the Caloosahatchee Estuary. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. ")%>%print("docx")
+
+
+vars=c("Alt","PerFWO.low1", "PerFWO.low2", "PerFWO.opt", "PerFWO.high","PerFWO.dam", "PerFWO.high1","PerFWO.high2", "PerFWO.high3")
+labs=c("<457","457 - 750","750 - 2100","2100 - 2600",">2600","2600 - 4500","4500 - 6500",">6500")
+CRE.SalEnv_count[,vars]%>%
+  flextable()%>%
+  colformat_double(j=2:9,digits=1,big.mark="",na_str="---")%>%
   set_header_labels("Alt"="Alternative",
                     "PerFWO.low1"="<457 cfs", 
                     "PerFWO.low2" = "457 - 750 cfs", 
                     "PerFWO.opt"="750 - 2100 cfs\n(Optimum)",
                     "PerFWO.high"="2100 - 2600 cfs\n(Stress)",
+                    "PerFWO.dam"="> 2600 cfs\n(Damaging)",
                     "PerFWO.high1"="2600 - 4500 cfs",
-                    "PerFWO.high2"="2600 - 4500 cfs",
-                    "PerFWO.high3"="4500 - 6500 cfs")%>%
+                    "PerFWO.high2"="4500 - 6500 cfs",
+                    "PerFWO.high3"=">6500 cfs")%>%
   font(fontname="Times New Roman",part="all")%>%
   bold(part="header")%>%
-  align(j=2:8,align="center",part="all")%>%
-  set_caption("Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. ")
+  align(j=2:9,align="center",part="all")%>%
+  set_caption("Percent difference relative to FWO for the Caloosahatchee River Estuary. Count of 14-day period within each respective flow category for each alternative across the simulation period of record. Estimates consistent with RECOVER methodology using 14-day moving average discharge values for S79. ")%>%print("docx")
 
 #%>%
 #  print(preview="docx")
@@ -933,7 +982,6 @@ CRE.QCat.POS=ddply(q.dat.xtab2,"Alt",summarise,
                    Q.Q4500_6500=sum(cfs.to.acftd(S79.14d[CRE.high2.count==1])/1000,na.rm = T),
                    Q.QGT6500=sum(cfs.to.acftd(S79.14d[CRE.high3.count==1])/1000,na.rm=T))
 CRE.QCat.POS=CRE.QCat.POS[match(alts.sort,CRE.QCat.POS$Alt),]
-
 
 
 # png(filename=paste0(plot.path,"Iteration_2/w_SR35/CRE_Qcat_total.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
@@ -978,6 +1026,116 @@ q.dat1.xtab=reshape2::dcast(q.dat,Alt+Date+month+CY~SITE,value.var="FLOW",functi
 # q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79.14d>=2600&S79.14d<4500,1,0))
 # q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79.14d>=4500&S79.14d<6500,1,0))
 # q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79.14d>6500,1,0))
+
+subset(q.dat1.xtab,Alt=="NA25"&Date==date.fun("1965-02-07"))
+subset(q.dat1.xtab,Alt=="NA25"&Date==date.fun("1965-02-10"))
+# Based on daily flow
+# Wrong
+# q.dat1.xtab$BasinQ=with(q.dat1.xtab,ifelse(S79<S77,0,S79-S77))
+# q.dat1.xtab$LakeQ=with(q.dat1.xtab,ifelse(S77>S79,0,S77))
+# q.dat1.xtab$check=rowSums(q.dat1.xtab[,c("BasinQ","LakeQ")])
+# plot(S79~check,q.dat1.xtab)
+# q.dat1.xtab$Lake_GT2100=with(q.dat1.xtab,ifelse(LakeQ>=2100,1,0))
+
+q.dat1.xtab$QLT457=with(q.dat1.xtab,ifelse(S79<457,1,0))
+q.dat1.xtab$Q457_750=with(q.dat1.xtab,ifelse(S79>=457&S79<750,1,0))
+q.dat1.xtab$Q_Opt=with(q.dat1.xtab,ifelse(S79>=750&S79<2100,1,0))
+q.dat1.xtab$Q_Stress=with(q.dat1.xtab,ifelse(S79>=2100&S79<2600,1,0))
+q.dat1.xtab$Q_Dam=with(q.dat1.xtab,ifelse(S79>=2600,1,0))
+q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79>=2600&S79<4500,1,0))
+q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79>=4500&S79<6500,1,0)
+q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79>6500,1,0))
+q.dat1.xtab$GT2100=with(q.dat1.xtab,ifelse(S79>=2100,1,0))
+q.dat1.xtab$Lake_GT2100=with(q.dat1.xtab,ifelse(S79_QPFCSOURCE_LAKE>=2100,1,0))
+q.dat1.xtab$month=as.numeric(format(q.dat1.xtab$Date,"%m"))
+q.dat1.xtab$AMO_period=with(q.dat1.xtab,ifelse(CY%in%seq(1965,1994,1),"dry_cold","wet_warm"))
+
+CRE.GT2100_annual=ddply(q.dat1.xtab,c("CY","Alt"),summarise,Q.Lake.GT2100=sum(cfs.to.acftd(S79_QPFCSOURCE_LAKE[GT2100==1])/1000,na.rm=T))
+CRE.GT2100_annual.mean=ddply(CRE.GT2100_annual,"Alt",summarise,mean.val=mean(Q.Lake.GT2100))
+CRE.GT2100_annual.mean=CRE.GT2100_annual.mean[match(alts.sort,CRE.GT2100_annual.mean$Alt),]
+CRE.GT2100_annual.mean
+# png(filename=paste0(plot.path,"Iteration_2/w_SR35/S79Q_GT2100_annualmean.png"),width=6.5,height=3.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+
+ylim.val=c(0,600);by.y=200;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(CRE.GT2100_annual.mean$mean.val,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(CRE.GT2100_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+box(lwd=1)
+mtext(side=3,adj=0,"Mean Annual Discharge >2100 cfs at S-79",cex=0.75)
+text(x,CRE.GT2100_annual.mean$mean.val,round(CRE.GT2100_annual.mean$mean.val,0),col="black",pos=1,cex=1)
+mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
+mtext(side=1,line=2.5,"Alternative")
+mtext(side=2,line=2.5,"Lake Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)")
+mtext(side=1,line=3,adj=1,"Flow Tag: S79_QPFCSOURCE_LAKE",cex=0.5,col=adjustcolor("black",0.5),font=3)
+dev.off()
+
+CRE.QCat.POS=ddply(q.dat1.xtab,"Alt",summarise,
+                   Q.LT457=sum(cfs.to.acftd(S79[QLT457==1])/1000,na.rm=T),
+                   Q.Q457_750=sum(cfs.to.acftd(S79[Q457_750==1])/1000,na.rm=T),
+                   Q.Q_Opt=sum(cfs.to.acftd(S79[Q_Opt==1])/1000,na.rm=T),
+                   Q.Q_Stress=sum(cfs.to.acftd(S79[Q_Stress==1])/1000,na.rm=T),
+                   Q.Q2600_4500=sum(cfs.to.acftd(S79[Q2600_4500==1])/1000,na.rm=T),
+                   Q.Q4500_6500=sum(cfs.to.acftd(S79[Q4500_6500==1])/1000,na.rm = T),
+                   Q.QGT6500=sum(cfs.to.acftd(S79[QGT6500==1])/1000,na.rm=T),
+                   Q.QGT2100=sum(cfs.to.acftd(S79[GT2100==1])/1000,na.rm=T),
+                   Q.Lake.GT2100=sum(cfs.to.acftd(S79_QPFCSOURCE_LAKE[Lake_GT2100==1])/1000,na.rm=T))
+CRE.QCat.POS=CRE.QCat.POS[match(alts.sort,CRE.QCat.POS$Alt),]
+CRE.QCat.POS
+
+barplot(CRE.QCat.POS[,"Q.QGT2100"])
+# png(filename=paste0(plot.path,"Iteration_2/w_SR35/S79Q_GT2100.png"),width=6.5,height=3.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+
+ylim.val=c(0,60000);by.y=10000;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(CRE.QCat.POS[,"Q.QGT2100"],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+box(lwd=1)
+mtext(side=3,adj=0,"> 2100 cfs at S-79",cex=0.75)
+text(x,CRE.QCat.POS[,"Q.QGT2100"],round(CRE.QCat.POS[,"Q.QGT2100"],0),col="black",pos=1,cex=0.5)
+mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
+mtext(side=1,line=2.5,"Alternative")
+mtext(side=2,line=3,"Total Discharge (x1000 Ac-Ft)")
+dev.off()
+
+
+apply(CRE.QCat.POS[,2:8],2,max,na.rm=T)
+labs=c("<457","457 - 750","750 - 2100","2100 - 2600","2600 - 4500","4500 - 6500",">6500")
+# png(filename=paste0(plot.path,"Iteration_2/w_SR35/S79Q_cat_total.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:8),2,4,byrow=T))
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+
+ymax=c(5000,8000,30000,5000,26000,16000,20000)
+yval=ymax/2
+for(i in 2:8){
+  if(i==2){
+    ylim.val=c(10,5000);ymaj=log.scale.fun(ylim.val,"major");ymin=log.scale.fun(ylim.val,"minor")
+    x=barplot(CRE.QCat.POS[,i],col=adjustcolor(cols,0.5),log="y",ylim=ylim.val,space=0,axes=F,ann=F)
+    axis_fun(2,ymaj,ymin,ymaj)
+    axis_fun(1,x,x,NA);box(lwd=1)
+    mtext(side=3,adj=0,paste(labs[i-1],"cfs"),cex=0.75)
+    text(x,CRE.QCat.POS[,i],round(CRE.QCat.POS[,i],0),font=2,col="black",pos=1,cex=0.35)
+  }else{
+    ylim.val=c(0,ymax[i-1]);by.y=yval[i-1];ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+    x=barplot(CRE.QCat.POS[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+    axis_fun(2,ymaj,ymin,ymaj)
+    if(i%in%c(5:8)){axis_fun(1,x,x,alts.sort,cex=0.8,las=2)}else{axis_fun(1,x,x,NA)}
+    box(lwd=1)
+    mtext(side=3,adj=0,paste(labs[i-1],"cfs"),cex=0.75)
+    text(x,CRE.QCat.POS[,i],round(CRE.QCat.POS[,i],0),font=2,col="black",pos=1,cex=0.35)
+  }
+}
+plot(0:1,0:1,ann=F,axes=F,type="n")
+text(1,0.15,"S79 Daily Discharge\n \nPeriod of Simulation\n CY1965 - 2016.",adj=1)
+mtext(side=1,line=1,outer=T,"Alternative")
+mtext(side=2,line=1.5,outer=T,"Total Discharge (x1000 Ac-Ft d\u207B\u00B9)")
+dev.off()
+
+
+
 
 ## Monthly average flow
 q.dat1.xtab.mon=ddply(q.dat1.xtab,c("Alt","CY","month"),summarise,
@@ -1223,6 +1381,30 @@ CRE.mfl.rslt%>%
 
 
 # SLE ---------------------------------------------------------------------
+q.dat1.xtab$S80_GT1400=with(q.dat1.xtab,ifelse(S80>=1400,1,0))
+  
+SLE.GT1400_annual=ddply(q.dat1.xtab,c("CY","Alt"),summarise,Q.Lake.GT1400=sum(cfs.to.acftd(S80_QPFCSOURCE_LAKE[S80_GT1400==1])/1000,na.rm=T))
+SLE.GT1400_annual.mean=ddply(SLE.GT1400_annual,"Alt",summarise,mean.val=mean(Q.Lake.GT1400))
+SLE.GT1400_annual.mean=SLE.GT1400_annual.mean[match(alts.sort,SLE.GT1400_annual.mean$Alt),]
+SLE.GT1400_annual.mean
+# png(filename=paste0(plot.path,"Iteration_2/w_SR35/S80Q_GT1400_annualmean.png"),width=6.5,height=3.5,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+
+ylim.val=c(0,210);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(SLE.GT1400_annual.mean$mean.val,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(SLE.GT1400_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+box(lwd=1)
+mtext(side=3,adj=0,"Mean Annual Discharge >1400 cfs at S-80",cex=0.75)
+text(x,SLE.GT1400_annual.mean$mean.val,round(SLE.GT1400_annual.mean$mean.val,0),col="black",pos=1,cex=1)
+mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
+mtext(side=1,line=2.5,"Alternative")
+mtext(side=2,line=2.5,"Lake Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)")
+mtext(side=1,line=3,adj=1,"Flow Tag: S80_QPFCSOURCE_LAKE",cex=0.5,col=adjustcolor("black",0.5),font=3)
+dev.off()
+
 vars=c("SLE.low.count", "SLE.opt.count",
        "SLE.high.LOK.count", "SLE.high.basin.count", 
        "SLE.dam.LOK.count", "SLE.dam.basin.count", 
@@ -1389,4 +1571,69 @@ mtext(side=3, adj=0,"Flow South - Backflow (S-2 + S-3 + S-4)")
 mtext(side=3, adj=1,"CY 1965 - 2016")
 mtext(side=2,line=2.5,"Annual Discharge (x1000 Ac-Ft Yr\u207B\u00B9)")
 mtext(side=1,line=4,"Model Alternatives")
+dev.off()
+
+
+
+# Flood Control -----------------------------------------------------------
+RSM.sites=c("S351_QFC","S351_FC_SHIFT2_ENVTARG","S354_QFC","S354_FC_SHIFT2_ENVTARG",
+            "S77_QFC","S308_QFC","C10A_QFC")
+regq.dat=data.frame()
+
+for(j in 1:n.alts){
+  dss_out=opendss(paste0(data.path,"Iteration_2/Model_Output/",alts[j],"/RSMBN_output.dss"))  
+  
+  for(i in 1:length(RSM.sites)){
+    paths=paste0("/RSMBN/",RSM.sites[i],"/FLOW/01JAN1965 - 01JAN2016/1DAY/SIMULATED/")  
+    tmp=data.frame(getFullTSC(dss_out,paths))
+    tmp$Date=date.fun(date.fun(rownames(tmp))-lubridate::ddays(1))
+    rownames(tmp)<-NULL
+    tmp$SITE=RSM.sites[i]
+    tmp$Alt=alts[j]
+    regq.dat=rbind(tmp,regq.dat)
+    print(i)
+  }
+}
+RSM.sites.region=data.frame(SITE=RSM.sites,Region=c(rep("WCAs",4),"Cal",'StL',"LWLagoon"))
+
+regq.dat=merge(regq.dat,RSM.sites.region,"SITE")
+regq.dat$CY=as.numeric(format(regq.dat$Date,"%Y"))
+regq.dat$month=as.numeric(format(regq.dat$Date,"%m"))
+
+regq.dat.CY=ddply(regq.dat,c("CY","Alt",'Region'),summarise,TFlow.kAcft=sum(cfs.to.acftd(FLOW),na.rm=T)/1000)
+
+regq.dat.CY.mean=dcast(regq.dat.CY,Alt~Region,value.var = "TFlow.kAcft",mean)
+regq.dat.CY.mean=regq.dat.CY.mean[match(alts.sort,regq.dat.CY.mean$Alt),]
+regq.dat.CY.mean=regq.dat.CY.mean[,c("Alt","WCAs","Cal","StL","LWLagoon")]
+
+tmp=regq.dat.CY.mean[,c("WCAs","Cal","StL","LWLagoon")]
+rownames(tmp)<-alts.sort
+cols=rev(wesanderson::wes_palette("Zissou1",4,"continuous"))
+
+ylim.val=c(0,1000);by.y=200;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+# png(filename=paste0(plot.path,"Iteration_2/w_SR35/AvgFloodControl.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2.5,2,0.5,0.25),lwd=0.5);
+layout(matrix(c(1:2),2,1,byrow=T),heights=c(1,0.2))
+
+x=barplot(t(tmp),beside=F,col=NA,border=NA,ylim=ylim.val,axes=F,ann=F,names.arg = rep(NA,9))
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(t(tmp),beside=F,col=cols,ylim=ylim.val,axes=F,ann=F,names.arg = rep(NA,9),add=T)
+with(regq.dat.CY.mean,text(x,WCAs/2,round(WCAs,0),cex=0.75,col="white"))
+with(regq.dat.CY.mean,text(x,WCAs+(((Cal+WCAs)-WCAs)/2),round(regq.dat.CY.mean$Cal,0),cex=0.75))
+with(regq.dat.CY.mean,text(x,(WCAs+Cal)+(((Cal+WCAs+StL)-(Cal+WCAs))/2),round(regq.dat.CY.mean$StL,0),cex=0.75))
+with(regq.dat.CY.mean,text(x,Cal+WCAs+StL+LWLagoon,round(regq.dat.CY.mean$LWLagoon,0),pos=3,offset=0.1,cex=0.75))
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,line=-0.5);box(lwd=1)
+mtext(side=2,line=3,"Discharge Volume (x1000 Ac-Ft Y\u207B\u00B9)")
+mtext(side=1,line=1.75,"Alternatives")
+
+par(family="serif",mar=c(0,2,0.25,1))
+plot(0:1,0:1,type="n",axes=F,ylab=NA,xlab=NA,xaxs="i",yaxs="i")
+legend(0,0,legend=c("Water Conservation Areas","Caloosahatchee River","St. Lucie River","Lake Worth Lagoon"),
+       pch=22,
+       lty=0,lwd=0.01,
+       col="black",
+       pt.bg=cols,
+       pt.cex=1.5,ncol=1,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0,yjust=0.5)
+text(1,0,"Iteration 2 results. Mean annual flood control\nreleases from Lake Okeechobee for the 52 year (1965 - 2016)\nsimulation period of record.",adj=1,xpd=NA,cex=0.65,font=3)
 dev.off()
