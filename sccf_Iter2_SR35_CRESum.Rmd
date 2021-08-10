@@ -84,7 +84,13 @@ Paul Julian PhD<br>[`r fontawesome::fa("fas fa-envelope")`](mailto: pjulian@sccf
 .small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
 
 ```{r} 
-bsplus::bs_button("Click me", button_type = "primary", button_size = "small")
+bsplus::bs_button(
+    label = "Download PDF Version",
+    button_type = "primary",
+    button_size = "small") %>%
+    htmltools::a(
+      href = "https://github.com/SwampThingPaul/LOSOM_ModelEval/raw/main/SCCF_iter2_LOSOM_SR35.pdf"
+    )
 ```
 ]
 ---
