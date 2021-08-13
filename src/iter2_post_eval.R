@@ -55,16 +55,17 @@ alts=alts[!alts%in%c("_Batch_Results","Northern_Estuaries","Iteration2_STL_Flows
 n.alts=length(alts)
 alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2","SR3.5")
 cols=c("grey50","grey80",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-3,"continuous")),"deeppink")
-
 cols=cols[alts.sort%in%c("NA25","ECBr","CC")]
+cols=c("grey50","grey80","#E6C019")
 
 # Discharge ---------------------------------------------------------------
 RSM.sites=c("S79","S80","S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE",
-            "S77","S308","S77_QFC","S308_QFC",
+            "S77","S308","S77_QFC","S308_QFC","S308BF",
             "TMC2EST","S48","S49","NSF2EST")
 q.dat=data.frame()
 alts=c("NA25","ECBr","CC")
 alts.sort=c("NA25","ECBr","CC")
+n.alts=length(alts.sort)
 for(j in 1:n.alts){
   dss_out=opendss(paste0(data.path,"Iteration_2/Model_Output/",alts[j],"/RSMBN_output.dss"))  
   
@@ -538,49 +539,128 @@ dev.off()
 
 
 ##### RECOVER plots
-vars=c("CRE.low.count","CRE.opt.count", 
-       "CRE.high.basin.count", "CRE.high.LOK.count", 
-       "CRE.dam.basin.count","CRE.dam.LOK.count",
-       "CRE.low1.count","CRE.low2.count","CRE.high.count",
-       "CRE.high1.count","CRE.high2.count","CRE.high3.count","CRE.dam.count")
+vars.CRE=paste("CRE",c("low.count","opt.count","high.count","dam.count"),sep=".")
 # apply(tmp[,vars],2,FUN=function(x)sum(x,na.rm=T))
-tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars)],id.vars = "Alt")
+tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars.CRE)],id.vars = "Alt")
 CRE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
 CRE.SalEnv_count=CRE.SalEnv_count[match(alts.sort,CRE.SalEnv_count$Alt),]
 # write.csv(CRE.SalEnv_count,paste0(export.path,"CRE_SalEnv_count.csv"),row.names=F)
 
+CRE.SalEnv_count$perFWO.low=with(CRE.SalEnv_count,(CRE.low.count-CRE.low.count[1])/CRE.low.count[1])*100
 CRE.SalEnv_count$perFWO.opt=with(CRE.SalEnv_count,(CRE.opt.count-CRE.opt.count[1])/CRE.opt.count[1])*100
 CRE.SalEnv_count$perFWO.stress=with(CRE.SalEnv_count,(CRE.high.count-CRE.high.count[1])/CRE.high.count[1])*100
 CRE.SalEnv_count$perFWO.dam=with(CRE.SalEnv_count,(CRE.dam.count-CRE.dam.count[1])/CRE.dam.count[1])*100
-CRE.SalEnv_count$perFWO_2600_4500=with(CRE.SalEnv_count,(CRE.high1.count-CRE.high1.count[1])/CRE.high1.count[1])*100
-CRE.SalEnv_count$perFWO_4500_6500=with(CRE.SalEnv_count,(CRE.high2.count-CRE.high2.count[1])/CRE.high2.count[1])*100
-CRE.SalEnv_count$perFWO_6500=with(CRE.SalEnv_count,(CRE.high3.count-CRE.high3.count[1])/CRE.high3.count[1])*100
-CRE.SalEnv_count[,c('Alt',"perFWO.opt","perFWO.stress","perFWO.dam","perFWO_2600_4500","perFWO_4500_6500","perFWO_6500")]
+CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
 
-vars=c("CRE.low1.count","CRE.low2.count","CRE.opt.count","CRE.high.count","CRE.high1.count","CRE.high2.count","CRE.high3.count")
+vars.SLE=paste("SLE",c("low.count","opt.count","high.count","dam.count"),sep=".")
+# apply(tmp[,vars],2,FUN=function(x)sum(x,na.rm=T))
+tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars)],id.vars = "Alt")
+SLE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
+SLE.SalEnv_count=SLE.SalEnv_count[match(alts.sort,SLE.SalEnv_count$Alt),]
+# write.csv(SLE.SalEnv_count,paste0(export.path,"SLE_SalEnv_count.csv"),row.names=F)
 
-CRE.SalEnv_count=CRE.SalEnv_count[,c("Alt",vars)]
-labs=c("<457","457 - 750","750 - 2100","2100 - 2600","2600 - 4500","4500 - 6500",">6500")
-# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total.png"),width=7,height=4,units="in",res=200,type="windows",bg="white")
+SLE.SalEnv_count$perFWO.low=with(SLE.SalEnv_count,(SLE.low.count-SLE.low.count[1])/SLE.low.count[1])*100
+SLE.SalEnv_count$perFWO.opt=with(SLE.SalEnv_count,(SLE.opt.count-SLE.opt.count[1])/SLE.opt.count[1])*100
+SLE.SalEnv_count$perFWO.stress=with(SLE.SalEnv_count,(SLE.high.count-SLE.high.count[1])/SLE.high.count[1])*100
+SLE.SalEnv_count$perFWO.dam=with(SLE.SalEnv_count,(SLE.dam.count-SLE.dam.count[1])/SLE.dam.count[1])*100
+SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
+
+CRE.SalEnv_count2=CRE.SalEnv_count[,c("Alt",vars.CRE)]
+SLE.SalEnv_count2=SLE.SalEnv_count[,c("Alt",vars.SLE)]
+CRE.labs=c("Low Flow (<750 cfs)","Optimum (750 - 2100 cfs)","Stress (2100 - 2600 cfs)","Damaging (>2600 cfs)")
+SLE.labs=c("Low Flow (<150 cfs)","Optimum (150 - 1400 cfs)","Stress (1400 - 1700 cfs)","Damaging (>1700 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 layout(matrix(c(1:8),2,4,byrow=T))
-par(family="serif",mar=c(2,2,0.25,1),oma=c(2,2,3,0.25),lwd=0.5);
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,2,1,1),lwd=0.5);
 
-ymax=c(600,600,1000,400,400,200,100)
+ymax=c(1000,1000,500,500)
 yval=ymax/2
-for(i in 2:8){
+for(i in 2:5){
   ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
-  x=barplot(CRE.SalEnv_count[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  x=barplot(CRE.SalEnv_count2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
   axis_fun(2,ymaj,ymin,ymaj)
-  if(i%in%c(5:8)){axis_fun(1,x,x,alts.sort,cex=0.8,las=2)}else{axis_fun(1,x,x,NA)}
+  axis_fun(1,x,x,NA)
   box(lwd=1)
-  mtext(side=3,adj=0,paste(labs[i-1],"cfs"),cex=0.75)
-  text(x,CRE.SalEnv_count[,i],round(CRE.SalEnv_count[,i],0),font=2,col="black",pos=1,cex=0.4)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_count2[,i],round(CRE.SalEnv_count2[,i],0),font=2,col="black",pos=1,cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
 }
-plot(0:1,0:1,ann=F,axes=F,type="n")
-text(1,0.15,"S79 Discharge\n \nPeriod of Simulation\n CY1965 - 2016.",adj=1)
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ymax=c(200,1000,500,1000)
+yval=ymax/2
+for(i in 2:5){
+  ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
+  x=barplot(SLE.SalEnv_count2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_count2[,i],round(SLE.SalEnv_count2[,i],0),font=2,col="black",pos=1,cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
 mtext(side=1,line=0.75,outer=T,"Alternative")
 mtext(side=2,line=0.75,outer=T,"Count of 14-Day Periods")
-mtext(side=3,adj=0,outer=T,line=1.5,"Caloosahatchee Estuary - Salinity Envelope")
+
+dev.off()
+
+
+
+
+CRE.SalEnv_fwo=CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
+SLE.SalEnv_fwo=SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
+CRE.labs=c("Low Flow (<750 cfs)","Optimum (750 - 2100 cfs)","Stress (2100 - 2600 cfs)","Damaging (>2600 cfs)")
+SLE.labs=c("Low Flow (<150 cfs)","Optimum (150 - 1400 cfs)","Stress (1400 - 1700 cfs)","Damaging (>1700 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:8),2,4,byrow=T))
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,2,1,1),lwd=0.5);
+
+ylim.val=c(-40,40);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y)
+for(i in 2:5){
+  x=barplot(CRE.SalEnv_fwo[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,NA)
+  box(lwd=1)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+       font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(2,4,5)){
+  # text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #      font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #      col=ifelse(CRE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i==3){
+  #   text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #        col=ifelse(CRE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
+}
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ylim.val=c(-20,70);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y)
+for(i in 2:5){
+  x=barplot(SLE.SalEnv_fwo[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+       font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(4,5)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i%in%c(2,3)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
+mtext(side=1,line=0.75,outer=T,"Alternative")
+mtext(side=2,line=0.5,outer=T,"Average Percent Difference to FWO")
 dev.off()
 
 
@@ -694,4 +774,304 @@ legend(0,0.75,legend=c("Water Conservation Areas","Caloosahatchee River","St. Lu
        pt.bg=cols2,
        pt.cex=1.5,ncol=1,cex=1,bty="n",y.intersp=1,x.intersp=0.75,xpd=NA,xjust=0,yjust=1)
 text(1,0.2,"Iteration 2 results. Mean annual flood control releases\nfrom Lake Okeechobee for the 52 year (1965 - 2016)\nsimulation period of record.",adj=1,xpd=NA,cex=0.65,font=3)
+dev.off()
+
+
+
+
+# Load and Flow -----------------------------------------------------------
+# Simulated WQ ------------------------------------------------------------
+dates=as.Date(c("1999-05-01","2020-04-30"))
+
+params=data.frame(Test.Number=c(18,21,80,20,25,23,61,179,7,16),param=c("NOx","TKN","TN","NH4","TP","SRP","Chla","Chla","Temp","TSS"))
+params=subset(params,param%in%c("TP","TN","NOx","TKN","NH4","SRP"))
+wq.sites=c("S77","S308C","S65E")
+wq.dat=DBHYDRO_WQ(dates[1],dates[2],wq.sites,params$Test.Number)
+wq.dat=merge(wq.dat,params,"Test.Number")
+unique(wq.dat$Collection.Method)
+wq.dat=subset(wq.dat,Collection.Method=="G")
+
+# plot(HalfMDL~Date.EST,subset(wq.dat,Station.ID=="S79"& param=="TP"))
+# plot(HalfMDL~Date.EST,subset(wq.dat,Station.ID=="S77"& param=="TP"))
+
+wq.dat.xtab=dcast(wq.dat,Station.ID+Date.EST~param,value.var="HalfMDL",mean)
+wq.dat.xtab$DIN=with(wq.dat.xtab,NH4+NOx)
+wq.dat.xtab$TN=with(wq.dat.xtab, TN_Combine(NOx,TKN,TN))
+wq.dat.xtab$TON=with(wq.dat.xtab,TN-DIN)
+wq.dat.xtab$WY=WY(wq.dat.xtab$Date.EST)
+wq.dat.xtab$month=as.numeric(format(wq.dat.xtab$Date.EST,"%m"))
+wq.dat.xtab$CY=as.numeric(format(wq.dat.xtab$Date.EST,"%Y"))
+wq.dat.xtab$monCY=with(wq.dat.xtab,date.fun(paste(CY,month,"01",sep="-")))
+
+# Reversal Evaluation
+wq.dat.xtab$TPReversal=with(wq.dat.xtab,ifelse(is.na(SRP)==T|is.na(TP)==T,0,ifelse(SRP>(TP*1.3),1,0)));# Reversals identified as 1 reversals consistent with TP rule evaluation
+wq.dat.xtab$TNReversal=with(wq.dat.xtab,ifelse(is.na(DIN)==T|is.na(TN)==T,0,ifelse(DIN>(TN*1.3),1,0)));
+subset(wq.dat.xtab,TN<0.05)
+sum(wq.dat.xtab$TNReversal,na.rm=T)
+sum(wq.dat.xtab$TPReversal,na.rm=T)
+
+par(family="serif",oma=c(1,1,1,1),mar=c(4,4,1,1))
+layout(matrix(1:2,1,2,byrow=F))
+plot(TN~DIN,wq.dat.xtab,ylab="TN (mg L\u207B\u00b9)",xlab="DIN (mg L\u207B\u00b9)",pch=21,bg=ifelse(TNReversal==1,"dodgerblue1",NA),col=adjustcolor("grey",0.8));abline(0,1,col="dodgerblue1")
+plot(TP~SRP,wq.dat.xtab,ylab="TP (mg L\u207B\u00b9)",xlab="SRP (mg L\u207B\u00b9)",pch=21,bg=ifelse(TPReversal==1,"red",NA),col=adjustcolor("grey",0.8));abline(0,1,col="red")
+
+dev.off()
+
+# POS WQ data --------------------------------------------------------------
+month.mean=ddply(subset(wq.dat.xtab,Station.ID%in%wq.sites[1:2]),c("Station.ID","month"),summarise,
+                 mean.TP=mean(TP,na.rm=T),SD.TP=sd(TP,na.rm=T),N.TP=N.obs(TP),
+                 mean.TN=mean(TN,na.rm=T),SD.TN=sd(TN,na.rm=T),N.TN=N.obs(TN))
+
+
+# write.csv(month.mean,paste0(export.path,"S77S308_monthlymean.csv"),row.names = F)
+S77.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2020-12-31"),"1 month"))
+S77.WQ.sim$WY=WY(S77.WQ.sim$Date.EST)
+S77.WQ.sim$month=as.numeric(format(S77.WQ.sim$Date.EST,'%m'))
+S77.WQ.sim=merge(S77.WQ.sim,subset(month.mean,Station.ID=="S77"),"month")
+S77.WQ.sim=S77.WQ.sim[order(S77.WQ.sim$Date.EST),]
+head(S77.WQ.sim)
+
+S77.WQ.sim$sim.TP=NA
+S77.WQ.sim$sim.TN=NA
+set.seed(123)
+for(i in 1:nrow(S77.WQ.sim)){
+  S77.WQ.sim$sim.TP[i]=rnorm(1,S77.WQ.sim$mean.TP[i],S77.WQ.sim$SD.TP[i])
+}
+S77.WQ.sim$sim.TP=with(S77.WQ.sim,ifelse(sim.TP<0,mean.TP,sim.TP))
+
+set.seed(123)
+for(i in 1:nrow(S77.WQ.sim)){
+  S77.WQ.sim$sim.TN[i]=rnorm(1,S77.WQ.sim$mean.TN[i],S77.WQ.sim$SD.TN[i])
+}
+S77.WQ.sim$sim.TN=with(S77.WQ.sim,ifelse(sim.TN<0,mean.TN,sim.TN))
+
+plot(sim.TN~Date.EST,S77.WQ.sim)
+plot(sim.TP~Date.EST,S77.WQ.sim)
+
+mean(S77.WQ.sim$sim.TP)
+sd(S77.WQ.sim$sim.TP)
+mean(subset(wq.dat.xtab,Station.ID=="S77")$TP,na.rm=T)
+sd(subset(wq.dat.xtab,Station.ID=="S77")$TP,na.rm=T)
+mean(S77.WQ.sim$sim.TN)
+sd(S77.WQ.sim$sim.TN)
+mean(subset(wq.dat.xtab,Station.ID=="S77")$TN,na.rm=T)
+sd(subset(wq.dat.xtab,Station.ID=="S77")$TN,na.rm=T)
+
+S308.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2020-12-31"),"1 month"))
+S308.WQ.sim$WY=WY(S308.WQ.sim$Date.EST)
+S308.WQ.sim$month=as.numeric(format(S308.WQ.sim$Date.EST,'%m'))
+S308.WQ.sim=merge(S308.WQ.sim,subset(month.mean,Station.ID=="S308C"),"month")
+S308.WQ.sim=S308.WQ.sim[order(S308.WQ.sim$Date.EST),]
+head(S308.WQ.sim)
+
+S308.WQ.sim$sim.TP=NA
+S308.WQ.sim$sim.TN=NA
+set.seed(123)
+for(i in 1:nrow(S308.WQ.sim)){
+  S308.WQ.sim$sim.TP[i]=rnorm(1,S308.WQ.sim$mean.TP[i],S308.WQ.sim$SD.TP[i])
+}
+S308.WQ.sim$sim.TP=with(S308.WQ.sim,ifelse(sim.TP<0,mean.TP,sim.TP))
+
+set.seed(123)
+for(i in 1:nrow(S308.WQ.sim)){
+  S308.WQ.sim$sim.TN[i]=rnorm(1,S308.WQ.sim$mean.TN[i],S308.WQ.sim$SD.TN[i])
+}
+S308.WQ.sim$sim.TN=with(S308.WQ.sim,ifelse(sim.TN<0,mean.TN,sim.TN))
+
+plot(sim.TN~Date.EST,S308.WQ.sim)
+plot(sim.TP~Date.EST,S308.WQ.sim)
+
+mean(S308.WQ.sim$sim.TP)
+sd(S308.WQ.sim$sim.TP)
+mean(subset(wq.dat.xtab,Station.ID=="S308C")$TP,na.rm=T)
+sd(subset(wq.dat.xtab,Station.ID=="S308C")$TP,na.rm=T)
+mean(S308.WQ.sim$sim.TN)
+sd(S308.WQ.sim$sim.TN)
+mean(subset(wq.dat.xtab,Station.ID=="S308C")$TN,na.rm=T)
+sd(subset(wq.dat.xtab,Station.ID=="S308C")$TN,na.rm=T)
+
+
+# S77 ---------------------------------------------------------------------
+q.dat.xtab$WY=WY(q.dat.xtab$Date)
+vars=c("Alt","Date",'WY',"S77","S77_QFC")
+S77.q.dat.xtab=q.dat.xtab[,vars]
+S77.q.dat.xtab$preReg=with(S77.q.dat.xtab,ifelse(S77==0,0,round((S77_QFC/S77)*100,2)))
+range(S77.q.dat.xtab$preReg,na.rm=T)
+
+head(S77.WQ.sim)
+vars=c('Date.EST',"sim.TP","sim.TN")
+S77.q.dat.xtab=merge(S77.q.dat.xtab,S77.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
+S77.q.dat.xtab=S77.q.dat.xtab[order(S77.q.dat.xtab$Alt,S77.q.dat.xtab$Date),]
+
+S77.q.dat.xtab$sim.TP.inter=with(S77.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
+S77.q.dat.xtab$sim.TN.inter=with(S77.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
+# plot(sim.TP~Date,subset(S77.q.dat.xtab,Alt=="AA"))
+# with(subset(S77.q.dat.xtab,Alt=="AA"),lines(Date,sim.TP.inter))
+S77.q.dat.xtab$TP.load=with(S77.q.dat.xtab,Load.Calc.kg(S77,sim.TP.inter))
+S77.q.dat.xtab$TN.load=with(S77.q.dat.xtab,Load.Calc.kg(S77,sim.TN.inter))
+
+## 
+S77.Load.WY=ddply(subset(S77.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
+                  TFlow=sum(cfs.to.acftd(S77),na.rm=T),
+                  TPLoad=sum(TP.load,na.rm=T),
+                  TNLoad=sum(TN.load,na.rm=T))
+S77.Load.WY$S77.TNFWM=with(S77.Load.WY,(TNLoad/(TFlow*1.233e6))*1e6)
+S77.Load.WY$S77.TPFWM=with(S77.Load.WY,(TPLoad/(TFlow*1.233e6))*1e9)
+S77.Load.WY$Alt=factor(S77.Load.WY$Alt,levels=alts.sort)
+
+boxplot(TPLoad~Alt,S77.Load.WY)
+boxplot(TNLoad~Alt,S77.Load.WY)
+
+boxplot(S77.TNFWM~Alt,S77.Load.WY)
+boxplot(S77.TPFWM~Alt,S77.Load.WY)
+
+
+S77.nut.mod.sum=ddply(S77.Load.WY,"Alt",summarise,
+                      mean.Q=mean(TFlow/1000,na.rm=T),
+                      mean.TP.load=mean(TPLoad),mean.TN.load=mean(TNLoad),
+                      mean.TP.FWM=mean(S77.TPFWM),mean.TN.FWM=mean(S77.TNFWM))
+S77.nut.mod.sum$Alt=factor(S77.nut.mod.sum$Alt,levels=alts.sort)
+S77.nut.mod.sum$Alt=S77.nut.mod.sum[match(alts.sort,S77.nut.mod.sum$Alt),]
+
+S77.nut.mod.sum$Q.FWO.diff=with(S77.nut.mod.sum,(mean.Q-mean.Q[1])/mean.Q[1])*100
+S77.nut.mod.sum$TP.FWO.diff=with(S77.nut.mod.sum,(mean.TP.load-mean.TP.load[1])/mean.TP.load[1])*100
+S77.nut.mod.sum$TN.FWO.diff=with(S77.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/mean.TN.load[1])*100
+
+
+# S308 ---------------------------------------------------------------------
+vars=c("Alt","Date",'WY',"S308","S308_QFC","S308BF")
+S308.q.dat.xtab=q.dat.xtab[,vars]
+S308.q.dat.xtab$preReg=with(S308.q.dat.xtab,ifelse(S308==0,0,round((S308_QFC/S308)*100,2)))
+range(S308.q.dat.xtab$preReg,na.rm=T)
+
+head(S308.WQ.sim)
+vars=c('Date.EST',"sim.TP","sim.TN")
+S308.q.dat.xtab=merge(S308.q.dat.xtab,S308.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
+S308.q.dat.xtab=S308.q.dat.xtab[order(S308.q.dat.xtab$Alt,S308.q.dat.xtab$Date),]
+
+S308.q.dat.xtab$sim.TP.inter=with(S308.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
+S308.q.dat.xtab$sim.TN.inter=with(S308.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
+# plot(sim.TP~Date,subset(S308.q.dat.xtab,Alt=="AA"))
+# with(subset(S308.q.dat.xtab,Alt=="AA"),lines(Date,sim.TP.inter))
+S308.q.dat.xtab$TP.load=with(S308.q.dat.xtab,Load.Calc.kg(S308,sim.TP.inter))
+S308.q.dat.xtab$TN.load=with(S308.q.dat.xtab,Load.Calc.kg(S308,sim.TN.inter))
+S308.q.dat.xtab$TP.load.BF=with(S308.q.dat.xtab,Load.Calc.kg(S308BF,sim.TP.inter))
+S308.q.dat.xtab$TN.load.BF=with(S308.q.dat.xtab,Load.Calc.kg(S308BF,sim.TN.inter))
+head(S308.q.dat.xtab)
+
+S308.Load.WY=ddply(subset(S308.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
+                   TFlow=sum(cfs.to.acftd(S308),na.rm=T),
+                   TFlow.BF=sum(cfs.to.acftd(S308BF),na.rm=T),
+                   TPLoad=sum(TP.load,na.rm=T),
+                   TNLoad=sum(TN.load,na.rm=T),
+                   TPLoad.BF=sum(TP.load.BF,na.rm=T),
+                   TNLoad.BF=sum(TN.load.BF,na.rm=T))
+
+S308.Load.WY$S308.TNFWM=with(S308.Load.WY,(TNLoad/(TFlow*1.233e6))*1e6)
+S308.Load.WY$S308.TPFWM=with(S308.Load.WY,(TPLoad/(TFlow*1.233e6))*1e9)
+S308.Load.WY$Alt=factor(S308.Load.WY$Alt,levels=alts.sort)
+
+S308.WY.sum=ddply(S308.Load.WY,"Alt",summarise,
+                  mean.Q=mean(TFlow/1000),mean.BF.Q=mean(TFlow.BF/1000),
+                  mean.TPLoad=mean(TPLoad,na.rm=T),mean.TNLoad=mean(TNLoad,na.rm=T),
+                  mean.TPFWM=mean(S308.TPFWM,na.rm=T),mean.TNFWM=mean(S308.TNFWM,na.rm=T),
+                  mean.BF.TPLoad=mean(TPLoad.BF,na.rm=T),mean.BF.TNLoad=mean(TNLoad.BF,na.rm=T))
+with(S308.WY.sum,mean.BF.TPLoad/mean.TPLoad)
+with(S308.WY.sum,mean.BF.TNLoad/mean.TNLoad)
+
+boxplot(TPLoad~Alt,S308.Load.WY)
+boxplot(TNLoad~Alt,S308.Load.WY)
+
+boxplot(S308.TNFWM~Alt,S308.Load.WY)
+boxplot(S308.TPFWM~Alt,S308.Load.WY)
+
+
+S308.nut.mod.sum=ddply(S308.Load.WY,"Alt",summarise,
+                       mean.Q=mean(TFlow/1000,na.rm=T),
+                       mean.TP.load=mean(TPLoad),mean.TN.load=mean(TNLoad),
+                       mean.TP.FWM=mean(S308.TPFWM,na.rm=T),mean.TN.FWM=mean(S308.TNFWM,na.rm=T))
+S308.nut.mod.sum$Alt=factor(S308.nut.mod.sum$Alt,levels=alts.sort)
+S308.nut.mod.sum$Alt=S308.nut.mod.sum[match(alts.sort,S308.nut.mod.sum$Alt),]
+
+S308.nut.mod.sum$Q.FWO.diff=with(S308.nut.mod.sum,(mean.Q-mean.Q[1])/mean.Q[1])*100
+S308.nut.mod.sum$TP.FWO.diff=with(S308.nut.mod.sum,(mean.TP.load-mean.TP.load[1])/mean.TP.load[1])*100
+S308.nut.mod.sum$TN.FWO.diff=with(S308.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/mean.TN.load[1])*100
+
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/S77S308_Flow_Load.png"),width=6,height=7,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:6),3,2,byrow=F))
+par(family="serif",mar=c(2,1.5,0.25,1),oma=c(4,3,1.75,0.25),lwd=0.5);
+
+ylim.val=c(-5,15);by.y=5;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(S77.nut.mod.sum$Q.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S77.nut.mod.sum$Q.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S77.nut.mod.sum,text(x,Q.FWO.diff,format(round(Q.FWO.diff,1),nsmall=0),font=2,cex=1.25,
+                          pos=ifelse(Q.FWO.diff<0,3,1),offset=0.25))
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,NA,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=0,"Discharge",font=2,cex=0.75)
+mtext(side=3, adj=0,"S-77",line=0.8)
+
+x=barplot(S77.nut.mod.sum$TP.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S77.nut.mod.sum$TP.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S77.nut.mod.sum,text(x,TP.FWO.diff,format(round(TP.FWO.diff,1),nsmall=0),font=2,
+                          pos=ifelse(TP.FWO.diff<0,3,1),offset=0.25,cex=1.25,
+                          col=ifelse(TP.FWO.diff<0,"forestgreen",ifelse(TP.FWO.diff>0,"red","black"))))
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,NA,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=0,"TP Load",font=2,cex=0.75)
+
+x=barplot(S77.nut.mod.sum$TN.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S77.nut.mod.sum$TN.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S77.nut.mod.sum,text(x,TN.FWO.diff,format(round(TN.FWO.diff,1),nsmall=0),font=2,
+                          pos=ifelse(TN.FWO.diff<0,3,1),offset=0.25,cex=1.25,
+                          col=ifelse(TN.FWO.diff<0,"forestgreen",ifelse(TN.FWO.diff>0,"red","black"))))
+
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=0,"TN Load",font=2,cex=0.75)
+mtext(side=1,line=3,'Model Alternative')
+
+ylim.val=c(-100,100);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(S308.nut.mod.sum$Q.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S308.nut.mod.sum$Q.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S308.nut.mod.sum,text(x,Q.FWO.diff,format(round(Q.FWO.diff,1),nsmall=0),font=2,cex=1.25,
+                           pos=ifelse(Q.FWO.diff<0,3,1),offset=0.25))
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,NA,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=1,"Discharge",font=2,cex=0.75)
+mtext(side=3, adj=1,"S-308",line=0.8)
+
+x=barplot(S308.nut.mod.sum$TP.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S308.nut.mod.sum$TP.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S308.nut.mod.sum,text(x,TP.FWO.diff,format(round(TP.FWO.diff,1),nsmall=0),font=2,
+                          pos=ifelse(TP.FWO.diff<0,3,1),offset=0.25,cex=1.25,
+                          col=ifelse(TP.FWO.diff<0,"forestgreen",ifelse(TP.FWO.diff>0,"red","black"))))
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,NA,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=1,"TP Load",font=2,cex=0.75)
+
+x=barplot(S308.nut.mod.sum$TN.FWO.diff,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(S308.nut.mod.sum$TN.FWO.diff,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+with(S308.nut.mod.sum,text(x,TN.FWO.diff,format(round(TN.FWO.diff,1),nsmall=0),font=2,
+                          pos=ifelse(TN.FWO.diff<0,3,1),offset=0.25,cex=1.25,
+                          col=ifelse(TN.FWO.diff<0,"forestgreen",ifelse(TN.FWO.diff>0,"red","black"))))
+abline(h=0,lwd=1)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2);box(lwd=1)
+mtext(side=3,adj=1,"TN Load",font=2,cex=0.75)
+mtext(side=1,line=3,'Model Alternative')
+mtext(side=2,line=1.5,outer=T,"Average Percent Difference to FWO")
+mtext(side=1,line=2.5,outer=T,adj=0,"FL WY 1966 - 2016",col="grey",font=3,cex=0.75)
 dev.off()

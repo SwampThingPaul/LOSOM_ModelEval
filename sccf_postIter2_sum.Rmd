@@ -146,19 +146,18 @@ tb.dat%>%
   bg(i=~PerFWO_dam_LOK<0,j=11,bg="lightgreen")%>%bg(i=~PerFWO_dam_LOK>0,j=11,bg="tomato")%>%
   bg(i=~PerFWO_dam_basin<0,j=12,bg="lightgreen")%>%bg(i=~PerFWO_dam_basin>0,j=12,bg="tomato")%>%
   width(width=c(0.5,0.5,0.75,0.75,0.75,1,1,0.75,0.75,0.75,1,1))%>%
-  footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ")%>%
-  footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ")%>%
+  footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
+  footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
   footnote(j=c(4,5,9,10),part="header",value=as_paragraph("Stressful Flows:\nCRE: \u2265 2100 cfs & < 2600 cfs\nSLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" 3 ")%>%
   footnote(j=c(6,7,11,12),part="header",value=as_paragraph("Damaging Flows:\nCRE: > 2600 cfs\nSLE:> 1700 cfs"),ref_symbols=" 4 ")%>%
+   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
-  bold(j=8:12,part="body")
+  bold(j=8:12,part="body")%>%
+  set_caption(caption="Average annual regulatory flows (QFC flow tag; CRE: S77; SLE: S308) and stress and damaging events based on RECOVER salinity envelope 14-day event counts for Caloosatchee and St Lucie estuaries. ")
 
  #dim(test)
 ```
 
-.footnote[
-.small[**Data Source:** USACE and SFWMD Interagency Modeling Center]
-]
 
 ---
 name: REC1
