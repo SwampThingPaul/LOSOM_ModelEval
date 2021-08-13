@@ -8,6 +8,7 @@ Sys.setenv(PAGEDOWN_CHROME="C:/Users/Paul Julian/AppData/Local/Google/Chrome/App
 # pagedown::chrome_print("SCCF_iter2_LOSOM_ENLMrslt.Rmd")
 # pagedown::chrome_print("SCCF_iter2_LOSOM_LakeBasinLoad.Rmd")
 # pagedown::chrome_print("SCCF_iter2_LOSOM_SR35.Rmd")
+# pagedown::chrome_print("SCCF_iter2_SR35_CRESum.Rmd")
 
 ## Move files
 list.files(full.names=T)
@@ -19,6 +20,7 @@ files=c(files,"./sccf_iter2_summary.html")
 files=c(files,"./SCCF_iter2_LOSOM_ENLMrslt.html","./SCCF_iter2_LOSOM_ENLMrslt.pdf")
 files=c(files,"./SCCF_iter2_LOSOM_LakeBasinLoad.html","./SCCF_iter2_LOSOM_LakeBasinLoad.pdf")
 files=c(files,"./SCCF_iter2_LOSOM_SR35.html","./SCCF_iter2_LOSOM_SR35.pdf")
+files=c(files,"./SCCF_iter2_SR35_CRESum.html","./SCCF_iter2_SR35_CRESum.pdf")
 
 webpage.loc="c:/Julian_LaCie/_GitHub/sccf-tech.github.io/slides/LOSOM"
 # Folder.Maker(paste0(webpage.loc,"/iter1/"))

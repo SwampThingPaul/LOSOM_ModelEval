@@ -777,6 +777,53 @@ for(j in 1:length(alts.sort)){
 }
 # q.dat.xtab2
 
+q.dat.xtab2$Period.14D=as.numeric(format(q.dat.xtab2$Date,"%j"))%/%14L+1L
+
+vars=c("Date","Period.14D","Alt","CY","S79","S79.14d","CRE.low.count","CRE.high.count")
+head(q.dat.xtab2[,vars],15L)
+
+biweek.stress.flow=ddply(q.dat.xtab2,c("Alt","CY","Period.14D"),summarise,
+      S79Q=sum(cfs.to.acftd(S79),na.rm=T),
+      Stress.Count=max(CRE.high.count,na.rm=T))
+subset(biweek.stress.flow,Alt=="CC"&Stress.Count==1)
+
+CY.stress.flow=ddply(subset(biweek.stress.flow,Stress.Count==1),c("CY","Alt"),summarise,S79Q=sum(S79Q,na.rm=T))
+CY.stress.flow.mean=ddply(CY.stress.flow,"Alt",summarise,mean.stress.Q=mean(S79Q)/1000)
+CY.stress.flow.mean=CY.stress.flow.mean[match(alts.sort,CY.stress.flow.mean$Alt),]
+# CY.stress.flow.mean$Per.FWO=with(CY.stress.flow.mean,(mean.stress.Q-mean.stress.Q[1])/mean.stress.Q[1])
+CY.stress.flow.mean%>%
+  flextable()%>%
+  colformat_double(j=2,digits=1)%>%
+  set_header_labels("Alt"="Alternative",
+                    "mean.stress.Q"="Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)")%>%
+  merge_h(part="header")%>%
+  padding(padding=1,part="all")%>%
+  font(fontname="Times New Roman",part="all")%>%
+  fontsize(size=12,part="body")%>%
+  fontsize(size=14,part="header")%>%
+  align(j=2,align="center",part="all")%>%
+  width(width=c(1,2))%>%
+  set_caption(caption="Mean annual total discharge during 14-day periods with discharges >2100 and <2600 cfs (i.e.stress) over the simulation period of record")#%>%print("docx")
+  
+
+#consective events
+biweek.LOK.dam.flow=ddply(q.dat.xtab2,c("Alt","CY","Period.14D"),summarise,
+                         S79Q=sum(S79,na.rm=T),
+                         dam.LOK.Count=max(CRE.dam.LOK.count,na.rm=T))
+test=subset(biweek.LOK.dam.flow,Alt=="CC")
+# sequence(rle(test$Stress.Count)$lengths)
+rslt=rle(test$dam.LOK.Count)
+rslt[rslt$values==1]
+rslt=data.frame(len=rslt$lengths,val=rslt$values)
+rslt=subset(rslt,val==1)
+rslt=ddply(rslt,"len",summarise,num_consec=N.obs(len))
+
+plot(rep(1,nrow(rslt)),rslt$len,type="n")
+text(rep(1,nrow(rslt)),rslt$len,rslt$num_consec)
+##
+
+####
+
 
 CRE.Q.sum=dcast(subset(q.dat.CY,SITE%in%c("S79","S77")),Alt~SITE,value.var="TFlow.acft",fun.aggregate=function(x) mean(x/1000))
 CRE.Q.sum=CRE.Q.sum[match(alts.sort,CRE.Q.sum$Alt),]
@@ -1043,7 +1090,7 @@ q.dat1.xtab$Q_Opt=with(q.dat1.xtab,ifelse(S79>=750&S79<2100,1,0))
 q.dat1.xtab$Q_Stress=with(q.dat1.xtab,ifelse(S79>=2100&S79<2600,1,0))
 q.dat1.xtab$Q_Dam=with(q.dat1.xtab,ifelse(S79>=2600,1,0))
 q.dat1.xtab$Q2600_4500=with(q.dat1.xtab,ifelse(S79>=2600&S79<4500,1,0))
-q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79>=4500&S79<6500,1,0)
+q.dat1.xtab$Q4500_6500=with(q.dat1.xtab,ifelse(S79>=4500&S79<6500,1,0))
 q.dat1.xtab$QGT6500=with(q.dat1.xtab,ifelse(S79>6500,1,0))
 q.dat1.xtab$GT2100=with(q.dat1.xtab,ifelse(S79>=2100,1,0))
 q.dat1.xtab$Lake_GT2100=with(q.dat1.xtab,ifelse(S79_QPFCSOURCE_LAKE>=2100,1,0))

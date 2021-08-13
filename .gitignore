@@ -48,3 +48,5 @@ rsconnect/
 
 /_resources/
 *.RDataTmp*
+
+/_tables_other/
