@@ -89,7 +89,7 @@ bsplus::bs_button(
     button_type = "primary",
     button_size = "small") %>%
     htmltools::a(
-      href = "https://github.com/SwampThingPaul/LOSOM_ModelEval/raw/main/SCCF_postiter2_sum.pdf"
+      href = "https://sccf-tech.github.io/slides/LOSOM/SCCF_postiter2_sum_opt.pdf"
       )
 ```
 ]
@@ -245,7 +245,7 @@ sal.env.daily[,vars.val]%>%
   footnote(j=c(4,10),part="header",value=as_paragraph(as_b("Optimum Flows")," CRE: \u2265 750 cfs & < 2100 cfs; SLE: \u2265 150 cfs & < 1400 cfs cfs"),ref_symbols=" ")%>%
   footnote(j=c(5,6,11,12),part="header",value=as_paragraph(as_b("Stressful Flows")," CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" ")%>%
   footnote(j=c(7,8,13,14),part="header",value=as_paragraph(as_b("Damaging Flows")," CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" ")%>%
-   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center"),ref_symbols=" ")%>%
+   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT Alternative"))," provided by Everglades Foundation"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   # bold(j=9:14,part="body")%>%
   fontsize(size=9,part="body")%>%
@@ -340,7 +340,7 @@ sal.env.month[,vars.val]%>%
   footnote(j=c(4,10),part="header",value=as_paragraph(as_b("Optimum Flows")," CRE: \u2265 750 cfs & < 2100 cfs; SLE: \u2265 150 cfs & < 1400 cfs cfs"),ref_symbols=" ")%>%
   footnote(j=c(5,6,11,12),part="header",value=as_paragraph(as_b("Stressful Flows")," CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" ")%>%
   footnote(j=c(7,8,13,14),part="header",value=as_paragraph(as_b("Damaging Flows")," CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" ")%>%
-   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center"),ref_symbols=" ")%>%
+   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT Alternative"))," provided by Everglades Foundation"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   # bold(j=9:14,part="body")%>%
   fontsize(size=9,part="body")%>%
@@ -422,3 +422,53 @@ knitr::include_graphics('./Plots/Post-Iteration_2/S77S308_Flow_Load_Iter2Opt.png
 Average percent difference from FWO (NA25) for discharge and estimated nutrient loads over the May 1965 - April 2016 (FL WY 1966 - 2016) period of simulation.
 
 ]
+
+---
+name: Backflow
+
+### Back Flow/Pump
+
+```{r}
+all.nut.mod.sum=read.csv(paste0(export.path,"post_iter2_backpump_QLoad_Iter2Opt.csv"))
+
+all.nut.mod.sum%>%
+  flextable()%>%
+  colformat_double(j=3,digits=1,big.mark="",suffix="%")%>%
+  colformat_double(j=4,digits=1,big.mark="")%>%
+  colformat_double(j=5:6,digits=0,big.mark="")%>%
+  colformat_double(j=7:9,digits=1,big.mark="",na_str="---")%>%
+  merge_v(j=1)%>%
+  fix_border_issues()%>%
+  valign(j=1,valign="top")%>%
+  vline(j=c(2,6))%>%
+  hline(i=c(4,8))%>%
+  set_header_labels(
+    "Area"="Area",
+    "PerWB"="Percent Total Inflow\nWater Budget",
+    "mean.flow"="Discharge\n(kAcf-Ft WY\u207B\u00B9)",
+    "mean.TP.load"="TP Load\n(kg WY\u207B\u00B9)",
+    "mean.TN.load"="TN Load\n(kg WY\u207B\u00B9)",
+    "Q.BF.FWO.diff"="Discharge",
+    "TP.FWO.diff"="TP Load",
+    "TN.FWO.diff"="TN Load")%>%
+  add_header("PerWB"="Average Annual",
+             "mean.flow"="Average Annual",
+             "mean.TP.load"="Average Annual",
+             "mean.TN.load"="Average Annual",
+             "Q.BF.FWO.diff"="% Change\nCompare to FWO",
+             "TP.FWO.diff"="% Change\nCompare to FWO",
+             "TN.FWO.diff"="% Change\nCompare to FWO")%>%
+  merge_h(part="header")%>%
+  align(j=3:7,align="center",part="header")%>%
+  padding(padding=0.75,part="all")%>%
+  width(width=c(0.5,0.5,1,1,1,1,1,1,1))%>%
+  align(j=3:9,align="center",part="all")%>%
+  bg(i=~Q.BF.FWO.diff<0,j=7,bg="lightgreen")%>%bg(i=~Q.BF.FWO.diff>0,j=7,bg="tomato")%>%bg(i=~is.na(Q.BF.FWO.diff)==T,j=7,bg="lightgrey")%>%
+  bg(i=~TP.FWO.diff<0,j=8,bg="lightgreen")%>%bg(i=~TP.FWO.diff>0,j=8,bg="tomato")%>%bg(i=~is.na(TP.FWO.diff)==T,j=8,bg="lightgrey")%>%
+  bg(i=~TN.FWO.diff<0,j=9,bg="lightgreen")%>%bg(i=~TN.FWO.diff>0,j=9,bg="tomato")%>%bg(i=~is.na(TN.FWO.diff)==T,j=9,bg="lightgrey")%>%
+  footnote(j=2:4,part="header",value=as_paragraph("Simulation period of record between Florida Water Year 1966 - 2016 (May 1965 - April 2016)"))%>%
+  set_caption(caption="Average annual load and average percent change relative to FWO (NA25) over the simulation period or record between May 1965 and April 2016 for back flow/pumping from S77, S308 and EAA (S2, S3 and S4) to Lake Okeechobee.")%>%
+  fontsize(size=9,part="body")%>%
+  fontsize(size=10,part="header")
+
+```
