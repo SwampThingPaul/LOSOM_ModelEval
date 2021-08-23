@@ -1032,6 +1032,9 @@ sal.env.month=rbind(CRE.mon.count,SLE.mon.count)
 ##### Lake Discharges
 q.dat.xtab$S79_GT2100=with(q.dat.xtab,ifelse(S79>=2100,1,0))
 q.dat.xtab$S80_GT1400=with(q.dat.xtab,ifelse(S80>=1400,1,0))
+q.dat.xtab$S79_LT2100=with(q.dat.xtab,ifelse(S79<2100,1,0))
+q.dat.xtab$S80_LT1400=with(q.dat.xtab,ifelse(S80<1400,1,0))
+
 
 CRE.GT2100_annual=ddply(q.dat.xtab,c("CY","Alt"),summarise,Q.Lake.GT2100=sum(cfs.to.acftd(S79_QPFCSOURCE_LAKE[S79_GT2100==1])/1000,na.rm=T))
 CRE.GT2100_annual.mean=ddply(CRE.GT2100_annual,"Alt",summarise,mean.val=mean(Q.Lake.GT2100))
@@ -1055,7 +1058,7 @@ x=barplot(CRE.GT2100_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.va
 axis_fun(2,ymaj,ymin,ymaj)
 axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
 box(lwd=1)
-mtext(side=3,adj=0,"Mean Annual Discharge\n>2100 cfs at S-79",cex=0.75)
+mtext(side=3,adj=0,"Mean Annual Discharge\n\u22652100 cfs at S-79",cex=0.75)
 text(x,CRE.GT2100_annual.mean$mean.val,round(CRE.GT2100_annual.mean$mean.val,0),col="black",pos=1,cex=1)
 # mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
 mtext(side=1,line=2.5,"Alternative")
@@ -1070,9 +1073,53 @@ x=barplot(SLE.GT1400_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.va
 axis_fun(2,ymaj,ymin,ymaj)
 axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
 box(lwd=1)
-mtext(side=3,adj=0,"Mean Annual Discharge\n>1400 cfs at S-80",cex=0.75)
+mtext(side=3,adj=0,"Mean Annual Discharge\n\u22651400 cfs at S-80",cex=0.75)
 mtext(side=3,line=-1.25,adj=0," SLE")
 text(x,SLE.GT1400_annual.mean$mean.val,round(SLE.GT1400_annual.mean$mean.val,0),col="black",pos=1,cex=1)
+mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
+mtext(side=1,line=2.5,"Alternative")
+dev.off()
+
+
+CRE.LT2100_annual=ddply(q.dat.xtab,c("CY","Alt"),summarise,Q.Lake.LT2100=sum(cfs.to.acftd(S79_QPFCSOURCE_LAKE[S79_LT2100==1])/1000,na.rm=T))
+CRE.LT2100_annual.mean=ddply(CRE.LT2100_annual,"Alt",summarise,mean.val=mean(Q.Lake.LT2100))
+CRE.LT2100_annual.mean=CRE.LT2100_annual.mean[match(alts.sort,CRE.LT2100_annual.mean$Alt),]
+CRE.LT2100_annual.mean
+
+SLE.LT1400_annual=ddply(q.dat.xtab,c("CY","Alt"),summarise,Q.Lake.LT1400=sum(cfs.to.acftd(S80_QPFCSOURCE_LAKE[S80_LT1400==1])/1000,na.rm=T))
+SLE.LT1400_annual.mean=ddply(SLE.LT1400_annual,"Alt",summarise,mean.val=mean(Q.Lake.LT1400))
+SLE.LT1400_annual.mean=SLE.LT1400_annual.mean[match(alts.sort,SLE.LT1400_annual.mean$Alt),]
+SLE.LT1400_annual.mean
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/Lakedischarge_LTStress_Annualmean.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:2),1,2,byrow=T))
+par(family="serif",mar=c(2,2,0.25,1),oma=c(2,3,2,0.25),lwd=0.5);
+
+ylim.val=c(0,200);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(CRE.LT2100_annual.mean$mean.val,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(CRE.LT2100_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+box(lwd=1)
+mtext(side=3,adj=0,"Mean Annual Discharge\n<2100 cfs at S-79",cex=0.75)
+text(x,CRE.LT2100_annual.mean$mean.val,round(CRE.LT2100_annual.mean$mean.val,0),col="black",pos=3,cex=1)
+# mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
+mtext(side=1,line=2.5,"Alternative")
+mtext(side=2,line=2.5,"Lake Discharge\n(x1000 Ac-Ft Yr\u207B\u00B9)")
+mtext(side=3,line=-1.25,adj=0," CRE")
+# mtext(side=1,line=3,adj=1,"Flow Tag: S79_QPFCSOURCE_LAKE",cex=0.5,col=adjustcolor("black",0.5),font=3)
+
+ylim.val=c(0,100);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+x=barplot(SLE.LT1400_annual.mean$mean.val,col=NA,border=NA,ylim=ylim.val,space=0,axes=F,ann=F)
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+x=barplot(SLE.LT1400_annual.mean$mean.val,col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F,add=T)
+axis_fun(2,ymaj,ymin,ymaj)
+axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+box(lwd=1)
+mtext(side=3,adj=0,"Mean Annual Discharge\n<1400 cfs at S-80",cex=0.75)
+mtext(side=3,line=-1.25,adj=0," SLE")
+text(x,SLE.LT1400_annual.mean$mean.val,round(SLE.LT1400_annual.mean$mean.val,0),col="black",pos=3,cex=1)
 mtext(side=3,adj=1,"CY1965 - 2016",cex=0.75)
 mtext(side=1,line=2.5,"Alternative")
 dev.off()
