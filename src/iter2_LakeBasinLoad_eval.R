@@ -17,7 +17,7 @@ rm(list=ls(all=T));cat("\014");dev.off()
 library(AnalystHelper);
 library(openxlsx)
 library(plyr)
-library(reshape)
+library(reshape2)
 library(dssrip)
 library(zoo)
 library(classInt)
@@ -41,7 +41,7 @@ dates=as.Date(c("1999-05-01","2020-04-30"))
 
 params=data.frame(Test.Number=c(18,21,80,20,25,23,61,179,7,16),param=c("NOx","TKN","TN","NH4","TP","SRP","Chla","Chla","Temp","TSS"))
 params=subset(params,param%in%c("TP","TN","NOx","TKN","NH4","SRP"))
-wq.sites=c("S77","S308C","S65E")
+wq.sites=c("S77","S308C","S65E","S2","S3","S4")
 wq.dat=DBHYDRO_WQ(dates[1],dates[2],wq.sites,params$Test.Number)
 wq.dat=merge(wq.dat,params,"Test.Number")
 unique(wq.dat$Collection.Method)
@@ -49,6 +49,7 @@ wq.dat=subset(wq.dat,Collection.Method=="G")
 
 # plot(HalfMDL~Date.EST,subset(wq.dat,Station.ID=="S79"& param=="TP"))
 # plot(HalfMDL~Date.EST,subset(wq.dat,Station.ID=="S77"& param=="TP"))
+# plot(HalfMDL~Date.EST,subset(wq.dat,Station.ID=="S4"& param=="TP"))
 
 wq.dat.xtab=dcast(wq.dat,Station.ID+Date.EST~param,value.var="HalfMDL",mean)
 wq.dat.xtab$DIN=with(wq.dat.xtab,NH4+NOx)
@@ -136,7 +137,7 @@ dev.off()
 
 
 # POS WQ data --------------------------------------------------------------
-month.mean=ddply(subset(wq.dat.xtab,Station.ID%in%wq.sites[1:2]),c("Station.ID","month"),summarise,
+month.mean=ddply(wq.dat.xtab,c("Station.ID","month"),summarise,
                  mean.TP=mean(TP,na.rm=T),SD.TP=sd(TP,na.rm=T),N.TP=N.obs(TP),
                  mean.TN=mean(TN,na.rm=T),SD.TN=sd(TN,na.rm=T),N.TN=N.obs(TN))
 
@@ -196,7 +197,7 @@ mtext(side=1,line=2,"Simulated TP (\u03BCg L\u207B\u00B9)")
 dev.off()
 ###
 
-
+# S77
 S77.WQ.sim$sim.TP=NA
 S77.WQ.sim$sim.TN=NA
 set.seed(123)
@@ -223,7 +224,8 @@ sd(S77.WQ.sim$sim.TN)
 mean(subset(wq.dat.xtab,Station.ID=="S77")$TN,na.rm=T)
 sd(subset(wq.dat.xtab,Station.ID=="S77")$TN,na.rm=T)
 
-S308.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2020-12-31"),"1 month"))
+# S308
+S308.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2016-12-31"),"1 month"))
 S308.WQ.sim$WY=WY(S308.WQ.sim$Date.EST)
 S308.WQ.sim$month=as.numeric(format(S308.WQ.sim$Date.EST,'%m'))
 S308.WQ.sim=merge(S308.WQ.sim,subset(month.mean,Station.ID=="S308C"),"month")
@@ -256,7 +258,80 @@ sd(S308.WQ.sim$sim.TN)
 mean(subset(wq.dat.xtab,Station.ID=="S308C")$TN,na.rm=T)
 sd(subset(wq.dat.xtab,Station.ID=="S308C")$TN,na.rm=T)
 
+# S2
+S2.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2016-12-31"),"1 month"))
+S2.WQ.sim$WY=WY(S2.WQ.sim$Date.EST)
+S2.WQ.sim$month=as.numeric(format(S2.WQ.sim$Date.EST,'%m'))
+S2.WQ.sim=merge(S2.WQ.sim,subset(month.mean,Station.ID=="S2"),"month")
+S2.WQ.sim=S2.WQ.sim[order(S2.WQ.sim$Date.EST),]
+head(S2.WQ.sim)
 
+S2.WQ.sim$sim.TP=NA
+S2.WQ.sim$sim.TN=NA
+set.seed(123)
+for(i in 1:nrow(S2.WQ.sim)){
+  S2.WQ.sim$sim.TP[i]=rnorm(1,S2.WQ.sim$mean.TP[i],S2.WQ.sim$SD.TP[i])
+}
+S2.WQ.sim$sim.TP=with(S2.WQ.sim,ifelse(sim.TP<0,mean.TP,sim.TP))
+
+set.seed(123)
+for(i in 1:nrow(S2.WQ.sim)){
+  S2.WQ.sim$sim.TN[i]=rnorm(1,S2.WQ.sim$mean.TN[i],S2.WQ.sim$SD.TN[i])
+}
+S2.WQ.sim$sim.TN=with(S2.WQ.sim,ifelse(sim.TN<0,mean.TN,sim.TN))
+
+plot(sim.TN~Date.EST,S2.WQ.sim)
+plot(sim.TP~Date.EST,S2.WQ.sim)
+
+# S3
+S3.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2016-12-31"),"1 month"))
+S3.WQ.sim$WY=WY(S3.WQ.sim$Date.EST)
+S3.WQ.sim$month=as.numeric(format(S3.WQ.sim$Date.EST,'%m'))
+S3.WQ.sim=merge(S3.WQ.sim,subset(month.mean,Station.ID=="S3"),"month")
+S3.WQ.sim=S3.WQ.sim[order(S3.WQ.sim$Date.EST),]
+head(S3.WQ.sim)
+
+S3.WQ.sim$sim.TP=NA
+S3.WQ.sim$sim.TN=NA
+set.seed(123)
+for(i in 1:nrow(S3.WQ.sim)){
+  S3.WQ.sim$sim.TP[i]=rnorm(1,S3.WQ.sim$mean.TP[i],S3.WQ.sim$SD.TP[i])
+}
+S3.WQ.sim$sim.TP=with(S3.WQ.sim,ifelse(sim.TP<0,mean.TP,sim.TP))
+
+set.seed(123)
+for(i in 1:nrow(S3.WQ.sim)){
+  S3.WQ.sim$sim.TN[i]=rnorm(1,S3.WQ.sim$mean.TN[i],S3.WQ.sim$SD.TN[i])
+}
+S3.WQ.sim$sim.TN=with(S3.WQ.sim,ifelse(sim.TN<0,mean.TN,sim.TN))
+
+plot(sim.TN~Date.EST,S3.WQ.sim)
+plot(sim.TP~Date.EST,S3.WQ.sim)
+
+# S4
+S4.WQ.sim=data.frame(Date.EST=seq(date.fun("1965-01-15"),date.fun("2016-12-31"),"1 month"))
+S4.WQ.sim$WY=WY(S4.WQ.sim$Date.EST)
+S4.WQ.sim$month=as.numeric(format(S4.WQ.sim$Date.EST,'%m'))
+S4.WQ.sim=merge(S4.WQ.sim,subset(month.mean,Station.ID=="S4"),"month")
+S4.WQ.sim=S4.WQ.sim[order(S4.WQ.sim$Date.EST),]
+head(S4.WQ.sim)
+
+S4.WQ.sim$sim.TP=NA
+S4.WQ.sim$sim.TN=NA
+set.seed(123)
+for(i in 1:nrow(S4.WQ.sim)){
+  S4.WQ.sim$sim.TP[i]=rnorm(1,S4.WQ.sim$mean.TP[i],S4.WQ.sim$SD.TP[i])
+}
+S4.WQ.sim$sim.TP=with(S4.WQ.sim,ifelse(sim.TP<0,mean.TP,sim.TP))
+
+set.seed(123)
+for(i in 1:nrow(S4.WQ.sim)){
+  S4.WQ.sim$sim.TN[i]=rnorm(1,S4.WQ.sim$mean.TN[i],S4.WQ.sim$SD.TN[i])
+}
+S4.WQ.sim$sim.TN=with(S4.WQ.sim,ifelse(sim.TN<0,mean.TN,sim.TN))
+
+plot(sim.TN~Date.EST,S4.WQ.sim)
+plot(sim.TP~Date.EST,S4.WQ.sim)
 # -------------------------------------------------------------------------
 WYs=seq(1966,2016,1)
 alts=list.files(paste0(data.path,"Iteration_2/Model_Output/"))
@@ -265,8 +340,12 @@ n.alts=length(alts)
 alts.sort=c("NA25","ECBr","AA","BB","CC","DD","EE1","EE2","SR3.5")
 cols=c("grey50","grey80",rev(wesanderson::wes_palette("Zissou1",length(alts.sort)-3,"continuous")),"deeppink")
 
+alts=c("NA25","ECBr","CC")
+cols=cols[alts.sort%in%alts]
+alts.sort=alts
+n.alts=length(alts)
 # Discharge ---------------------------------------------------------------
-RSM.sites=c("S77","S308","S77_QFC","S308_QFC","S308BF")
+RSM.sites=c("S77","S77BF","S308","S77_QFC","S308_QFC","S308BF","S2","S3","S4BP")
 q.dat=data.frame()
 
 for(j in 1:n.alts){
@@ -293,7 +372,7 @@ q.dat.xtab=reshape2::dcast(q.dat,Alt+Date+WY~SITE,value.var="FLOW",function(x)me
 
 
 # S77 ---------------------------------------------------------------------
-vars=c("Alt","Date",'WY',"S77","S77_QFC")
+vars=c("Alt","Date",'WY',"S77","S77_QFC","S77BF")
 S77.q.dat.xtab=q.dat.xtab[,vars]
 S77.q.dat.xtab$preReg=with(S77.q.dat.xtab,ifelse(S77==0,0,round((S77_QFC/S77)*100,2)))
 range(S77.q.dat.xtab$preReg,na.rm=T)
@@ -303,12 +382,15 @@ vars=c('Date.EST',"sim.TP","sim.TN")
 S77.q.dat.xtab=merge(S77.q.dat.xtab,S77.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
 S77.q.dat.xtab=S77.q.dat.xtab[order(S77.q.dat.xtab$Alt,S77.q.dat.xtab$Date),]
 
+S77.q.dat.xtab=S77.q.dat.xtab[order(S77.q.dat.xtab$Alt,S77.q.dat.xtab$Date),]
 S77.q.dat.xtab$sim.TP.inter=with(S77.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
 S77.q.dat.xtab$sim.TN.inter=with(S77.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
 # plot(sim.TP~Date,subset(S77.q.dat.xtab,Alt=="AA"))
 # with(subset(S77.q.dat.xtab,Alt=="AA"),lines(Date,sim.TP.inter))
 S77.q.dat.xtab$TP.load=with(S77.q.dat.xtab,Load.Calc.kg(S77,sim.TP.inter))
 S77.q.dat.xtab$TN.load=with(S77.q.dat.xtab,Load.Calc.kg(S77,sim.TN.inter))
+S77.q.dat.xtab$S77BF.TP.load=with(S77.q.dat.xtab,Load.Calc.kg(S77BF,sim.TP.inter))
+S77.q.dat.xtab$S77BF.TN.load=with(S77.q.dat.xtab,Load.Calc.kg(S77BF,sim.TN.inter))
 
 ## CQ
 S77.q.dat.xtab$log_S77=log(S77.q.dat.xtab$S77)
@@ -338,30 +420,41 @@ for(i in 1:n.alts){
 S77.Load.WY=ddply(subset(S77.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
       TFlow=sum(cfs.to.acftd(S77),na.rm=T),
       TPLoad=sum(TP.load,na.rm=T),
-      TNLoad=sum(TN.load,na.rm=T))
+      TNLoad=sum(TN.load,na.rm=T),
+      TFlow.BF=sum(cfs.to.acftd(S77BF),na.rm=T),
+      TPLoad.S77BF=sum(S77BF.TP.load,na.rm=T),
+      TNLoad.S77BF=sum(S77BF.TN.load,na.rm=T))
 S77.Load.WY$S77.TNFWM=with(S77.Load.WY,(TNLoad/(TFlow*1.233e6))*1e6)
 S77.Load.WY$S77.TPFWM=with(S77.Load.WY,(TPLoad/(TFlow*1.233e6))*1e9)
 S77.Load.WY$Alt=factor(S77.Load.WY$Alt,levels=alts.sort)
 
+plot(TFlow.BF~WY,S77.Load.WY)
 boxplot(TPLoad~Alt,S77.Load.WY)
 boxplot(TNLoad~Alt,S77.Load.WY)
+
+boxplot(TPLoad.S77BF~Alt,S77.Load.WY,outline=F)
+boxplot(TNLoad.S77BF~Alt,S77.Load.WY,outline=F)
 
 boxplot(S77.TNFWM~Alt,S77.Load.WY)
 boxplot(S77.TPFWM~Alt,S77.Load.WY)
 
-
 S77.nut.mod.sum=ddply(S77.Load.WY,"Alt",summarise,
                       mean.Q=mean(TFlow/1000,na.rm=T),
+                      mean.Q.BF=mean(TFlow.BF/1000,na.rm=T),
                       mean.TP.load=mean(TPLoad),mean.TN.load=mean(TNLoad),
-                      mean.TP.FWM=mean(S77.TPFWM),mean.TN.FWM=mean(S77.TNFWM))
+                      mean.TP.FWM=mean(S77.TPFWM),mean.TN.FWM=mean(S77.TNFWM),
+                      mean.TP.load.BF=mean(TPLoad.S77BF),mean.TN.load.BF=mean(TNLoad.S77BF))
 # write.csv(S77.nut.mod.sum,paste0(export.path,"S77_load.csv"),row.names = F)
 S77.nut.mod.sum$Alt=factor(S77.nut.mod.sum$Alt,levels=alts.sort)
 
+S77.nut.mod.sum$Q.BF.FWO.diff=with(S77.nut.mod.sum,(mean.Q.BF-mean.Q.BF[1])/mean.Q.BF[1])*100
 S77.nut.mod.sum$TP.FWO.diff=with(S77.nut.mod.sum,(mean.TP.load-mean.TP.load[1])/mean.TP.load[1])*100
 S77.nut.mod.sum$TN.FWO.diff=with(S77.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/mean.TN.load[1])*100
+S77.nut.mod.sum$TP.FWO.BF.diff=with(S77.nut.mod.sum,(mean.TP.load.BF-mean.TP.load.BF[1])/mean.TP.load.BF[1])*100
+S77.nut.mod.sum$TN.FWO.BF.diff=with(S77.nut.mod.sum,(mean.TN.load.BF-mean.TN.load.BF[1])/mean.TN.load.BF[1])*100
 
-S77.nut.mod.sum$TP.FWM.FWO.diff=with(S77.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1])/mean.TP.FWM[1])*100
-S77.nut.mod.sum$TN.FWM.FWO.diff=with(S77.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
+# S77.nut.mod.sum$TP.FWM.FWO.diff=with(S77.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1])/mean.TP.FWM[1])*100
+# S77.nut.mod.sum$TN.FWM.FWO.diff=with(S77.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
 
 # png(filename=paste0(plot.path,"Iteration_2/S77_TPLoad_bxp.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
 par(family="serif",mar=c(2.75,0.75,0.25,1),oma=c(2.5,3.75,1,0.25));
@@ -570,14 +663,18 @@ boxplot(TNLoad~Alt,S308.Load.WY)
 boxplot(S308.TNFWM~Alt,S308.Load.WY)
 boxplot(S308.TPFWM~Alt,S308.Load.WY)
 
-
 S308.nut.mod.sum=ddply(S308.Load.WY,"Alt",summarise,
+                       mean.Q=mean(TFlow/1000),mean.Q.BF=mean(TFlow.BF/1000),
                       mean.TP.load=mean(TPLoad),mean.TN.load=mean(TNLoad),
-                      mean.TP.FWM=mean(S308.TPFWM,na.rm=T),mean.TN.FWM=mean(S308.TNFWM,na.rm=T))
+                      mean.TP.FWM=mean(S308.TPFWM,na.rm=T),mean.TN.FWM=mean(S308.TNFWM,na.rm=T),
+                      mean.TP.load.BF=mean(TPLoad.BF),mean.TN.load.BF=mean(TNLoad.BF))
 S308.nut.mod.sum$Alt=factor(S308.nut.mod.sum$Alt,levels=alts.sort)
 
+S308.nut.mod.sum$Q.BF.FWO.diff=with(S308.nut.mod.sum,(mean.Q.BF-mean.Q.BF[1])/mean.Q.BF[1])*100
 S308.nut.mod.sum$TP.FWO.diff=with(S308.nut.mod.sum,(mean.TP.load-mean.TP.load[1])/mean.TP.load[1])*100
 S308.nut.mod.sum$TN.FWO.diff=with(S308.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/mean.TN.load[1])*100
+S308.nut.mod.sum$TP.FWO.BF.diff=with(S308.nut.mod.sum,(mean.TP.load.BF-mean.TP.load.BF[1])/mean.TP.load.BF[1])*100
+S308.nut.mod.sum$TN.FWO.BF.diff=with(S308.nut.mod.sum,(mean.TN.load.BF-mean.TN.load.BF[1])/mean.TN.load.BF[1])*100
 
 S308.nut.mod.sum$TP.FWM.FWO.diff=with(S308.nut.mod.sum,(mean.TP.FWM-mean.TP.FWM[1])/mean.TP.FWM[1])*100
 S308.nut.mod.sum$TN.FWM.FWO.diff=with(S308.nut.mod.sum,(mean.TN.FWM-mean.TN.FWM[1])/mean.TN.FWM[1])*100
@@ -705,3 +802,205 @@ mtext(side=3, adj=1,"FLWY 1966 - 2016",line=0.8)
 dev.off()
 
 
+# S2 ----------------------------------------------------------------------
+vars=c("Alt","Date",'WY',"S2")
+S2.q.dat.xtab=q.dat.xtab[,vars]
+
+head(S2.WQ.sim)
+vars=c('Date.EST',"sim.TP","sim.TN")
+S2.q.dat.xtab=merge(S2.q.dat.xtab,S2.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
+S2.q.dat.xtab=S2.q.dat.xtab[order(S2.q.dat.xtab$Alt,S2.q.dat.xtab$Date),]
+
+S2.q.dat.xtab=S2.q.dat.xtab[order(S2.q.dat.xtab$Alt,S2.q.dat.xtab$Date),]
+S2.q.dat.xtab$sim.TP.inter=with(S2.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
+S2.q.dat.xtab$sim.TN.inter=with(S2.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
+S2.q.dat.xtab$TP.load=with(S2.q.dat.xtab,Load.Calc.kg(S2,sim.TP.inter))
+S2.q.dat.xtab$TN.load=with(S2.q.dat.xtab,Load.Calc.kg(S2,sim.TN.inter))
+
+S2.Load.WY=ddply(subset(S2.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
+                   TFlow=sum(cfs.to.acftd(S2),na.rm=T),
+                   TPLoad=sum(TP.load,na.rm=T),
+                   TNLoad=sum(TN.load,na.rm=T))
+
+# S3 ----------------------------------------------------------------------
+vars=c("Alt","Date",'WY',"S3")
+S3.q.dat.xtab=q.dat.xtab[,vars]
+
+head(S3.WQ.sim)
+vars=c('Date.EST',"sim.TP","sim.TN")
+S3.q.dat.xtab=merge(S3.q.dat.xtab,S3.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
+S3.q.dat.xtab=S3.q.dat.xtab[order(S3.q.dat.xtab$Alt,S3.q.dat.xtab$Date),]
+
+S3.q.dat.xtab=S3.q.dat.xtab[order(S3.q.dat.xtab$Alt,S3.q.dat.xtab$Date),]
+S3.q.dat.xtab$sim.TP.inter=with(S3.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
+S3.q.dat.xtab$sim.TN.inter=with(S3.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
+S3.q.dat.xtab$TP.load=with(S3.q.dat.xtab,Load.Calc.kg(S3,sim.TP.inter))
+S3.q.dat.xtab$TN.load=with(S3.q.dat.xtab,Load.Calc.kg(S3,sim.TN.inter))
+
+S3.Load.WY=ddply(subset(S3.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
+                 TFlow=sum(cfs.to.acftd(S3),na.rm=T),
+                 TPLoad=sum(TP.load,na.rm=T),
+                 TNLoad=sum(TN.load,na.rm=T))
+
+# S4 ----------------------------------------------------------------------
+vars=c("Alt","Date",'WY',"S4BP")
+S4.q.dat.xtab=q.dat.xtab[,vars]
+
+head(S4.WQ.sim)
+vars=c('Date.EST',"sim.TP","sim.TN")
+S4.q.dat.xtab=merge(S4.q.dat.xtab,S4.WQ.sim[,vars],by.x="Date",by.y="Date.EST",all.x=T)
+S4.q.dat.xtab=S4.q.dat.xtab[order(S4.q.dat.xtab$Alt,S4.q.dat.xtab$Date),]
+
+S4.q.dat.xtab=S4.q.dat.xtab[order(S4.q.dat.xtab$Alt,S4.q.dat.xtab$Date),]
+S4.q.dat.xtab$sim.TP.inter=with(S4.q.dat.xtab,ave(sim.TP,Alt,FUN=function(x) dat.interp(x)))
+S4.q.dat.xtab$sim.TN.inter=with(S4.q.dat.xtab,ave(sim.TN,Alt,FUN=function(x) dat.interp(x)))
+S4.q.dat.xtab$TP.load=with(S4.q.dat.xtab,Load.Calc.kg(S4BP,sim.TP.inter))
+S4.q.dat.xtab$TN.load=with(S4.q.dat.xtab,Load.Calc.kg(S4BP,sim.TN.inter))
+
+S4.Load.WY=ddply(subset(S4.q.dat.xtab,WY%in%WYs),c("Alt","WY"),summarise,
+                 TFlow=sum(cfs.to.acftd(S4BP),na.rm=T),
+                 TPLoad=sum(TP.load,na.rm=T),
+                 TNLoad=sum(TN.load,na.rm=T))
+
+EAA.BF.Load.WY=ddply(rbind(S2.Load.WY,S3.Load.WY,S4.Load.WY),
+                     c("Alt","WY"),summarise,
+                     TFlow.all=sum(TFlow)/1000,
+                     TPLoad.all=sum(TPLoad),
+                     TNLoad.all=sum(TNLoad))
+head(EAA.BF.Load.WY)
+EAA.nut.mod.sum=ddply(EAA.BF.Load.WY,"Alt",summarise,
+                      mean.flow=mean(TFlow.all),
+                      mean.TP.load=mean(TPLoad.all),
+                      mean.TN.load=mean(TNLoad.all))
+EAA.nut.mod.sum$Alt=factor(EAA.nut.mod.sum$Alt,levels=alts.sort)
+EAA.nut.mod.sum=EAA.nut.mod.sum[match(EAA.nut.mod.sum$Alt,alts.sort),]
+
+EAA.nut.mod.sum$Q.BF.FWO.diff=with(EAA.nut.mod.sum,(mean.flow-mean.flow[1])/mean.flow[1])*100
+EAA.nut.mod.sum$TP.FWO.diff=with(EAA.nut.mod.sum,(mean.TP.load-mean.TP.load[1])/mean.TP.load[1])*100
+EAA.nut.mod.sum$TN.FWO.diff=with(EAA.nut.mod.sum,(mean.TN.load-mean.TN.load[1])/mean.TN.load[1])*100
+EAA.nut.mod.sum
+
+
+### 
+vars=c("Area","Alt","mean.Q.BF","mean.TP.load.BF", "mean.TN.load.BF","Q.BF.FWO.diff","TP.FWO.BF.diff", "TN.FWO.BF.diff")
+S77.nut.mod.sum
+S77.nut.mod.sum$Area="S77"
+S77.nut.mod.sum=S77.nut.mod.sum[,vars]
+
+S308.nut.mod.sum
+S308.nut.mod.sum$Area="S308"
+S308.nut.mod.sum=S308.nut.mod.sum[,vars]
+
+vars=c("Area","Alt","mean.flow","mean.TP.load", "mean.TN.load","Q.BF.FWO.diff","TP.FWO.diff", "TN.FWO.diff")
+EAA.nut.mod.sum
+EAA.nut.mod.sum$Area="EAA"
+EAA.nut.mod.sum=EAA.nut.mod.sum[,vars]
+
+colnames(S77.nut.mod.sum)=vars
+colnames(S308.nut.mod.sum)=vars
+colnames(EAA.nut.mod.sum)=vars
+
+all.nut.mod.sum=rbind(S77.nut.mod.sum,S308.nut.mod.sum,EAA.nut.mod.sum)
+all.nut.mod.sum[all.nut.mod.sum$Alt=="NA25","Q.BF.FWO.diff"]=NA
+all.nut.mod.sum[all.nut.mod.sum$Alt=="NA25","TP.FWO.diff"]=NA
+all.nut.mod.sum[all.nut.mod.sum$Alt=="NA25","TN.FWO.diff"]=NA
+
+# -------------------------------------------------------------------------
+## Daily Water Budget Summary files provided on FTP site.
+head.val=c("year","month","day","Rainfall", "ET", "HpmDelta", "C10ABK", 
+           "LKTFPL", "MDS", "NELKSH_WS", "NLKSH_WS", "ISTOK_WS", "S77", 
+           "S4_WS", "C10A", "C12A", "C12", "C10", "S352", "S351", "C4A", 
+           "C3", "S354", "brighton_WS", "S308", "S65E", "fec_wm", "TOTAL_ISTOK", 
+           "S77bf", "S4bp", "S3", "S2", "C12Abp", "C12bp", "C10bp", "C4Abp", 
+           "S236", "p5wps", "S308BF", "tcnsq", "S154", "S135", "Residual", 
+           "WBDelta", "WBError")
+lok.wb=data.frame()
+for(i in 1:length(alts.sort)){
+  tmp=read.csv(paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/lok_WB.csv"),skip=1,col.names = head.val)
+  tmp$Alt=alts[i]
+  lok.wb=rbind(lok.wb,tmp)
+  print(alts[i])
+}
+lok.wb$Date.EST=with(lok.wb,date.fun(paste(year,month,day,sep="-")))
+lok.wb$WY=WY(lok.wb$Date.EST)
+
+summary(lok.wb)
+
+inflows=c("S65E", "fec_wm", "TOTAL_ISTOK", 
+               "S77bf", "S4bp", "S3", "S2", "C12Abp", "C12bp", "C10bp", "C4Abp", 
+               "S236", "p5wps", "S308BF", "tcnsq", "S154", "S135")
+lok.wb$TInflow=rowSums(lok.wb[,inflows],na.rm=T)
+lok.wb$TEAA=rowSums(lok.wb[,c("S4bp", "S3", "S2")],na.rm=T)
+
+lok.wb.WY=ddply(subset(lok.wb,WY%in%WYs),c("Alt","WY"),summarise,
+                Inflow=sum(TInflow,na.rm=T),
+                EAA.BF=sum(TEAA),
+                S77.BF=sum(S77bf),
+                S308.BF=sum(S308BF))
+lok.wb.WY$S77_per=with(lok.wb.WY,(S77.BF/Inflow)*100)
+lok.wb.WY$S308_per=with(lok.wb.WY,(S308.BF/Inflow)*100)
+lok.wb.WY$EAA_per=with(lok.wb.WY,(EAA.BF/Inflow)*100)
+
+mean.LakeWB=ddply(lok.wb.WY,"Alt",summarise,
+      mean.Inflow=mean(Inflow),
+      mean.EAA.BF=mean(EAA.BF),
+      mean.S308.BF=mean(S308.BF),
+      mean.S77.BF=mean(S77.BF))
+      # mean.S77_per=mean(S77_per),
+      # mean.S308_per=mean(S308_per),
+      # mean.EAA_per=mean(EAA_per))
+      
+mean.LakeWB$S77_per=with(mean.LakeWB,(mean.S77.BF/mean.Inflow)*100)
+mean.LakeWB$S308_per=with(mean.LakeWB,(mean.S308.BF/mean.Inflow)*100)
+mean.LakeWB$EAA_per=with(mean.LakeWB,(mean.EAA.BF/mean.Inflow)*100)
+mean.LakeWB=mean.LakeWB[match(mean.LakeWB$Alt,alts.sort),]
+
+sum.WB=rbind(data.frame(Area="S77",Alt=mean.LakeWB$Alt,PerWB=mean.LakeWB$S77_per),
+data.frame(Area="S308",Alt=mean.LakeWB$Alt,PerWB=mean.LakeWB$S308_per),
+data.frame(Area="EAA",Alt=mean.LakeWB$Alt,PerWB=mean.LakeWB$EAA_per))
+
+sort.vals=c("S77_NA25", "S77_ECBr", "S77_CC", "S308_NA25", "S308_ECBr", 
+            "S308_CC", "EAA_NA25", "EAA_ECBr", "EAA_CC")
+all.nut.mod.sum=merge(all.nut.mod.sum,sum.WB,c("Area","Alt"),all.x=T)
+
+vars=c("Area", "Alt", "PerWB", "mean.flow", "mean.TP.load", "mean.TN.load", 
+  "Q.BF.FWO.diff", "TP.FWO.diff", "TN.FWO.diff")
+all.nut.mod.sum=all.nut.mod.sum[,vars]
+all.nut.mod.sum=all.nut.mod.sum[match(paste(all.nut.mod.sum$Area,all.nut.mod.sum$Alt,sep="_"),sort.vals),]
+
+all.nut.mod.sum%>%
+  flextable()%>%
+  colformat_double(j=3,digits=1,big.mark="",suffix="%")%>%
+  colformat_double(j=4,digits=1,big.mark="")%>%
+  colformat_double(j=5:6,digits=0,big.mark="")%>%
+  colformat_double(j=7:9,digits=1,big.mark="",na_str="---")%>%
+  merge_v(j=1)%>%
+  fix_border_issues()%>%
+  valign(j=1,valign="top")%>%
+  vline(j=c(2,6))%>%
+  hline(i=c(3,6))%>%
+  set_header_labels(
+    "Area"="Area",
+    "PerWB"="Percent Total Inflow\nWater Budget",
+    "mean.flow"="Discharge\n(kAcf-Ft WY\u207B\u00B9)",
+    "mean.TP.load"="TP Load (kg WY\u207B\u00B9)",
+    "mean.TN.load"="TN Load (kg WY\u207B\u00B9)",
+    "Q.BF.FWO.diff"="Discharge",
+    "TP.FWO.diff"="TP Load",
+    "TN.FWO.diff"="TN Load")%>%
+  add_header("PerWB"="Average Annual",
+             "mean.flow"="Average Annual",
+             "mean.TP.load"="Average Annual",
+             "mean.TN.load"="Average Annual",
+             "Q.BF.FWO.diff"="% Change\nCompare to FWO",
+             "TP.FWO.diff"="% Change\nCompare to FWO",
+             "TN.FWO.diff"="% Change\nCompare to FWO")%>%
+  merge_h(part="header")%>%
+  align(j=3:7,align="center",part="header")%>%
+  padding(padding=1.5,part="all")%>%
+  align(j=3:9,align="center",part="all")%>%
+  bg(i=~Q.BF.FWO.diff<0,j=7,bg="lightgreen")%>%bg(i=~Q.BF.FWO.diff>0,j=7,bg="tomato")%>%bg(i=~is.na(Q.BF.FWO.diff)==T,j=7,bg="lightgrey")%>%
+  bg(i=~TP.FWO.diff<0,j=8,bg="lightgreen")%>%bg(i=~TP.FWO.diff>0,j=8,bg="tomato")%>%bg(i=~is.na(TP.FWO.diff)==T,j=8,bg="lightgrey")%>%
+  bg(i=~TN.FWO.diff<0,j=9,bg="lightgreen")%>%bg(i=~TN.FWO.diff>0,j=9,bg="tomato")%>%bg(i=~is.na(TN.FWO.diff)==T,j=9,bg="lightgrey")%>%
+  footnote(j=2:4,part="header",value=as_paragraph("Simulation period of record between Florida Water Year 1966 - 2016 (May 1965 - April 2016)"))%>%
+  set_caption(caption="Average annual load and average percent change relative to FWO (NA25) over the simulation period or record between May 1965 and April 2016 for back flow/pumping from S77, S308 and EAA (S2, S3 and S4) to Lake Okeechobee.")%>%print("docx")

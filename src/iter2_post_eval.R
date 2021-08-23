@@ -17,7 +17,7 @@ rm(list=ls(all=T));cat("\014");dev.off()
 library(AnalystHelper);
 library(openxlsx)
 library(plyr)
-library(reshape)
+library(reshape2)
 library(dssrip)
 library(zoo)
 library(classInt)
@@ -539,7 +539,7 @@ dev.off()
 
 
 ##### RECOVER plots
-vars.CRE=paste("CRE",c("low.count","opt.count","high.count","dam.count"),sep=".")
+vars.CRE=paste("CRE",c("low.count","opt.count","high.LOK.count","dam.LOK.count","high3.count"),sep=".")
 # apply(tmp[,vars],2,FUN=function(x)sum(x,na.rm=T))
 tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars.CRE)],id.vars = "Alt")
 CRE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
@@ -548,34 +548,36 @@ CRE.SalEnv_count=CRE.SalEnv_count[match(alts.sort,CRE.SalEnv_count$Alt),]
 
 CRE.SalEnv_count$perFWO.low=with(CRE.SalEnv_count,(CRE.low.count-CRE.low.count[1])/CRE.low.count[1])*100
 CRE.SalEnv_count$perFWO.opt=with(CRE.SalEnv_count,(CRE.opt.count-CRE.opt.count[1])/CRE.opt.count[1])*100
-CRE.SalEnv_count$perFWO.stress=with(CRE.SalEnv_count,(CRE.high.count-CRE.high.count[1])/CRE.high.count[1])*100
-CRE.SalEnv_count$perFWO.dam=with(CRE.SalEnv_count,(CRE.dam.count-CRE.dam.count[1])/CRE.dam.count[1])*100
-CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
+CRE.SalEnv_count$perFWO.LOK.stress=with(CRE.SalEnv_count,(CRE.high.LOK.count-CRE.high.LOK.count[1])/CRE.high.LOK.count[1])*100
+CRE.SalEnv_count$perFWO.LOK.dam=with(CRE.SalEnv_count,(CRE.dam.LOK.count-CRE.dam.LOK.count[1])/CRE.dam.LOK.count[1])*100
+CRE.SalEnv_count$perFWO.ext=with(CRE.SalEnv_count,(CRE.high3.count-CRE.high3.count[1])/CRE.high3.count[1])*100
+CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.LOK.stress","perFWO.LOK.dam","perFWO.ext")]
 
-vars.SLE=paste("SLE",c("low.count","opt.count","high.count","dam.count"),sep=".")
+vars.SLE=paste("SLE",c("low.count","opt.count","high.LOK.count","dam.LOK.count","high2.count"),sep=".")
 # apply(tmp[,vars],2,FUN=function(x)sum(x,na.rm=T))
-tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars)],id.vars = "Alt")
+tmp=reshape2::melt(q.dat.xtab2[,c("Alt",vars.SLE)],id.vars = "Alt")
 SLE.SalEnv_count=reshape2::dcast(tmp,Alt~variable,value.var = "value",sum)
 SLE.SalEnv_count=SLE.SalEnv_count[match(alts.sort,SLE.SalEnv_count$Alt),]
 # write.csv(SLE.SalEnv_count,paste0(export.path,"SLE_SalEnv_count.csv"),row.names=F)
 
 SLE.SalEnv_count$perFWO.low=with(SLE.SalEnv_count,(SLE.low.count-SLE.low.count[1])/SLE.low.count[1])*100
 SLE.SalEnv_count$perFWO.opt=with(SLE.SalEnv_count,(SLE.opt.count-SLE.opt.count[1])/SLE.opt.count[1])*100
-SLE.SalEnv_count$perFWO.stress=with(SLE.SalEnv_count,(SLE.high.count-SLE.high.count[1])/SLE.high.count[1])*100
-SLE.SalEnv_count$perFWO.dam=with(SLE.SalEnv_count,(SLE.dam.count-SLE.dam.count[1])/SLE.dam.count[1])*100
-SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
+SLE.SalEnv_count$perFWO.LOK.stress=with(SLE.SalEnv_count,(SLE.high.LOK.count-SLE.high.LOK.count[1])/SLE.high.LOK.count[1])*100
+SLE.SalEnv_count$perFWO.LOK.dam=with(SLE.SalEnv_count,(SLE.dam.LOK.count-SLE.dam.LOK.count[1])/SLE.dam.LOK.count[1])*100
+SLE.SalEnv_count$perFWO.ext=with(SLE.SalEnv_count,(SLE.high2.count-SLE.high2.count[1])/SLE.high2.count[1])*100
+SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.LOK.stress","perFWO.LOK.dam","perFWO.ext")]
 
 CRE.SalEnv_count2=CRE.SalEnv_count[,c("Alt",vars.CRE)]
 SLE.SalEnv_count2=SLE.SalEnv_count[,c("Alt",vars.SLE)]
-CRE.labs=c("Low Flow (<750 cfs)","Optimum (750 - 2100 cfs)","Stress (2100 - 2600 cfs)","Damaging (>2600 cfs)")
-SLE.labs=c("Low Flow (<150 cfs)","Optimum (150 - 1400 cfs)","Stress (1400 - 1700 cfs)","Damaging (>1700 cfs)")
-# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-layout(matrix(c(1:8),2,4,byrow=T))
-par(family="serif",mar=c(2,2,0.25,1),oma=c(2,2,1,1),lwd=0.5);
+CRE.labs=c("Low Flow\n(<750 cfs)","Optimum\n(750 - 2100 cfs)","Stress From LOK\n(2100 - 2600 cfs)","Damaging From LOK\n(>2600 cfs)","Extreme\n(>6500 cfs)")
+SLE.labs=c("Low Flow\n(<150 cfs)","Optimum\n(150 - 1400 cfs)","Stress From LOK\n(1400 - 1700 cfs)","Damaging From LOK\n(>1700 cfs)","Extreme\n(>4000 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2,1,1),oma=c(2,2,2,1),lwd=0.5);
 
-ymax=c(1000,1000,500,500)
+ymax=c(1000,1000,400,300,80)
 yval=ymax/2
-for(i in 2:5){
+for(i in 2:6){
   ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
   x=barplot(CRE.SalEnv_count2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
   axis_fun(2,ymaj,ymin,ymaj)
@@ -587,9 +589,9 @@ for(i in 2:5){
 }
 mtext(side=4,line=0.5,"Caloosahatchee")
 
-ymax=c(200,1000,500,1000)
+ymax=c(200,1000,200,200,200)
 yval=ymax/2
-for(i in 2:5){
+for(i in 2:6){
   ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
   x=barplot(SLE.SalEnv_count2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
   axis_fun(2,ymaj,ymin,ymaj)
@@ -607,17 +609,16 @@ dev.off()
 
 
 
+CRE.SalEnv_fwo=CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.LOK.stress","perFWO.LOK.dam","perFWO.ext")]
+SLE.SalEnv_fwo=SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.LOK.stress","perFWO.LOK.dam","perFWO.ext")]
+# CRE.labs=c("Low Flow (<750 cfs)","Optimum (750 - 2100 cfs)","Stress (2100 - 2600 cfs)","Damaging (>2600 cfs)")
+# SLE.labs=c("Low Flow (<150 cfs)","Optimum (150 - 1400 cfs)","Stress (1400 - 1700 cfs)","Damaging (>1700 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2,1,1),oma=c(2,2,2,1),lwd=0.5);
 
-CRE.SalEnv_fwo=CRE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
-SLE.SalEnv_fwo=SLE.SalEnv_count[,c('Alt',"perFWO.low","perFWO.opt","perFWO.stress","perFWO.dam")]
-CRE.labs=c("Low Flow (<750 cfs)","Optimum (750 - 2100 cfs)","Stress (2100 - 2600 cfs)","Damaging (>2600 cfs)")
-SLE.labs=c("Low Flow (<150 cfs)","Optimum (150 - 1400 cfs)","Stress (1400 - 1700 cfs)","Damaging (>1700 cfs)")
-# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff.png"),width=6.5,height=4,units="in",res=200,type="windows",bg="white")
-layout(matrix(c(1:8),2,4,byrow=T))
-par(family="serif",mar=c(2,2,0.25,1),oma=c(2,2,1,1),lwd=0.5);
-
-ylim.val=c(-40,40);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y)
-for(i in 2:5){
+ylim.val=c(-40,80);by.y=40;ymaj=c(0,seq(ylim.val[1],ylim.val[2],by.y));ymin=seq(ylim.val[1],ylim.val[2],by.y)
+for(i in 2:6){
   x=barplot(CRE.SalEnv_fwo[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
   abline(h=0,lwd=1)
   axis_fun(2,ymaj,ymin,ymaj)
@@ -638,8 +639,8 @@ for(i in 2:5){
 }
 mtext(side=4,line=0.5,"Caloosahatchee")
 
-ylim.val=c(-20,70);by.y=20;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y)
-for(i in 2:5){
+ylim.val=c(-100,80);by.y=40;ymaj=c(0,seq(ylim.val[1],ylim.val[2],by.y));ymin=seq(ylim.val[1],ylim.val[2],by.y)
+for(i in 2:6){
   x=barplot(SLE.SalEnv_fwo[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
   abline(h=0,lwd=1)
   axis_fun(2,ymaj,ymin,ymaj)
@@ -662,6 +663,370 @@ mtext(side=4,line=0.5,"St Lucie")
 mtext(side=1,line=0.75,outer=T,"Alternative")
 mtext(side=2,line=0.5,outer=T,"Average Percent Difference to FWO")
 dev.off()
+
+## 
+q.dat.xtab$QLT457=with(q.dat.xtab,ifelse(S79<457,1,0))
+q.dat.xtab$Q457_750=with(q.dat.xtab,ifelse(S79>=457&S79<750,1,0))
+q.dat.xtab$Q_Opt=with(q.dat.xtab,ifelse(S79>=750&S79<2100,1,0))
+q.dat.xtab$Q_Stress=with(q.dat.xtab,ifelse(S79>=2100&S79<2600,1,0))
+q.dat.xtab$Q_Dam=with(q.dat.xtab,ifelse(S79>=2600,1,0))
+q.dat.xtab$Q2600_4500=with(q.dat.xtab,ifelse(S79>=2600&S79<4500,1,0))
+q.dat.xtab$Q4500_6500=with(q.dat.xtab,ifelse(S79>=4500&S79<6500,1,0))
+q.dat.xtab$QGT6500=with(q.dat.xtab,ifelse(S79>6500,1,0))
+q.dat.xtab$GT2100=with(q.dat.xtab,ifelse(S79>=2100,1,0))
+
+CRE.QCat.POS=ddply(q.dat.xtab,"Alt",summarise,
+                   Q.LT457=sum(cfs.to.acftd(S79[QLT457==1])/1000,na.rm=T),
+                   Q.Q457_750=sum(cfs.to.acftd(S79[Q457_750==1])/1000,na.rm=T),
+                   Q.Q_Opt=sum(cfs.to.acftd(S79[Q_Opt==1])/1000,na.rm=T),
+                   Q.Q_Stress=sum(cfs.to.acftd(S79[Q_Stress==1])/1000,na.rm=T),
+                   Q.Q2600_4500=sum(cfs.to.acftd(S79[Q2600_4500==1])/1000,na.rm=T),
+                   Q.Q4500_6500=sum(cfs.to.acftd(S79[Q4500_6500==1])/1000,na.rm = T),
+                   Q.QGT6500=sum(cfs.to.acftd(S79[QGT6500==1])/1000,na.rm=T),
+                   Q.QGT2100=sum(cfs.to.acftd(S79[GT2100==1])/1000,na.rm=T))
+CRE.QCat.POS=CRE.QCat.POS[match(alts.sort,CRE.QCat.POS$Alt),]
+CRE.QCat.POS
+# with(subset(q.dat.xtab,Alt=="CC"),sum(cfs.to.acftd(S79[QLT457==1])/1000,na.rm=T))
+
+
+
+# Daily Counts ------------------------------------------------------------
+# CRE
+q.dat.xtab$da.CRE.low=with(q.dat.xtab,ifelse(S79<750,1,0)) # RECOVER Low
+q.dat.xtab$da.CRE.opt=with(q.dat.xtab,ifelse(S79>=750&S79<2100,1,0)) # RECOVER Optimum
+q.dat.xtab$da.CRE.high=with(q.dat.xtab,ifelse(S79>=2100&S79<2600,1,0)) # RECOVER Stress
+q.dat.xtab$da.CRE.high.LOK=with(q.dat.xtab,ifelse(da.CRE.high==1,ifelse((S79-S79_QPFCSOURCE_LAKE)<=2100,1,0),0))
+q.dat.xtab$da.CRE.high.Basin=with(q.dat.xtab,da.CRE.high-da.CRE.high.LOK)
+q.dat.xtab$da.CRE.high3=with(q.dat.xtab,ifelse(S79>=6500,1,0))
+q.dat.xtab$da.CRE.dam=with(q.dat.xtab,ifelse(S79>=2600,1,0)) # RECOVER Damaging
+q.dat.xtab$da.CRE.dam.LOK=with(q.dat.xtab,ifelse(da.CRE.dam==1,ifelse((S79-S79_QPFCSOURCE_LAKE)<=2600,1,0),0))
+q.dat.xtab$da.CRE.dam.Basin=with(q.dat.xtab,da.CRE.dam-da.CRE.dam.LOK)
+
+CRE.vars=c( "da.CRE.low", "da.CRE.opt","da.CRE.high","da.CRE.high.LOK","da.CRE.high.Basin",  
+            "da.CRE.dam","da.CRE.dam.LOK","da.CRE.dam.Basin","da.CRE.high3")
+cre.q.dat.xtab.melt=melt(q.dat.xtab[,c("Alt","Date",CRE.vars)],id.vars=c("Alt","Date"))
+cre.q.dat.xtab.melt$region="CRE"
+cre.q.dat.xtab.da=reshape2::dcast(cre.q.dat.xtab.melt,region+Alt~variable,value.var="value",sum,na.rm=T)
+cre.q.dat.xtab.da=cre.q.dat.xtab.da[match(cre.q.dat.xtab.da$Alt,alts.sort),]
+
+var.names=paste0("PerFWO.",c("low","opt","high","high.LOK","high.Basin","dam","dam.LOK","dam.Basin","high3"))
+for(i in 1:length(CRE.vars)){
+  tmp=data.frame(val=((cre.q.dat.xtab.da[,CRE.vars[i]]-cre.q.dat.xtab.da[1,CRE.vars[i]])/cre.q.dat.xtab.da[1,CRE.vars[i]])*100)
+  colnames(tmp)=var.names[i]
+  cre.q.dat.xtab.da=cbind(cre.q.dat.xtab.da,tmp)
+}
+
+# SLE
+q.dat.xtab$da.SLE.low=with(q.dat.xtab,ifelse(SLE.S80trib<150,1,0)) # RECOVER Low
+q.dat.xtab$da.SLE.opt=with(q.dat.xtab,ifelse(SLE.S80trib>=150&SLE.S80trib<1400,1,0)) # RECOVER Optimum
+q.dat.xtab$da.SLE.high=with(q.dat.xtab,ifelse(SLE.S80trib>=1400&SLE.S80trib<1700,1,0)) # RECOVER stress
+q.dat.xtab$da.SLE.high.LOK=with(q.dat.xtab,ifelse(da.SLE.high==1,ifelse((SLE.S80trib-S80_QPFCSOURCE_LAKE)<=1400,1,0),0))
+q.dat.xtab$da.SLE.high.Basin=with(q.dat.xtab,da.SLE.high-da.SLE.high.LOK)
+q.dat.xtab$da.SLE.dam=with(q.dat.xtab,ifelse(SLE.S80trib>=1700,1,0))# RECOVER damaging
+q.dat.xtab$da.SLE.dam.LOK=with(q.dat.xtab,ifelse(da.SLE.dam==1,ifelse((SLE.S80trib-S80_QPFCSOURCE_LAKE)<=1700,1,0),0))
+q.dat.xtab$da.SLE.dam.Basin=with(q.dat.xtab,da.SLE.dam-da.SLE.dam.LOK)
+q.dat.xtab$da.SLE.high2=with(q.dat.xtab,ifelse(SLE.S80trib>=4000,1,0))
+
+SLE.vars=c( "da.SLE.low", "da.SLE.opt","da.SLE.high","da.SLE.high.LOK","da.SLE.high.Basin",  
+            "da.SLE.dam","da.SLE.dam.LOK","da.SLE.dam.Basin","da.SLE.high2")
+SLE.q.dat.xtab.melt=reshape2::melt(q.dat.xtab[,c("Alt","Date",SLE.vars)],id.vars=c("Alt","Date"))
+SLE.q.dat.xtab.melt$region="SLE"
+SLE.q.dat.xtab.da=reshape2::dcast(SLE.q.dat.xtab.melt,region+Alt~variable,value.var="value",sum,na.rm=T)
+SLE.q.dat.xtab.da=SLE.q.dat.xtab.da[match(SLE.q.dat.xtab.da$Alt,alts.sort),]
+
+var.names=paste0("PerFWO.",c("low","opt","high","high.LOK","high.Basin","dam","dam.LOK","dam.Basin","high2"))
+for(i in 1:length(SLE.vars)){
+  tmp=data.frame(val=((SLE.q.dat.xtab.da[,SLE.vars[i]]-SLE.q.dat.xtab.da[1,SLE.vars[i]])/SLE.q.dat.xtab.da[1,SLE.vars[i]])*100)
+  colnames(tmp)=var.names[i]
+  SLE.q.dat.xtab.da=cbind(SLE.q.dat.xtab.da,tmp)
+}
+
+CRE.vars=paste("da.CRE",c("low", "opt","high.LOK","dam.LOK","high3"),sep=".")
+SLE.vars=paste("da.SLE",c("low", "opt","high.LOK","dam.LOK","high2"),sep=".")
+
+CRE.SalEnv_count.da=cre.q.dat.xtab.da[,c("Alt",CRE.vars)]
+SLE.SalEnv_count.da=SLE.q.dat.xtab.da[,c("Alt",SLE.vars)]
+
+CRE.labs=c("Low Flow\n(<750 cfs)","Optimum\n(750 - 2100 cfs)","Stress From LOK\n(2100 - 2600 cfs)","Damaging From LOK\n(>2600 cfs)","Extreme\n(>6500 cfs)")
+SLE.labs=c("Low Flow\n(<150 cfs)","Optimum\n(150 - 1400 cfs)","Stress From LOK\n(1400 - 1700 cfs)","Damaging From LOK\n(>1700 cfs)","Extreme\n(>4000 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total_daily.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2.5,1,1),oma=c(2,2,2,1),lwd=0.5);
+
+ymax=c(11000,10000,500,2500,1000)
+yval=ymax/2
+for(i in 2:6){
+  ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
+  x=barplot(CRE.SalEnv_count.da[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,NA)
+  box(lwd=1)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_count.da[,i],round(CRE.SalEnv_count.da[,i],0),font=2,col="black",pos=1,cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
+}
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ymax=c(5000,20000,500,2500,2500)
+yval=ymax/2
+for(i in 2:6){
+  ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
+  x=barplot(SLE.SalEnv_count.da[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_count.da[,i],round(SLE.SalEnv_count.da[,i],0),font=2,col="black",pos=ifelse(SLE.SalEnv_count.da[,i]<100,3,1),cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
+mtext(side=1,line=0.75,outer=T,"Alternative")
+mtext(side=2,line=0.75,outer=T,"Count of Days")
+mtext(side=1,outer=T,line=1,adj=1,"Based on daily data (CRE: S79; SLE: S80+Tribs)",cex=0.5,col="grey")
+dev.off()
+
+CRE.vars=paste0("PerFWO.",c("low","opt","high.LOK","dam.LOK","high3"))
+CRE.SalEnv_count.da2=cre.q.dat.xtab.da[,c("Alt",CRE.vars)]
+SLE.vars=paste0("PerFWO.",c("low","opt","high.LOK","dam.LOK","high2"))
+SLE.SalEnv_count.da2=SLE.q.dat.xtab.da[,c("Alt",SLE.vars)]
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff_daily.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2,1,1),oma=c(2,2,2,1),lwd=0.5);
+
+ylim.val=c(-50,100);by.y=50;ymaj=seq(-100,ylim.val[2],by.y);ymin=seq(-100,ylim.val[2],by.y)
+for(i in 2:6){
+  x=barplot(CRE.SalEnv_count.da2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,NA)
+  box(lwd=1)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_count.da2[,i],format(round(CRE.SalEnv_count.da2[,i],1),nsmall=1),
+       font=2,pos=ifelse(CRE.SalEnv_count.da2[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(2,4,5)){
+  # text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #      font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #      col=ifelse(CRE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i==3){
+  #   text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #        col=ifelse(CRE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
+}
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ylim.val=c(-110,100);by.y=50;ymaj=seq(-100,ylim.val[2],by.y);ymin=seq(-100,ylim.val[2],by.y)
+for(i in 2:6){
+  x=barplot(SLE.SalEnv_count.da2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_count.da2[,i],format(round(SLE.SalEnv_count.da2[,i],1),nsmall=1),
+       font=2,pos=ifelse(SLE.SalEnv_count.da2[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(4,5)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i%in%c(2,3)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
+mtext(side=1,line=0.75,outer=T,"Alternative")
+mtext(side=2,line=0.5,outer=T,"Average Percent Difference to FWO")
+dev.off()
+
+
+var.names=c("region", "Alt", "low", "opt", "high","high.LOK", "high.Basin", "dam", "dam.LOK", 
+            "dam.Basin", "extreme", "PerFWO.low", "PerFWO.opt", 
+            "PerFWO.high", "PerFWO.high.LOK", "PerFWO.high.Basin", "PerFWO.dam", 
+            "PerFWO.dam.LOK", "PerFWO.dam.Basin", "PerFWO.ext")
+
+CRE.da.count=cre.q.dat.xtab.da
+colnames(CRE.da.count)=var.names
+
+SLE.da.count=SLE.q.dat.xtab.da
+colnames(SLE.da.count)=var.names
+
+sal.env.daily=rbind(CRE.da.count,SLE.da.count)
+# write.csv(sal.env.daily,paste0(export.path,"SLE_SalEnv_count_da.csv"),row.names=F)
+
+
+# Monthly Average ---------------------------------------------------------
+q.dat.xtab.mon=reshape2::dcast(q.dat,Alt+CY+month~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
+
+S80trib=ddply(q.dat.xtab,c("Alt","CY","month"),summarise,SLE.S80trib=mean(SLE.S80trib,na.rm=T))
+q.dat.xtab.mon=merge(q.dat.xtab.mon,S80trib,c("Alt","CY","month"))
+q.dat.xtab.mon=q.dat.xtab.mon[order(q.dat.xtab.mon$Alt,q.dat.xtab.mon$CY,q.dat.xtab.mon$month),]
+
+q.dat.xtab.mon$mon.CRE.low=with(q.dat.xtab.mon,ifelse(S79<750,1,0)) # RECOVER Low
+q.dat.xtab.mon$mon.CRE.opt=with(q.dat.xtab.mon,ifelse(S79>=750&S79<2100,1,0)) # RECOVER Optimum
+q.dat.xtab.mon$mon.CRE.high=with(q.dat.xtab.mon,ifelse(S79>=2100&S79<2600,1,0)) # RECOVER Stress
+q.dat.xtab.mon$mon.CRE.high.LOK=with(q.dat.xtab.mon,ifelse(mon.CRE.high==1,ifelse((S79-S79_QPFCSOURCE_LAKE)<=2100,1,0),0))
+q.dat.xtab.mon$mon.CRE.high.Basin=with(q.dat.xtab.mon,mon.CRE.high-mon.CRE.high.LOK)
+q.dat.xtab.mon$mon.CRE.high3=with(q.dat.xtab.mon,ifelse(S79>=6500,1,0))
+q.dat.xtab.mon$mon.CRE.dam=with(q.dat.xtab.mon,ifelse(S79>=2600,1,0)) # RECOVER Damaging
+q.dat.xtab.mon$mon.CRE.dam.LOK=with(q.dat.xtab.mon,ifelse(mon.CRE.dam==1,ifelse((S79-S79_QPFCSOURCE_LAKE)<=2600,1,0),0))
+q.dat.xtab.mon$mon.CRE.dam.Basin=with(q.dat.xtab.mon,mon.CRE.dam-mon.CRE.dam.LOK)
+
+CRE.vars=c( "mon.CRE.low", "mon.CRE.opt","mon.CRE.high","mon.CRE.high.LOK","mon.CRE.high.Basin",  
+            "mon.CRE.dam","mon.CRE.dam.LOK","mon.CRE.dam.Basin","mon.CRE.high3")
+cre.q.dat.xtab.melt=melt(q.dat.xtab.mon[,c("Alt","CY","month",CRE.vars)],id.vars=c("Alt","CY","month"))
+cre.q.dat.xtab.melt$region="CRE"
+cre.q.dat.xtab.mon=reshape2::dcast(cre.q.dat.xtab.melt,region+Alt~variable,value.var="value",sum,na.rm=T)
+cre.q.dat.xtab.mon=cre.q.dat.xtab.mon[match(cre.q.dat.xtab.mon$Alt,alts.sort),]
+
+var.names=paste0("PerFWO.",c("low","opt","high","high.LOK","high.Basin","dam","dam.LOK","dam.Basin","high3"))
+for(i in 1:length(CRE.vars)){
+  tmp=data.frame(val=((cre.q.dat.xtab.mon[,CRE.vars[i]]-cre.q.dat.xtab.mon[1,CRE.vars[i]])/cre.q.dat.xtab.mon[1,CRE.vars[i]])*100)
+  colnames(tmp)=var.names[i]
+  cre.q.dat.xtab.mon=cbind(cre.q.dat.xtab.mon,tmp)
+}
+
+# SLE
+q.dat.xtab.mon$mon.SLE.low=with(q.dat.xtab.mon,ifelse(SLE.S80trib<150,1,0)) # RECOVER Low
+q.dat.xtab.mon$mon.SLE.opt=with(q.dat.xtab.mon,ifelse(SLE.S80trib>=150&SLE.S80trib<1400,1,0)) # RECOVER Optimum
+q.dat.xtab.mon$mon.SLE.high=with(q.dat.xtab.mon,ifelse(SLE.S80trib>=1400&SLE.S80trib<1700,1,0)) # RECOVER stress
+q.dat.xtab.mon$mon.SLE.high.LOK=with(q.dat.xtab.mon,ifelse(mon.SLE.high==1,ifelse((SLE.S80trib-S80_QPFCSOURCE_LAKE)<=1400,1,0),0))
+q.dat.xtab.mon$mon.SLE.high.Basin=with(q.dat.xtab.mon,mon.SLE.high-mon.SLE.high.LOK)
+q.dat.xtab.mon$mon.SLE.dam=with(q.dat.xtab.mon,ifelse(SLE.S80trib>=1700,1,0))# RECOVER damaging
+q.dat.xtab.mon$mon.SLE.dam.LOK=with(q.dat.xtab.mon,ifelse(mon.SLE.dam==1,ifelse((SLE.S80trib-S80_QPFCSOURCE_LAKE)<=1700,1,0),0))
+q.dat.xtab.mon$mon.SLE.dam.Basin=with(q.dat.xtab.mon,mon.SLE.dam-mon.SLE.dam.LOK)
+q.dat.xtab.mon$mon.SLE.high2=with(q.dat.xtab.mon,ifelse(SLE.S80trib>=4000,1,0))
+
+SLE.vars=c( "mon.SLE.low", "mon.SLE.opt","mon.SLE.high","mon.SLE.high.LOK","mon.SLE.high.Basin",  
+            "mon.SLE.dam","mon.SLE.dam.LOK","mon.SLE.dam.Basin","mon.SLE.high2")
+SLE.q.dat.xtab.melt=reshape2::melt(q.dat.xtab.mon[,c("Alt","CY","month",SLE.vars)],id.vars=c("Alt","CY","month"))
+SLE.q.dat.xtab.melt$region="SLE"
+SLE.q.dat.xtab.mon=reshape2::dcast(SLE.q.dat.xtab.melt,region+Alt~variable,value.var="value",sum,na.rm=T)
+SLE.q.dat.xtab.mon=SLE.q.dat.xtab.mon[match(SLE.q.dat.xtab.mon$Alt,alts.sort),]
+
+var.names=paste0("PerFWO.",c("low","opt","high","high.LOK","high.Basin","dam","dam.LOK","dam.Basin","high2"))
+for(i in 1:length(SLE.vars)){
+  tmp=data.frame(val=((SLE.q.dat.xtab.mon[,SLE.vars[i]]-SLE.q.dat.xtab.mon[1,SLE.vars[i]])/SLE.q.dat.xtab.mon[1,SLE.vars[i]])*100)
+  colnames(tmp)=var.names[i]
+  SLE.q.dat.xtab.mon=cbind(SLE.q.dat.xtab.mon,tmp)
+}
+
+CRE.vars=paste("mon.CRE",c("low", "opt","high.LOK","dam.LOK","high3"),sep=".")
+SLE.vars=paste("mon.SLE",c("low", "opt","high.LOK","dam.LOK","high2"),sep=".")
+
+CRE.SalEnv_count.mon=cre.q.dat.xtab.mon[,c("Alt",CRE.vars)]
+SLE.SalEnv_count.mon=SLE.q.dat.xtab.mon[,c("Alt",SLE.vars)]
+
+CRE.labs=c("Low Flow\n(<750 cfs)","Optimum\n(750 - 2100 cfs)","Stress From LOK\n(2100 - 2600 cfs)","Damaging From LOK\n(>2600 cfs)","Extreme\n(>6500 cfs)")
+SLE.labs=c("Low Flow\n(<150 cfs)","Optimum\n(150 - 1400 cfs)","Stress From LOK\n(1400 - 1700 cfs)","Damaging From LOK\n(>1700 cfs)","Extreme\n(>4000 cfs)")
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_total_month.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2.5,1,1),oma=c(2,2,2,1),lwd=0.5);
+
+ymax=c(300,300,100,100,20)
+yval=ymax/2
+for(i in 2:6){
+  ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
+  x=barplot(CRE.SalEnv_count.mon[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,NA)
+  box(lwd=1)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_count.mon[,i],round(CRE.SalEnv_count.mon[,i],0),font=2,col="black",pos=1,cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
+}
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ymax=c(50,400,40,50,60)
+yval=ymax/2
+for(i in 2:6){
+  ylim.val=c(0,ymax[i-1]);ymaj=seq(ylim.val[1],ylim.val[2],yval[i-1]);ymin=seq(ylim.val[1],ylim.val[2],yval[i-1])
+  x=barplot(SLE.SalEnv_count.mon[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_count.mon[,i],round(SLE.SalEnv_count.mon[,i],0),font=2,col="black",pos=ifelse(SLE.SalEnv_count.mon[,i]<100,3,1),cex=0.5,offset=0.25)
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
+mtext(side=1,line=0.75,outer=T,"Alternative")
+mtext(side=2,line=0,outer=T,"Count of Months")
+mtext(side=1,outer=T,line=1,adj=1,"Based on monthly mean data (CRE: S79; SLE: S80+Tribs)",cex=0.5,col="grey")
+
+dev.off()
+
+CRE.vars=paste0("PerFWO.",c("low","opt","high.LOK","dam.LOK","high3"))
+CRE.SalEnv_count.mon2=cre.q.dat.xtab.mon[,c("Alt",CRE.vars)]
+SLE.vars=paste0("PerFWO.",c("low","opt","high.LOK","dam.LOK","high2"))
+SLE.SalEnv_count.mon2=SLE.q.dat.xtab.mon[,c("Alt",SLE.vars)]
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff_mon.png"),width=7,height=4.25,units="in",res=200,type="windows",bg="white")
+layout(matrix(c(1:10),2,5,byrow=T))
+par(family="serif",mar=c(2,2,1,1),oma=c(2,2,2,1),lwd=0.5);
+
+ylim.val=c(-50,200);by.y=50;ymaj=seq(-100,ylim.val[2],by.y);ymin=seq(-100,ylim.val[2],by.y)
+for(i in 2:6){
+  x=barplot(CRE.SalEnv_count.mon2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,NA)
+  box(lwd=1)
+  mtext(side=3,adj=0,CRE.labs[i-1],cex=0.7)
+  text(x,CRE.SalEnv_count.mon2[,i],format(round(CRE.SalEnv_count.mon2[,i],1),nsmall=1),
+       font=2,pos=ifelse(CRE.SalEnv_count.mon2[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(2,4,5)){
+  # text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #      font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #      col=ifelse(CRE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i==3){
+  #   text(x,CRE.SalEnv_fwo[,i],format(round(CRE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(CRE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.1,
+  #        col=ifelse(CRE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(CRE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," CRE")}
+}
+mtext(side=4,line=0.5,"Caloosahatchee")
+
+ylim.val=c(-110,100);by.y=50;ymaj=seq(-100,ylim.val[2],by.y);ymin=seq(-100,ylim.val[2],by.y)
+for(i in 2:6){
+  x=barplot(SLE.SalEnv_count.mon2[,i],col=adjustcolor(cols,0.5),ylim=ylim.val,space=0,axes=F,ann=F)
+  abline(h=0,lwd=1)
+  axis_fun(2,ymaj,ymin,ymaj)
+  axis_fun(1,x,x,alts.sort,cex=0.8,las=2)
+  box(lwd=1)
+  mtext(side=3,adj=0,SLE.labs[i-1],cex=0.7)
+  text(x,SLE.SalEnv_count.mon2[,i],format(round(SLE.SalEnv_count.mon2[,i],1),nsmall=1),
+       font=2,pos=ifelse(SLE.SalEnv_count.mon2[,i]<0,1,3),cex=0.5,offset=0.1)
+  # if(i%in%c(4,5)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]<0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]>0,"red","black")))}
+  # if(i%in%c(2,3)){
+  #   text(x,SLE.SalEnv_fwo[,i],format(round(SLE.SalEnv_fwo[,i],1),nsmall=1),
+  #        font=2,pos=ifelse(SLE.SalEnv_fwo[,i]<0,1,3),cex=0.5,offset=0.25,
+  #        col=ifelse(SLE.SalEnv_fwo[,i]>0,"forestgreen",ifelse(SLE.SalEnv_fwo[,i]<0,"red","black")))}
+  if(i==2){mtext(side=3,adj=0,line=-1.25," SLE")}
+}
+mtext(side=4,line=0.5,"St Lucie")
+mtext(side=1,line=0.75,outer=T,"Alternative")
+mtext(side=2,line=0.5,outer=T,"Average Percent Difference to FWO")
+dev.off()
+
+var.names=c("region", "Alt", "low", "opt", "high","high.LOK", "high.Basin", "dam", "dam.LOK", 
+            "dam.Basin", "extreme", "PerFWO.low", "PerFWO.opt", 
+            "PerFWO.high", "PerFWO.high.LOK", "PerFWO.high.Basin", "PerFWO.dam", 
+            "PerFWO.dam.LOK", "PerFWO.dam.Basin", "PerFWO.ext")
+
+CRE.mon.count=cre.q.dat.xtab.mon
+colnames(CRE.mon.count)=var.names
+
+SLE.mon.count=SLE.q.dat.xtab.mon
+colnames(SLE.mon.count)=var.names
+
+sal.env.month=rbind(CRE.mon.count,SLE.mon.count)
+# write.csv(sal.env.month,paste0(export.path,"SLE_SalEnv_count_mon.csv"),row.names=F)
 
 
 ##### Lake Discharges
@@ -1075,3 +1440,44 @@ mtext(side=1,line=3,'Model Alternative')
 mtext(side=2,line=1.5,outer=T,"Average Percent Difference to FWO")
 mtext(side=1,line=2.5,outer=T,adj=0,"FL WY 1966 - 2016",col="grey",font=3,cex=0.75)
 dev.off()
+
+
+## Verify Peters numbers
+q.dat.xtab1=q.dat.xtab
+
+# CRE
+q.dat.xtab1$da.CRE.low=with(q.dat.xtab1,ifelse(S79<=750,1,0)) # RECOVER Low
+q.dat.xtab1$da.CRE.opt=with(q.dat.xtab1,ifelse(S79>750&S79<2100,1,0)) # RECOVER Optimum
+
+ddply(q.dat.xtab1,"Alt",summarise,low=sum(da.CRE.low,na.rm=T),opt=sum(da.CRE.opt))
+# alt <750 cfs >=750-2100
+# CC_PF 7107 6371
+
+head.val=c("year","month","day","S79.kacft", "Residual","WBDelta", "WBError")
+
+CRE.wb=data.frame()
+for(i in 1:length(alts.sort)){
+  tmp=read.csv(paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/calestuary.csv"),skip=1,col.names = head.val)
+  tmp$Alt=alts[i]
+  CRE.wb=rbind(CRE.wb,tmp)
+  print(alts[i])
+}
+
+CRE.wb$date=with(CRE.wb,date.fun(paste(year,month,day,sep="-")))
+head(CRE.wb)
+
+CRE.wb$da.CRE.low=with(CRE.wb,ifelse(S79.kacft<cfs.to.acftd(750)/1000,1,0)) # RECOVER Low
+CRE.wb$da.CRE.opt=with(CRE.wb,ifelse(S79.kacft>=cfs.to.acftd(750)/1000&S79.kacft<cfs.to.acftd(2100)/1000,1,0)) # RECOVER Optimum
+
+ddply(CRE.wb,"Alt",summarise,low=sum(da.CRE.low,na.rm=T),opt=sum(da.CRE.opt))
+
+CRE.wb$da.CRE.low=with(CRE.wb,ifelse(S79.kacft<=cfs.to.acftd(750)/1000,1,0)) # RECOVER Low
+CRE.wb$da.CRE.opt=with(CRE.wb,ifelse(S79.kacft>cfs.to.acftd(750)/1000&S79.kacft<cfs.to.acftd(2100)/1000,1,0)) # RECOVER Optimum
+
+ddply(CRE.wb,"Alt",summarise,low=sum(da.CRE.low,na.rm=T),opt=sum(da.CRE.opt))
+
+acftd.to.cfs=function(x) x*0.5041669
+CRE.wb$S79.cfs=with(CRE.wb,acftd.to.cfs(S79.kacft*1000))
+CRE.wb$da.CRE.low=with(CRE.wb,ifelse(S79.cfs<=750,1,0)) # RECOVER Low
+ddply(CRE.wb,"Alt",summarise,low=sum(da.CRE.low,na.rm=T),opt=sum(da.CRE.opt))
+

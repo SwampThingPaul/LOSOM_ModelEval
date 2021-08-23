@@ -98,6 +98,36 @@ for(i in 1:length(alts)){
   download.file(url,dest,mode="wb")
 }
 
+## Cal Estuary Daily waterbalance
+alts=c("ECBr","NA25","AA","BB","CC")
+for(i in 1:length(alts)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/WaterBudgets/RSMBN/",alts[i],"/calestuary.csv")
+  dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/calestuary.csv")
+  download.file(url,dest,mode="wb")
+}
+
+alts=c("DD","EE1","EE2")
+for(i in 1:length(alts)){
+  url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/WaterBudgets/RSMBN/",alts[i],"/calestuary.csv")
+  dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/calestuary.csv")
+  download.file(url,dest,mode="wb")
+}
+
+## Cal Estuary Daily waterbalance
+# Did not download
+# alts=c("ECBr","NA25","AA","BB","CC")
+# for(i in 1:length(alts)){
+#   url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_AA_BB_CC/WaterBudgets/RSMBN/",alts[i],"/SLE.csv")
+#   dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/SLE.csv")
+#   download.file(url,dest,mode="wb")
+# }
+# 
+# alts=c("DD","EE1","EE2")
+# for(i in 1:length(alts)){
+#   url=paste0("ftp://ftppub.sfwmd.gov/outgoing/LOSOM/Iteration_2/PM_ECBr_NA25_DD_EE1_EE2/WaterBudgets/RSMBN/",alts[i],"/SLE.csv")
+#   dest=paste0(data.path,"Iteration_2/Model_Output/",alts[i],"/SLE.csv")
+#   download.file(url,dest,mode="wb")
+# }
 
 # Northern Estuaries Summary
 data.path.new=paste0(data.path,"Iteration_2/Model_Output/Northern_Estuaries/")
