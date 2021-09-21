@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM post iter2</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+.pull-left[
+#### Iteration 3 - Phase 1 Technical Evaluation
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+**DRAFT** - September 21, 2021
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+
+]
+
+
+
+.footnote[
+Paul Julian PhD&lt;br&gt;[<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>](mailto: pjulian@sccf.org) .small[pjulian@sccf.org]
+
+.small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
+
+<a href="https://sccf-tech.github.io/slides/LOSOM/SCCF_iter3_p1.pdf">
+<button class="btn btn-primary btn-sm">Download PDF Version</button>
+</a>
+]
+
+---
+name: background
+
+### Iteration 3 Modeling
+
+#### Phase 1
+* Initial sensitivity runs based on Alternative CC &amp; Iteration 3 goals
+* Simplify release guidance and reduce dimensionality for optimization
+* Test schedule components based on simplified schedule &amp; Iteration 3 goals
+
+#### Notes
+
+Alternative Naming
+* CC == CCTSP
+* 2 versions of CCsimp4 - After simp4s1 (*Phase 1 - Test Flows to St Lucie Estuary*) was run it was renames as CCsimp4. Therefore in this presentation the second CCsimp4 was renamed to CCsimp4(2).
+
+
+---
+name: InitialSense
+
+
+### Phase 1 - Initial Sensitivity Runs
+
+* **S1:** Preserve opportunity to send water out of the lake for longer which addresses the goal of increasing flexibility in the lower portions of the schedule.
+
+* **S2:** Regulate CRE releases by using flows at S-79 in all conditions in all zones except in Zone A
+
+* **S3:** Reduce stress to CRE by incorporating friendly estuary release concepts from 4BC-1
+
+* **S4:** Reduce stress to CRE by incorporating alternating estuary release concept from 4BC-2
+
+* **S3-4:** Combination of friendly estuary release concepts and alternating estuary release concepts
+
+* **S5:** Reduce stress to CRE by reducing maximum up to flows in Zone D
+
+* **S6:** Combine zones B &amp; C
+
+* **S7:** Address algae by incorporating no releases to the Northern Estuaries in the months June –August except in Zone A
+
+
+---
+name: InitialSense1
+
+
+### Phase 1 - Initial Sensitivity Runs
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM0.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: InitialSense2
+
+
+### Phase 1 - Initial Sensitivity Runs
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM0.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simp
+
+
+### Phase 1 - Simplify Release Guidance
+
+* Combine zones, simplify release guidance flowcharts
+
+* Add complexity where it is needed to meet the goals of Iteration 3 optimization
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CC_simp_REGSCH.png" alt="CC and 'CCsimp4' simplified regulation schedule." width="90%" /&gt;
+&lt;p class="caption"&gt;CC and 'CCsimp4' simplified regulation schedule.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simp
+
+
+### Phase 1 - Simplify Release Guidance
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM1.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simp
+
+
+### Phase 1 - Simplify Release Guidance
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM1.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+* Flows to St. Lucie Estuary (simp4 and simp4s1)
+
+* Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
+
+* Opportunity to send desirable dry season flows to Lake Worth Lagoon (271DS, 271DSZC)
+
+* Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Flows to St. Lucie Estuary (simp4 and simp4s1)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM2.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Flows to St. Lucie Estuary (simp4 and simp4s1)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM2.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM3.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM3.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Opportunity to send desirable dry season flows to Lake Worth Lagoon (271DS, 271DSZC)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM4.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Opportunity to send desirable dry season flows to Lake Worth Lagoon (271DS, 271DSZC)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM4.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM5.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM5.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+* CCR1 used CCsimp4 as base and incorporated features from smp4ZFSW, 271DS and ZB_S77
+
+Evaluated: 
+
+* Opportunities to reduce algal bloom risk in the northern estuaries (R1ABZD, R1ABZC, R1ABZB)
+
+* Opportunities to improve lake health by incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
+
+* Opportunities to address water supply performance by modifying operations in lower portions of the schedule (R1WSEN, R1WSMF)
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+Reduce algal bloom risk in the northern estuaries (R1ABZD, R1ABZC, R1ABZB)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM6.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Reduce algal bloom risk in the northern estuaries (R1ABZD, R1ABZC, R1ABZB)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM6.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM7.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM7.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+Address water supply performance (R1WSEN, R1WSMF)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RECOVER_SalEnv_PM8.png" alt="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)." width="90%" /&gt;
+&lt;p class="caption"&gt;RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Address water supply performance (R1WSEN, R1WSMF)
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_TechEval/CRE_RegQ_PM8.png" alt="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record." width="45%" /&gt;
+&lt;p class="caption"&gt;Average annual regulatory discharges to the Caloosahatchee during the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: sum
+
+### Phase 1 - Inital Summary
+
+* The alternative that reduces the number of extreme events (i.e. &gt;6500 cfs at S79) the most is CC_S3 (from initial Sensitivity Runs) relative to [FWO (-41.4%)](#InitialSense1).
+  * **S3:** Reduce stress to CRE by incorporating friendly estuary release concepts from 4BC-1
+
+* Meanwhile, CC_S4 (from initial Sensitivity Runs) reduces the regulatory discharges to the Caloosahatchee the most relative to the [FWO (-34.8%)](#InitialSense2).
+  * **S4:** Reduce stress to CRE by incorporating alternating estuary release concept from 4BC-2
+  
+* Other aspects need to be evaluated for sensitivity run suitability (i.e. increased optimal; reduce low, stress and damaging; Lake ecological envelope performance and; SLE/LWL salinity envelope performance)
+
+* MCDA approach could can be used to screen sensitivity runs.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -61,7 +61,8 @@ cols=c("grey50","grey80","#E6C019")
 # Discharge ---------------------------------------------------------------
 RSM.sites=c("S79","S80","S80_QPFCSOURCE_LAKE","S79_QPFCSOURCE_LAKE",
             "S77","S308","S77_QFC","S308_QFC","S308BF",
-            "TMC2EST","S48","S49","NSF2EST")
+            "TMC2EST","S48","S49","NSF2EST",
+            "S351","S354")
 q.dat=data.frame()
 alts=c("NA25","ECBr","CC")
 alts.sort=c("NA25","ECBr","CC")
@@ -92,6 +93,7 @@ head(q.dat.xtab)
 q.dat.xtab$S79.14d=with(q.dat.xtab,ave(S79,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 q.dat.xtab$S80.14d=with(q.dat.xtab,ave(S80,Alt,FUN=function(x) c(rep(NA,13),rollapply(x,width=14,FUN=function(x)mean(x,na.rm=T)))))
 
+q.dat.xtab$FlowSouth=rowSums(q.dat.xtab[,c("S351","S354")],na.rm=T)
 
 # RECOVER Salinity Envelope -----------------------------------------------
 ## CRE
@@ -856,6 +858,102 @@ colnames(SLE.da.count)=var.names
 sal.env.daily=rbind(CRE.da.count,SLE.da.count)
 # write.csv(sal.env.daily,paste0(export.path,"SLE_SalEnv_count_da.csv"),row.names=F)
 
+##### Consecutive days 
+# q.dat.xtab$da.CRE.high3
+# q.dat.xtab$da.SLE.high2
+extremeQ_consec=data.frame()
+for(j in 1:length(alts.sort)){
+  tmp=subset(q.dat.xtab,Alt==alts.sort[j])
+  tmp$CRE.Q6500=0
+  tmp$SLE.Q4000=0
+  for(i in 2:nrow(tmp)){
+    tmp$CRE.Q6500[i]=with(tmp,ifelse(da.CRE.high3[i-1]==0&da.CRE.high3[i]>0,1,
+                                     ifelse(da.CRE.high3[i-1]>0&da.CRE.high3[i]>0,1,0)))
+    
+  }
+  for(i in 2:nrow(tmp)){
+    tmp$SLE.Q4000[i]=with(tmp,ifelse(da.SLE.high2[i-1]==0&da.SLE.high2[i]>0,1,
+                                     ifelse(da.SLE.high2[i-1]>0&da.SLE.high2[i]>0,1,0)))
+    
+  }
+  
+  CRE.highQ=consec.startend(tmp$CRE.Q6500>0)
+  tmp$sum.CRE.Q6500=0
+  for(i in 1:length(CRE.highQ$ends)){
+    tmp[CRE.highQ$ends[i],]$sum.CRE.Q6500=with(tmp[c(CRE.highQ$starts[i]:CRE.highQ$ends[i]),],sum(CRE.Q6500,na.rm=T))
+  }
+  
+  SLE.highQ=consec.startend(tmp$SLE.Q4000>0)
+  tmp$sum.SLE.Q4000=0
+  for(i in 1:length(SLE.highQ$ends)){
+    tmp[SLE.highQ$ends[i],]$sum.SLE.Q4000=with(tmp[c(SLE.highQ$starts[i]:SLE.highQ$ends[i]),],sum(SLE.Q4000,na.rm=T))
+  }
+  
+  extremeQ_consec=rbind(tmp,extremeQ_consec)
+  print(j)
+}
+extremeQ_consec
+
+rslt.CREHighQ=reshape2::dcast(extremeQ_consec,sum.CRE.Q6500~Alt,value.var = "sum.CRE.Q6500",fun.aggregate = function(x)N.obs(x))
+rslt.CREHighQ=ddply(extremeQ_consec,c("Alt","sum.CRE.Q6500"),summarise,count.event=N.obs(sum.CRE.Q6500))
+rslt.CREHighQ$cat=with(rslt.CREHighQ,ifelse(sum.CRE.Q6500>0&sum.CRE.Q6500<14,1,
+                                            ifelse(sum.CRE.Q6500>=14&sum.CRE.Q6500<30,2,
+                                                   ifelse(sum.CRE.Q6500>=30&sum.CRE.Q6500<60,3,
+                                                          ifelse(sum.CRE.Q6500>=60&sum.CRE.Q6500<90,4,
+                                                                 ifelse(sum.CRE.Q6500>=90,5,NA))))))
+rslt.SLEHighQ=reshape2::dcast(extremeQ_consec,sum.SLE.Q4000~Alt,value.var = "sum.SLE.Q4000",fun.aggregate = function(x)N.obs(x))
+rslt.SLEHighQ=ddply(extremeQ_consec,c("Alt","sum.SLE.Q4000"),summarise,count.event=N.obs(sum.SLE.Q4000))
+rslt.SLEHighQ$cat=with(rslt.SLEHighQ,ifelse(sum.SLE.Q4000>0&sum.SLE.Q4000<14,1,
+                                            ifelse(sum.SLE.Q4000>=14&sum.SLE.Q4000<30,2,
+                                                   ifelse(sum.SLE.Q4000>=30&sum.SLE.Q4000<60,3,
+                                                          ifelse(sum.SLE.Q4000>=60&sum.SLE.Q4000<90,4,
+                                                                 ifelse(sum.SLE.Q4000>=90,5,NA))))))
+
+
+rslt.CREHigh.sum=reshape2::dcast(subset(rslt.CREHighQ,is.na(cat)==F),cat~Alt,value.var="count.event",sum,na.rm=T)
+rslt.SLEHigh.sum=reshape2::dcast(subset(rslt.SLEHighQ,is.na(cat)==F),cat~Alt,value.var="count.event",sum,na.rm=T)
+# make filler values for 5th category
+# tmp=rslt.SLEHigh.sum[4,]
+# tmp[,2:ncol(tmp)]<-0
+# tmp$cat=5
+# rslt.SLEHigh.sum=rbind(rslt.SLEHigh.sum,tmp)
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/Est_highQ_events.png"),width=6.5,height=6,units="in",res=200,type="windows",bg="white")
+par(family="serif",mar=c(1,2,0.5,1),oma=c(3,2,2,0.25),lwd=0.5);
+layout(matrix(c(1:6),3,2,byrow=F))
+
+ylim.val=c(0,250);by.y=100;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+xlabs=c("< 14", "14 - 30","30 - 60","60 - 90")
+for(i in 1:length(alts.sort)){
+  x=barplot(rslt.CREHigh.sum[,alts.sort[i]],beside=T,ylim=ylim.val,
+            col=adjustcolor(cols[i],0.5),ann=F,axes=F,
+            names.arg = rep(NA,nrow(rslt.CREHigh.sum)),space=c(0),yaxs="i",xaxs="i")
+  text(x,rslt.CREHigh.sum[,alts.sort[i]],rslt.CREHigh.sum[,alts.sort[i]],pos=3)
+  axis_fun(2,ymaj,ymin,ymaj)
+  if(i==length(alts.sort)){axis_fun(1,x,x,xlabs,line=-0.5)}else{axis_fun(1,x,x,NA)}
+  box(lwd=1)
+  mtext(side=3,line=-1.25,adj=0,paste0(" Alt: ",alts.sort[i]),font=2,cex=0.75)
+  if(i==1){mtext(side=3,adj=0,"CRE Extreme (> 6500 cfs)")}
+}
+mtext(side=1,line=2.5,"Event Duration (Days)")
+mtext(side=2,line=0.5,outer=T,"Number of Events")
+
+ylim.val=c(0,700);by.y=200;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+for(i in 1:length(alts.sort)){
+  x=barplot(rslt.SLEHigh.sum[,alts.sort[i]],beside=T,ylim=ylim.val,
+            col=adjustcolor(cols[i],0.5),ann=F,axes=F,
+            names.arg = rep(NA,nrow(rslt.SLEHigh.sum)),space=c(0),yaxs="i",xaxs="i")
+  text(x,rslt.SLEHigh.sum[,alts.sort[i]],rslt.SLEHigh.sum[,alts.sort[i]],pos=3)
+  axis_fun(2,ymaj,ymin,ymaj)
+  if(i==length(alts.sort)){axis_fun(1,x,x,xlabs,line=-0.5)}else{axis_fun(1,x,x,NA)}
+  box(lwd=1)
+  #mtext(side=3,line=-1.25,adj=0,paste0(" Alt: ",alts.sort[i]),font=2)
+  if(i==1){mtext(side=3,adj=0,"SLE Extreme (> 4000 cfs)")}
+}
+mtext(side=1,line=2.5,"Event Duration (Days)")
+
+dev.off()
+
 
 # Monthly Average ---------------------------------------------------------
 q.dat.xtab.mon=reshape2::dcast(q.dat,Alt+CY+month~SITE,value.var="FLOW",function(x)mean(x,na.rm=T))
@@ -1189,6 +1287,30 @@ text(1,0.2,"Iteration 2 results. Mean annual flood control releases\nfrom Lake O
 dev.off()
 
 
+# flows south -------------------------------------------------------------
+# q.dat.xtab$FlowSouth
+flow.south=ddply(q.dat.xtab,c("Alt","CY"),summarise,TFlow=sum(cfs.to.acftd(FlowSouth)/1000,na.rm=T))
+mean.flow.south=ddply(flow.south,"Alt",summarise,mean.val=mean(TFlow,na.rm=T))
+mean.flow.south=mean.flow.south[match(mean.flow.south$Alt,alts.sort),]
+mean.flow.south$FWO.per=with(mean.flow.south,(mean.val-mean.val[1])/mean.val[1])*100
+
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/FlowSouth_TotalQ.png"),width=6.5,height=4.5,units="in",res=200,type="windows",bg="white")
+ylim.val=c(0,500);by.y=100;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+par(family="serif",mar=c(1,2,0.5,0.25),oma=c(2,2,0.75,1),lwd=1);
+
+x=barplot(mean.flow.south$mean.val,beside=F,ylim=ylim.val,col=NA,border=NA,axes=F,ann=F,names.arg=rep(NA,length(alts.sort)))
+abline(h=ymaj,lty=1,col=adjustcolor("grey",0.5))
+barplot(mean.flow.south$mean.val,beside=F,ylim=ylim.val,col=adjustcolor(cols,0.5),axes=F,ann=F,names.arg=rep(NA,length(alts.sort)),add=T)
+text(x[2:3,],mean.flow.south$mean.val[2:5],paste(round(mean.flow.south$FWO.per[2:3],1),"%"),pos=3)
+text(x,mean.flow.south$mean.val,round(mean.flow.south$mean.val,0),pos=1,font=2)
+axis_fun(1,x,x,alts.sort,line=-0.5)
+axis_fun(2,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=2,line=2.5,"Discharge (x1000 Ac-Ft Yr\u207B\u00B9)")
+mtext(side=1,line=1.75,"Alternative")
+mtext(side=3,adj=0,"Flow South (S351 & S354)")
+mtext(side=3,adj=1,"CY 1965-2016")
+dev.off()
 
 
 # Load and Flow -----------------------------------------------------------
@@ -1554,4 +1676,90 @@ ddply(tmp2,"Alt",summarise,low=sum(CRE.low.LT750,na.rm=T),opt=sum(CRE.opt.750_21
 out=rbind(tmp,tmp2)
 head(out)
 tail(out)
-write.csv(out,paste0(export.path,"S79_DSS_WB.csv"),row.names=F)
+# write.csv(out,paste0(export.path,"S79_DSS_WB.csv"),row.names=F)
+
+
+
+# Regulation Schedules ----------------------------------------------------
+zones=c(paste("LOK",paste("ZONE",c("A","B","C","D0","D1","D2","D3"),sep="_"),sep="-"),
+        paste("LOK",paste("LOWSM",c(15,30,45,60),"LEVEL",sep="_"),sep="_"))
+zone.alias=data.frame(zone=zones,
+                      zone2=c(paste("ZONE",c("A","B","C","D0","D1","D2","D3"),sep="_"),paste("LOWSM",c(15,30,45,60),"LEVEL",sep="_")))
+
+  dss_out=opendss(paste0(data.path,"Iteration_2/Model_Output/CC/RSMBN_output.dss"))  
+reg.sch=data.frame()
+for(i in 1:length(zones)){
+    paths=paste0("/RSMBN/",zones[i],"/STAGE/01JAN1965 - 01JAN2016/1DAY/INPUT/")  
+    tmp=data.frame(getFullTSC(dss_out,paths))
+    tmp$Date=date.fun(date.fun(rownames(tmp))-lubridate::ddays(1))
+    rownames(tmp)<-NULL
+    tmp$zone=zones[i]
+    tmp$Alt="CC"
+    reg.sch=rbind(tmp,reg.sch)
+    print(i)
+}
+
+
+reg.sch$DOY=as.numeric(format(reg.sch$Date,"%j"))
+reg.sch=merge(reg.sch,zone.alias,"zone")
+reg.sch2=reshape2::dcast(reg.sch,Alt+DOY~zone2,value.var = "STAGE",mean)
+
+# reg.sch2=ddply(reg.sch,c("Alt","zone","DOY"),summarise,stg=mean(STAGE))
+
+# png(filename=paste0(plot.path,"Post-Iteration_2/CC_REGSCH.png"),width=7,height=3.5,units="in",res=200,type="windows",bg="white")
+ylim.val=c(0,200);by.y=50;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+par(family="serif",mar=c(1,2,0.5,0.25),oma=c(2,1,2,1),lwd=0.5);
+layout(matrix(1:3,1,3,byrow=T),widths=c(0.25,1,0.25))
+
+plot(c(1,1),c(10,19),type="n",axes=F,ann=F)
+mtext(side=3,"Caloosahatchee\nEstuary",line=-1)
+x.val=0.75;txt.cex=0.8
+text(x.val,18,"Up to\nMaximum Releases",col="red",cex=txt.cex,font=2,xpd=NA)
+text(x.val,17.14,"Dry: 2,200 cfs S79\nWet: 7,200 cfs S77",col="deepskyblue2",cex=txt.cex,font=2,xpd=NA)
+text(x.val,16,"Dry: 750-2,200 cfs S79\nWet: 2,500 - 7,200 cfs S77",col="orange",cex=txt.cex,font=2,xpd=NA)
+text(x.val,15,"Dry: 750-2,200 cfs S79\nWet: 2,500 cfs S77",col="grey50",cex=txt.cex,font=2,xpd=NA)
+text(x.val,13,"750 cfs S79",col="green3",cex=txt.cex,font=2,xpd=NA)
+text(x.val,12,"0 cfs S79",col="purple",cex=txt.cex,font=2,xpd=NA)
+
+xlim.val.date=date.fun(c("1965-01-01","1965-12-31"));xmaj.dat=seq(xlim.val.date[1],xlim.val.date[2],"2 month");xmin.dat=seq(xlim.val.date[1],xlim.val.date[2],"1 month")
+xlim.val=as.numeric(format(xlim.val.date,"%j"));xmaj=as.numeric(format(xmaj.dat,"%j"));xmin=as.numeric(format(xmin.dat,"%j"));
+ylim.val=c(10,19);by.y=1;ymaj=seq(ylim.val[1],ylim.val[2],by.y);ymin=seq(ylim.val[1],ylim.val[2],by.y/2)
+
+plot(ZONE_A~DOY,reg.sch2,ylim=ylim.val,xlim=xlim.val,ann=F,axes=F,type="n",xaxs="i")
+abline(h=ymaj,v=xmaj,lty=1,col=adjustcolor("grey",0.5))
+with(subset(reg.sch2,Alt=="CC"),lines(DOY,ZONE_A,col="red",lwd=2))
+with(subset(reg.sch2,Alt=="CC"),lines(DOY,ZONE_B,col="deepskyblue2",lwd=2))
+with(subset(reg.sch2,Alt=="CC"),lines(DOY,ZONE_C,col="orange",lwd=2))
+with(subset(reg.sch2,Alt=="CC"),lines(DOY,ZONE_D1,col="grey",lwd=2))
+abline(h=13,col="green3",lwd=2)
+with(subset(reg.sch2,Alt=="CC"),lines(DOY,LOWSM_15_LEVEL,col="purple",lwd=2))
+# arrows(244,13.0,244,18,code=3,length=0.1,lwd=6,col=adjustcolor("deeppink",0.5))
+xx=c(244,230,236,236,230,244,259,253,253,259,244)
+yy=c(13,13.75,13.75,17,17,17.75,17,17,13.75,13.75,13)
+polygon(xx,yy,col=adjustcolor("deeppink",0.5),border="grey")
+text(244,15.25,"Flows South",srt=90,cex=1.25)
+z.cex=0.8
+with(subset(reg.sch2,Alt=="CC"&DOY==30),text(30,ZONE_A,"Zone A",pos=3,col="red",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==90),text(85,ZONE_B,"Zone B",pos=3,col="deepskyblue2",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==105),text(105,ZONE_C,"Zone C",pos=3,col="orange",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==30),text(30,ZONE_D1+(ZONE_C-ZONE_D1)/2,"Zone D",col="grey",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==300),text(300,13,"Zone E",pos=3,col="green3",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==30),text(30,LOWSM_15_LEVEL+(13-LOWSM_15_LEVEL)/2,"Zone F",col="purple",cex=z.cex,font=2))
+with(subset(reg.sch2,Alt=="CC"&DOY==250),text(250,10+(LOWSM_15_LEVEL-10)/2,"Water Shortage\nManagement Band",col="blue",cex=z.cex,font=2))
+axis_fun(1,xmaj,xmin,format(xmaj.dat,"%b"),line=-0.5)
+axis_fun(2,ymaj,ymin,ymaj);
+axis_fun(4,ymaj,ymin,ymaj);box(lwd=1)
+mtext(side=1,line=1.75,"Date (Month)")
+mtext(side=2,line=2,"Stage Elevation (Ft, NGVD29)")
+mtext(side=3,"Alternative CC")
+
+plot(c(1,1),c(10,19),type="n",axes=F,ann=F)
+mtext(side=3,"St Lucie\nEstuary",line=-1)
+x.val=1
+text(x.val,18,"Up to\nMaximum Releases",col="red",cex=txt.cex,font=2)
+text(x.val,17.14,"Dry: 0 cfs S80\nWet: 3,600 cfs S80",col="deepskyblue2",cex=txt.cex,font=2)
+text(x.val,16,"Dry: 0 cfs S80\nWet: 3,600 cfs S80",col="orange",cex=txt.cex,font=2)
+text(x.val,15,"0 cfs S80",col="grey50",cex=txt.cex,font=2)
+text(x.val,13,"0 cfs S80",col="green3",cex=txt.cex,font=2)
+text(x.val,12,"0 cfs S80",col="purple",cex=txt.cex,font=2)
+dev.off()

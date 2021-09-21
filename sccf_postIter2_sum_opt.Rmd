@@ -55,7 +55,7 @@ class: left, middle
 
 *Conservancy of Southwest Florida*
 
-**DRAFT** - `r paste(format(as.Date("2021-08-23"),"%B %d, %Y"))#,"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
+**DRAFT** - `r paste(format(as.Date("2021-08-23"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
 
 ]
 <!-- this ends up being the title slide since seal = FALSE-->
@@ -93,6 +93,47 @@ bsplus::bs_button(
       )
 ```
 ]
+
+---
+name: Reg
+
+### Regulation Schedule
+
+```{r ,fig.align="center",out.width="100%",fig.cap="Regulation Schedule with zones identified for CC and OPT"}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/CC_OPT_REGSCH.png')
+```
+
+---
+name: CREMFL
+
+### Caloosahatchee MFL
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Minimum flow and levels evaluation for the Caloosahatchee River Estuary for alternative 'OPT' during the simulated period of record."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/CRE_MFL_Alt_OPT.png')
+```
+
+---
+name: CREMFL
+
+### Caloosahatchee MFL
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Minimum flow and levels evaluation for the Caloosahatchee River Estuary for alternative 'OPT-S2' during the simulated period of record."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/CRE_MFL_Alt_OPT-S2.png')
+```
+
+---
+name: CREMFL
+
+### Caloosahatchee MFL
+
+```{r ,fig.align="center",out.width="100%",fig.cap="Comparison of MFL exceedances across FWO, ECB, CC and OPT during the simulated period of record. Percentage within bar represents percent difference relative to FWO."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/CREMFL_Iter2Opt.png')
+```
+
 ---
 name: USACE CRE
 class: middle
@@ -109,7 +150,7 @@ tb.dat%>%
   fix_border_issues()%>%
   valign(j=1,valign="top")%>%
   vline(j=7)%>%
-  hline(i=4)%>%
+  hline(i=5)%>%
   set_header_labels(
     "region"="Estuary",
     "RegFlow"="Regulatory Flows (kacft/yr)",
@@ -136,21 +177,21 @@ tb.dat%>%
   merge_h(part="header")%>%
   align(align="center",part="header")%>%
   padding(padding=1,part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
+  fontsize(size=8,part="body")%>%
+  fontsize(size=9,part="header")%>%
   align(j=3:12,align="center",part="body")%>%
-  bg(i=c(1,5),j=8:12,bg="grey")%>%
+  bg(i=c(1,6),j=8:12,bg="grey")%>%
   bg(i=~PerFWO_RegFlow<0,j=8,bg="lightgreen")%>%bg(i=~PerFWO_RegFlow>0,j=8,bg="tomato")%>%
   bg(i=~PerFWO_high_LOK<0,j=9,bg="lightgreen")%>%bg(i=~PerFWO_high_LOK>0,j=9,bg="tomato")%>%
   bg(i=~PerFWO_high_basin<0,j=10,bg="lightgreen")%>%bg(i=~PerFWO_high_basin>0,j=10,bg="tomato")%>%
   bg(i=~PerFWO_dam_LOK<0,j=11,bg="lightgreen")%>%bg(i=~PerFWO_dam_LOK>0,j=11,bg="tomato")%>%
   bg(i=~PerFWO_dam_basin<0,j=12,bg="lightgreen")%>%bg(i=~PerFWO_dam_basin>0,j=12,bg="tomato")%>%
-  width(width=c(0.5,0.5,0.75,0.75,0.75,1,1,0.75,0.75,0.75,1,1))%>%
-  footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
-  footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
-  footnote(j=c(4,5,9,10),part="header",value=as_paragraph("Stressful Flows:\nCRE: \u2265 2100 cfs & < 2600 cfs\nSLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" 3 ")%>%
-  footnote(j=c(6,7,11,12),part="header",value=as_paragraph("Damaging Flows:\nCRE: > 2600 cfs\nSLE: > 1700 cfs"),ref_symbols=" 4 ")%>%
-   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT Alternative"))," provided by Everglades Foundation"),ref_symbols=" ")%>%
+  width(width=c(0.5,0.75,0.75,0.75,0.75,1,1,0.75,0.75,0.75,1,1))%>%
+  footnote(i=c(1,6),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
+  footnote(i=c(1,6),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
+  footnote(j=c(4,5,9,10),part="header",value=as_paragraph(as_b("Stressful Flows")," CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" ")%>%
+  footnote(j=c(6,7,11,12),part="header",value=as_paragraph(as_b("Damaging Flows")," CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" ")%>%
+   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT"))," and ", as_i(as_b("OPT-S2"))," Alternative provided by Everglades Foundation"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   bold(j=8:12,part="body")%>%
   set_caption(caption="Average annual regulatory flows (QFC flow tag; CRE: S77; SLE: S308) and stress and damaging events based on RECOVER salinity envelope 14-day event counts for Caloosatchee and St Lucie estuaries. ")
@@ -204,7 +245,7 @@ sal.env.daily[,vars.val]%>%
   fix_border_issues()%>%
   valign(j=1,valign="top")%>%
   vline(j=8)%>%
-  hline(i=4)%>%
+  hline(i=5)%>%
   set_header_labels(
     "region"="Estuary",
     "low"="Low Events",
@@ -235,17 +276,17 @@ sal.env.daily[,vars.val]%>%
   merge_h(part="header")%>%
   align(align="center",part="header")%>%
   padding(padding=0.75,part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
+  fontsize(size=8,part="body")%>%
+  fontsize(size=9,part="header")%>%
   align(j=3:14,align="center",part="body")%>%
-  width(width=c(0.5,0.75,0.8,0.75,1,1,1,1,0.75,0.75,1,1,1,1))%>%
-  footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
-  footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
+  width(width=c(0.5,0.8,0.8,0.75,1,1,1,1,0.75,0.75,1,1,1,1))%>%
+  footnote(i=c(1,6),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
+  footnote(i=c(1,6),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
   footnote(j=c(3,9),part="header",value=as_paragraph(as_b("Low Flows"), " CRE: < 750 cfs; SLE: < 150 cfs"),ref_symbols=" ",inline = F)%>%
   footnote(j=c(4,10),part="header",value=as_paragraph(as_b("Optimum Flows")," CRE: \u2265 750 cfs & < 2100 cfs; SLE: \u2265 150 cfs & < 1400 cfs cfs"),ref_symbols=" ")%>%
   footnote(j=c(5,6,11,12),part="header",value=as_paragraph(as_b("Stressful Flows")," CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" ")%>%
   footnote(j=c(7,8,13,14),part="header",value=as_paragraph(as_b("Damaging Flows")," CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" ")%>%
-   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT Alternative"))," provided by Everglades Foundation"),ref_symbols=" ")%>%
+   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT"))," and ", as_i(as_b("OPT-S2"))," Alternative provided by Everglades Foundation"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   # bold(j=9:14,part="body")%>%
   fontsize(size=9,part="body")%>%
@@ -276,6 +317,17 @@ name: Daily2
 knitr::include_graphics('./Plots/Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff_daily_Iter2Opt.png')
 ```
 
+---
+name: DailyExEvent
+
+
+### Daily Metric - Extreme Events
+
+```{r ,fig.align="center",out.width="75%",fig.cap="Number and duration of events where daily discharge for CRE and SLE fall within the extreme (CRE: >6500 cfs; SLE: >4000 cfs)."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/Est_highQ_events_Iter2Opt.png')
+```
+
 
 ---
 name: month table
@@ -299,7 +351,7 @@ sal.env.month[,vars.val]%>%
   fix_border_issues()%>%
   valign(j=1,valign="top")%>%
   vline(j=8)%>%
-  hline(i=4)%>%
+  hline(i=5)%>%
   set_header_labels(
     "region"="Estuary",
     "low"="Low Events",
@@ -330,17 +382,17 @@ sal.env.month[,vars.val]%>%
   merge_h(part="header")%>%
   align(align="center",part="header")%>%
   padding(padding=0.75,part="all")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")%>%
+  fontsize(size=8,part="body")%>%
+  fontsize(size=9,part="header")%>%
   align(j=3:14,align="center",part="body")%>%
-  width(width=c(0.5,0.75,0.8,0.75,1,1,1,1,0.75,0.75,1,1,1,1))%>%
-  footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
-  footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
+  width(width=c(0.5,0.80,0.8,0.75,1,1,1,1,0.75,0.75,1,1,1,1))%>%
+  footnote(i=c(1,6),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
+  footnote(i=c(1,6),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
   footnote(j=c(3,9),part="header",value=as_paragraph(as_b("Low Flows"), " CRE: < 750 cfs; SLE: < 150 cfs"),ref_symbols=" ",inline = F)%>%
   footnote(j=c(4,10),part="header",value=as_paragraph(as_b("Optimum Flows")," CRE: \u2265 750 cfs & < 2100 cfs; SLE: \u2265 150 cfs & < 1400 cfs cfs"),ref_symbols=" ")%>%
   footnote(j=c(5,6,11,12),part="header",value=as_paragraph(as_b("Stressful Flows")," CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" ")%>%
   footnote(j=c(7,8,13,14),part="header",value=as_paragraph(as_b("Damaging Flows")," CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" ")%>%
-   footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT Alternative"))," provided by Everglades Foundation"),ref_symbols=" ")%>%
+  footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center. ",as_i(as_b("OPT"))," and ", as_i(as_b("OPT-S2"))," Alternative provided by Everglades Foundation"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   # bold(j=9:14,part="body")%>%
   fontsize(size=9,part="body")%>%
@@ -441,7 +493,7 @@ all.nut.mod.sum%>%
   fix_border_issues()%>%
   valign(j=1,valign="top")%>%
   vline(j=c(2,6))%>%
-  hline(i=c(4,8))%>%
+  hline(i=c(5,10))%>%
   set_header_labels(
     "Area"="Area",
     "PerWB"="Percent Total Inflow\nWater Budget",
@@ -460,15 +512,153 @@ all.nut.mod.sum%>%
              "TN.FWO.diff"="% Change\nCompare to FWO")%>%
   merge_h(part="header")%>%
   align(j=3:7,align="center",part="header")%>%
-  padding(padding=0.75,part="all")%>%
-  width(width=c(0.5,0.5,1,1,1,1,1,1,1))%>%
+  padding(padding=0.25,part="all")%>%
+  width(width=c(0.5,0.5,1,0.75,0.75,0.75,0.75,0.75,0.75))%>%
   align(j=3:9,align="center",part="all")%>%
   bg(i=~Q.BF.FWO.diff<0,j=7,bg="lightgreen")%>%bg(i=~Q.BF.FWO.diff>0,j=7,bg="tomato")%>%bg(i=~is.na(Q.BF.FWO.diff)==T,j=7,bg="lightgrey")%>%
   bg(i=~TP.FWO.diff<0,j=8,bg="lightgreen")%>%bg(i=~TP.FWO.diff>0,j=8,bg="tomato")%>%bg(i=~is.na(TP.FWO.diff)==T,j=8,bg="lightgrey")%>%
   bg(i=~TN.FWO.diff<0,j=9,bg="lightgreen")%>%bg(i=~TN.FWO.diff>0,j=9,bg="tomato")%>%bg(i=~is.na(TN.FWO.diff)==T,j=9,bg="lightgrey")%>%
   footnote(j=2:4,part="header",value=as_paragraph("Simulation period of record between Florida Water Year 1966 - 2016 (May 1965 - April 2016)"))%>%
   set_caption(caption="Average annual load and average percent change relative to FWO (NA25) over the simulation period or record between May 1965 and April 2016 for back flow/pumping from S77, S308 and EAA (S2, S3 and S4) to Lake Okeechobee.")%>%
-  fontsize(size=9,part="body")%>%
-  fontsize(size=10,part="header")
+  fontsize(size=7,part="body")%>%
+  fontsize(size=8,part="header")
 
 ```
+
+---
+name: LWL
+
+
+### Lake Worth Lagoon
+```{r ,fig.align="center",out.width="75%",fig.cap="Aveage annual discharge over the simulation period of record for Lake Worth Lagoon via C10A." }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LWL_TotalQ_Iter2Opt.png')
+```
+
+
+---
+name: LWL
+
+
+### Lake Worth Lagoon
+```{r ,fig.align="center",out.width="75%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LWL_Iter2Opt.png')
+```
+
+* Prior analysis uses a combination of RSMBN (C10A) and RSMGL (S155A) models. 
+  - RSMGL provides a finer detail modeling of flows used within the basin that is passed through S155A.
+* Due to limited information (for OPT Alternative), RSMBN was used to evaluate LOK and Basin flows to LWL. 
+
+---
+name: LOKReg
+
+### Lake Okeechobee Regulation Schedule
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Percent of time above, within, and below Zone D of the regulation schedule."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_Stage_RegSch_Iter2Opt.png')
+```
+
+
+---
+name: LOK MFL
+
+### Lake Okeechobee MFL
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Minimum flow and levels evaluation for the Lake Okeechobee for alternative 'OPT' during the simulated period of record. Percentage within bar represents percent difference relative to FWO."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_MFL_Alt_OPT.png')
+```
+
+---
+name: LOK MFL
+
+### Lake Okeechobee MFL
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Minimum flow and levels evaluation for the Lake Okeechobee for alternative 'OPT-S2' during the simulated period of record. Percentage within bar represents percent difference relative to FWO."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_MFL_Alt_OPT-S2.png')
+```
+---
+name: LOK MFL
+
+### Lake Okeechobee MFL
+
+```{r ,fig.align="center",out.width="90%",fig.cap="Comparison of MFL exceedances across FWO, ECB, CC and OPT during the simulated period of record."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_MFL_Iter2Opt.png')
+```
+
+* In our analysis ECBr had 11 exceedances (USACE is reporting 12 **currently troubleshooting**)
+
+---
+name: LakeEnvelopes
+
+
+### Lake Okeechobee
+```{r ,fig.align="center",out.width="100%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_Env_Iter2Opt.png')
+```
+
+---
+name: LakeStage1
+
+
+### Lake Okeechobee
+```{r ,fig.align="center",out.width="100%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_EnvScore_AllYrs_Iter2Opt.png')
+```
+
+---
+name: LakeStage2
+
+
+### Lake Okeechobee
+```{r ,fig.align="center",out.width="100%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LakeO_EnvScore_BWA_Iter2Opt.png')
+```
+
+---
+name: LakeStage3
+
+
+### Lake Okeechobee
+```{r ,fig.align="center",out.width="100%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_EnvScore_MaySep_Iter2Opt.png')
+```
+
+---
+name: LakeStage4
+
+
+### Lake Okeechobee
+```{r ,fig.align="center",out.width="100%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_EnvScore_BWA_FWO_Iter2Opt.png')
+```
+
+---
+name: LakeStage5
+
+
+### Lake Okeechobee - High Stage Events
+```{r ,fig.align="center",out.width="75%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_highstg_events_Iter2Opt.png')
+```
+
+---
+name: LakeStage6
+
+
+### Lake Okeechobee - Low Stage Events
+```{r ,fig.align="center",out.width="75%" }
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_lowstg_events_Iter2Opt.png')
+```
+

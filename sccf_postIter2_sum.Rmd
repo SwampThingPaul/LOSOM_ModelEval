@@ -148,8 +148,8 @@ tb.dat%>%
   width(width=c(0.5,0.5,0.75,0.75,0.75,1,1,0.75,0.75,0.75,1,1))%>%
   footnote(i=c(1,4),j=1,value=as_paragraph("CRE: Caloosahatchee Estuary; SLE: St Lucie Estuary"),ref_symbols=" 1 ",inline = T)%>%
   footnote(i=c(1,4),j=2,value=as_paragraph("NA25 = Future without project (FWO)"),ref_symbols=" 2 ",inline = T)%>%
-  footnote(j=c(4,5,9,10),part="header",value=as_paragraph("Stressful Flows:\nCRE: \u2265 2100 cfs & < 2600 cfs\nSLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" 3 ")%>%
-  footnote(j=c(6,7,11,12),part="header",value=as_paragraph("Damaging Flows:\nCRE: > 2600 cfs\nSLE:> 1700 cfs"),ref_symbols=" 4 ")%>%
+  footnote(j=c(4,5,9,10),part="header",value=as_paragraph(as_b("Stressful Flows:"),"CRE: \u2265 2100 cfs & < 2600 cfs; SLE: \u2265 1400 cfs & < 1700 cfs"),ref_symbols=" 3 ")%>%
+  footnote(j=c(6,7,11,12),part="header",value=as_paragraph(as_b("Damaging Flows:"),"CRE: > 2600 cfs; SLE:> 1700 cfs"),ref_symbols=" 4 ")%>%
    footnote(j=c(1),part="header",value=as_paragraph(as_b("Data Source:")," USACE and SFWMD Interagency Modeling Center"),ref_symbols=" ")%>%
   font(fontname="Times New Roman",part="all")%>%
   bold(j=8:12,part="body")%>%
@@ -276,6 +276,16 @@ name: Daily2
 knitr::include_graphics('./Plots/Post-Iteration_2/CRE_RECOVER_SalEnv_perDiff_daily.png')
 ```
 
+---
+name: DailyExEvent
+
+
+### Daily Metric - Extreme Events
+
+```{r ,fig.align="center",out.width="60%",fig.cap="Number and duration of events where daily discharge for CRE and SLE fall within the extreme (CRE: >6500 cfs; SLE: >4000 cfs)."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/Est_highQ_events.png')
+```
 
 ---
 name: month table
@@ -422,3 +432,14 @@ knitr::include_graphics('./Plots/Post-Iteration_2/S77S308_Flow_Load.png')
 Average percent difference from FWO (NA25) for discharge and estimated nutrient loads over the May 1965 - April 2016 (FL WY 1966 - 2016) period of simulation.
 
 ]
+
+---
+name: LOKReg
+
+### Lake Okeechobee Regulation Schedule
+
+```{r ,fig.align="center",out.width="80%",fig.cap="Percent of time above, within, and below Zone D of the regulation schedule."}
+
+knitr::include_graphics('./Plots/Post-Iteration_2/LOK_Stage_RegSch.png')
+```
+
