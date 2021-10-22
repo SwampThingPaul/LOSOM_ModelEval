@@ -55,7 +55,7 @@ class: left, middle
 
 *Conservancy of Southwest Florida*
 
-**DRAFT** - `r paste(format(as.Date("2021-09-21"),"%B %d, %Y"))#,"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
+**DRAFT** - `r paste(format(as.Date("2021-09-21"),"%B %d, %Y"),"<br>(Updated:", format(as.Date(Sys.Date()),"%B %d, %Y"),")")`
 
 ]
 <!-- this ends up being the title slide since seal = FALSE-->
@@ -108,7 +108,7 @@ name: background
 
 Alternative Naming
 * CC == CCTSP
-* 2 versions of CCsimp4 - After simp4s1 (*Phase 1 - Test Flows to St Lucie Estuary*) was run it was renames as CCsimp4. Therefore in this presentation the second CCsimp4 was renamed to CCsimp4(2).
+* 2 versions of CCsimp4 - After simp4s1 (*Phase 1 - Test Flows to St Lucie Estuary*) was run it was renamed as CCsimp4. Therefore in this presentation the second CCsimp4 was renamed to CCsimp4(2).
 
 
 ---
@@ -157,6 +157,26 @@ knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM0.png')
 ```
 
 ---
+name: InitialSense3
+### Phase 1 - Initial Sensitivity Runs
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM0.png')
+```
+
+---
+name: InitialSense4
+
+### Phase 1 - Initial Sensitivity Runs
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM0.png')
+```
+
+
+---
 name: Simp
 
 
@@ -191,6 +211,28 @@ name: Simp
 ```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record."}
 
 knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM1.png')
+```
+
+---
+name: Simp
+
+
+### Phase 1 - Simplify Release Guidance
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM1.png')
+```
+
+---
+name: Simp
+
+
+### Phase 1 - Simplify Release Guidance
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM1.png')
 ```
 
 ---
@@ -239,6 +281,33 @@ name: Simptest
 
 ### Phase 1 - Test Schedule Components – CCsimp4
 
+Flows to St. Lucie Estuary (simp4 and simp4s1)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM2.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Flows to St. Lucie Estuary (simp4 and simp4s1)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM2.png')
+```
+
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
 Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
 
 ```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
@@ -257,6 +326,32 @@ Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZF
 ```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record."}
 
 knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM3.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM3.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Increased flexibility in lower portion of the schedule (smp4ZFS, smp4ZFW, smp4ZFSW)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM3.png')
 ```
 
 ---
@@ -291,6 +386,32 @@ name: Simptest
 
 ### Phase 1 - Test Schedule Components – CCsimp4
 
+Opportunity to send desirable dry season flows to Lake Worth Lagoon (271DS, 271DSZC)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM4.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Opportunity to send desirable dry season flows to Lake Worth Lagoon (271DS, 271DSZC)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM4.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
 Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
 
 ```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
@@ -309,6 +430,32 @@ Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
 ```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record."}
 
 knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM5.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM5.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCsimp4
+
+Zone B regulation point for CRE (S77 vs S79) (ZB_S77)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM5.png')
 ```
 
 ---
@@ -359,6 +506,33 @@ name: Simptest
 
 ### Phase 1 - Test Schedule Components – CCR1
 
+Reduce algal bloom risk in the northern estuaries (R1ABZD, R1ABZC, R1ABZB)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM6.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Reduce algal bloom risk in the northern estuaries (R1ABZD, R1ABZC, R1ABZB)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM6.png')
+```
+
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
 Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
 
 ```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
@@ -377,6 +551,32 @@ Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
 ```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the Caloosahatchee during the simulation period of record."}
 
 knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM7.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM7.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Incorporating extreme and moderate recovery operations (CCR1ED, CCR1MD1, CCRMD2)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM7.png')
 ```
 
 ---
@@ -406,16 +606,43 @@ knitr::include_graphics('./Plots/Iteration3_TechEval/CRE_RegQ_PM8.png')
 ```
 
 ---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components – CCR1
+
+Address water supply performance (R1WSEN, R1WSMF)
+
+```{r ,fig.align="center",out.width="90%",fig.cap="RECOVER salinity envelope counts (top), % difference to FWO (middle) and % difference to CC (bottom)."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RECOVER_SalEnv_PM8.png')
+```
+
+---
+name: Simptest
+
+
+### Phase 1 - Test Schedule Components –  CCR1
+
+Address water supply performance (R1WSEN, R1WSMF)
+
+```{r ,fig.align="center",out.width="45%",fig.cap="Average annual regulatory discharges to the St Lucie during the simulation period of record."}
+
+knitr::include_graphics('./Plots/Iteration3_TechEval/SLE_RegQ_PM8.png')
+```
+
+---
 name: sum
 
 ### Phase 1 - Inital Summary
 
 * The alternative that reduces the number of extreme events (i.e. >6500 cfs at S79) the most is CC_S3 (from initial Sensitivity Runs) relative to [FWO (-41.4%)](#InitialSense1).
   * **S3:** Reduce stress to CRE by incorporating friendly estuary release concepts from 4BC-1
+  <!-- * But performs the worst for [SLE](#InitialSense3) in the stress similar to FWO (-3% difference) . -->
 
 * Meanwhile, CC_S4 (from initial Sensitivity Runs) reduces the regulatory discharges to the Caloosahatchee the most relative to the [FWO (-34.8%)](#InitialSense2).
   * **S4:** Reduce stress to CRE by incorporating alternating estuary release concept from 4BC-2
   
 * Other aspects need to be evaluated for sensitivity run suitability (i.e. increased optimal; reduce low, stress and damaging; Lake ecological envelope performance and; SLE/LWL salinity envelope performance)
 
-* MCDA approach could can be used to screen sensitivity runs.
+<!-- * MCDA approach could can be used to screen sensitivity runs. -->
