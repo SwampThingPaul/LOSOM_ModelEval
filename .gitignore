@@ -50,3 +50,5 @@ rsconnect/
 *.RDataTmp*
 
 /_tables_other/
+
+/_manuscript/

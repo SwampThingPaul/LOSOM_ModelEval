@@ -16,6 +16,10 @@ Sys.setenv(PAGEDOWN_CHROME="C:/Users/Paul Julian/AppData/Local/Google/Chrome/App
 # pagedown::chrome_print("sccf_iter3_p1_v2.Rmd")
 # pagedown::chrome_print("sccf_iter3_p1_FDEP.Rmd")
 # pagedown::chrome_print("sccf_iter3_p2.Rmd")
+# pagedown::chrome_print("sccf_iter3_p2_tsp.Rmd")
+# pagedown::chrome_print("SCCF_iter3_prefalt.Rmd")
+# pagedown::chrome_print("20220118_LOSOM_UFCCS.Rmd")
+pagedown::chrome_print("sccf_iter3_LOSOMListen.Rmd")
 
 ## Move files
 list.files(full.names=T)
@@ -35,6 +39,10 @@ files=c(files,"./sccf_iter3_p1.html","./sccf_iter3_p1.pdf")
 files=c(files,"./sccf_iter3_p1_v2.html","./sccf_iter3_p1_v2.pdf")
 files=c(files,"./sccf_iter3_p1_FDEP.html","./sccf_iter3_p1_FDEP.pdf")
 files=c(files,"./sccf_iter3_p2.html","./sccf_iter3_p2.pdf")
+files=c(files,"./sccf_iter3_p2_tsp.html","./sccf_iter3_p2_tsp.pdf")
+files=c(files,"./SCCF_iter3_prefalt.html","./SCCF_iter3_prefalt.pdf")
+files=c(files,"./20220118_LOSOM_UFCCS.html","./20220118_LOSOM_UFCCS.pdf")
+files=c(files,"./sccf_iter3_LOSOMListen.html","./sccf_iter3_LOSOMListen.pdf")
 
 webpage.loc="c:/Julian_LaCie/_GitHub/sccf-tech.github.io/slides/LOSOM"
 # Folder.Maker(paste0(webpage.loc,"/iter1/"))

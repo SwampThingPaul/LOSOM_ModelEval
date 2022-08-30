@@ -50,6 +50,7 @@ consec.startend=function(var){
   return(rslt)
 }
 # -------------------------------------------------------------------------
+## Data stored on external hard-drive
 alt.xwalk=read.csv(paste0(data.path,"Iteration_3_Tech_Discussion/Alt_crosswalk.csv"))
 alt.xwalk=subset(alt.xwalk,DSS.alts!="")
 

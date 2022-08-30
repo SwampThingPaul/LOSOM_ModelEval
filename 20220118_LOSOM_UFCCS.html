@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>LOSOM</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+
+.pull-left[
+#### Presentation to UF - Center for Coastal Solutions
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+January 18, 2021
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+  
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+    
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+    
+]
+
+
+
+.footnote[
+&lt;!-- Paul Julian PhD&lt;br&gt;[<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>](mailto: pjulian@sccf.org) .small[pjulian@sccf.org] --&gt;
+
+.small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
+
+<a href="https://sccf-tech.github.io/slides/LOSOM/20220118_LOSOM_UFCCS.pdf">
+<button class="btn btn-primary btn-sm">Download PDF Version</button>
+</a>
+]
+
+---
+name: LOSOM
+
+&lt;img src="./Plots/process/LOSOM_objective_20211116.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From USACE PDT 16 Nov 2021 meeting presentation*
+]
+
+---
+name: LOSOMProcess
+
+### LOSOM Process and Timeline
+
+* LOSOM process started with Scoping Meetings - Feb 2019
+* LOSOM Public Workshops – Sept 2019
+
+
+&lt;img src="./Plots/process/USACE_LOSOM_steps1_5.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From USACE PDT 09 Aug 2021 meeting presentation*
+]
+
+---
+name: LOSOMProcess
+
+### Iteration 2 Plans
+
+
+&lt;img src="./Plots/process/Iter2_plans.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From SFWMD 08 July 2021 Governing Board meeting Presentation*
+]
+
+
+---
+name: LOSOMProcess
+
+### Iteration 3
+
+&lt;img src="./Plots/process/LOSOM_Iter3_Batchruns.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From USACE PDT 16 Nov 2021 meeting presentation*
+]
+
+
+---
+name: USACE_estuary2
+
+### Iteration 3 - Phase 2
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Batch/Est_StressDam_USACEsubset_TSP.png" alt="Comparison of stress and damaging flow event counts for Caloosahatchee (CRE) and St Lucie (SLE) estuaries of ~240k runs, USACE selected runs and TSP." width="85%" /&gt;
+&lt;p class="caption"&gt;Comparison of stress and damaging flow event counts for Caloosahatchee (CRE) and St Lucie (SLE) estuaries of ~240k runs, USACE selected runs and TSP.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+name: alternatives
+
+### Iteration 3 - Phase 3&lt;br&gt;.small[TSP Model runs]
+
+
+&lt;template id="a828278d-d536-480e-9981-b8b0bb47838a"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-75c875b6{border-collapse:collapse;}.cl-75bdce9a{font-family:'Times New Roman';font-size:12pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-75bdce9b{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-75bdce9c{font-family:'Times New Roman';font-size:6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3pt;}.cl-75bdce9d{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-75bdce9e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-75bdf596{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-75bdf597{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-75be1c88{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c89{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8a{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8b{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8c{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8d{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8e{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-75be1c8f{width:360pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-75c875b6'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c8e"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9a"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c8f"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9a"&gt;Description&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c89"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;ECB19&lt;/span&gt;&lt;span class="cl-75bdce9c"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c88"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;LOSOM Existing Conditions Baseline 2019 with LORS08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c89"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;NA22f&lt;/span&gt;&lt;span class="cl-75bdce9c"&gt; 2 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c88"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;LOSOM No Action 2022 (HHD Rehab Complete, C-44 Reservoir &amp;amp; STA) with LORS08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c89"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;NA25f&lt;/span&gt;&lt;span class="cl-75bdce9c"&gt; 3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c88"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;LOSOM No Action 2025 (HHD Rehab Complete, C-44 Reservoir &amp;amp; STA, C-43 Reservoir, A-2 STA (grown in only)) with LORS08&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c89"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;PA22&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c88"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;Preferred Alterative 2022. Distinct operational zones and regulatory disharge rates selected based on LOSOM objectives&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-75be1c8b"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;PA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-75be1c8a"&gt;&lt;p class="cl-75bdf596"&gt;&lt;span class="cl-75bdce9b"&gt;Preferred Alterative 2025. Distinct operational zones and regulatory disharge rates selected based on LOSOM objectives&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="2"class="cl-75be1c8d"&gt;&lt;p class="cl-75bdf597"&gt;&lt;span class="cl-75bdce9d"&gt; 1 &lt;/span&gt;&lt;span class="cl-75bdce9e"&gt;Existing Conditions Baseline 2019&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="2"class="cl-75be1c8d"&gt;&lt;p class="cl-75bdf597"&gt;&lt;span class="cl-75bdce9d"&gt; 2 &lt;/span&gt;&lt;span class="cl-75bdce9e"&gt;No Action Condition 2022&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="2"class="cl-75be1c8d"&gt;&lt;p class="cl-75bdf597"&gt;&lt;span class="cl-75bdce9d"&gt; 3&lt;/span&gt;&lt;span class="cl-75bdce9e"&gt;No Action Condition 2025&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="2ac8e777-7774-4525-a09d-7fa7d29c7890"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("2ac8e777-7774-4525-a09d-7fa7d29c7890");
+var template = document.getElementById("a828278d-d536-480e-9981-b8b0bb47838a");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+* For today's purpose we will focus on the PA2025 (Preferred Alternative 2025 iteration).
+  * Comparison of both NA22f/PA22 and NA25f/PA25 can be found here [link](https://sccf-tech.github.io/slides/LOSOM/SCCF_iter3_prefalt.html). 
+
+* Modeling done using the Regional Simulation Model Basins (RSM-BN) with extended period of record (1965 - 2016)
+
+.small[SFWMD RSM Webpage - [link](https://www.sfwmd.gov/science-data/rsm-model)]
+
+---
+name: RSM
+class: inverse middle
+
+### RSM 
+
+The RSM-BN model is ... 
+
+--
+&lt;img src="https://i0.wp.com/www.headoverfeels.com/wp-content/uploads/2017/03/suck-it-up.gif" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+name: RSM101 p1
+class: left
+
+#### Regional Simulation Model - Basins (RSMBN)
+
+- A link-node application of the Regional Simulation Model (RSM) specific to Lake Okeechobee and Basins.
+
+  - \&gt;100 basins/lakes/canals represented
+  
+  - \&gt;150 connections represented
+  
+- Used in prior planning efforts.
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/process/RSMBN_link.png" alt="Link-node representation of RSM-BN model" width="60%" /&gt;
+&lt;p class="caption"&gt;Link-node representation of RSM-BN model&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: RSM101 p2
+class: center
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/process/RSMBN_map.png" alt="Geographical representation of RSM-BN" width="50%" /&gt;
+&lt;p class="caption"&gt;Geographical representation of RSM-BN&lt;/p&gt;
+&lt;/div&gt;
+
+* RSM-BN outputs are used in downstream processes (RSM-GL, DMSTA, etc.)
+
+---
+name: LOSOMProcess
+
+### How it (TSP) was modeled...
+
+&lt;img src="./Plots/process/TSP_modelled.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From USACE PDT 12 Jan 2022 meeting presentation*
+]
+
+
+---
+name: rslts_TOC
+
+
+### Focus
+
+* [Estuary Salinity Envelope Scores](#estuary)
+  * Based on CERP RECOVER salinity envelope evaluation
+
+* [Estuary Discharges](#estuaryQ1)
+  * [Extreme discharge event and duration](#estuaryextreme1)
+  * [CRE Extreme discharge event](#estuaryextreme2)
+  
+* [Regulatory Discharge](#regQ)
+
+* [Lake Okeechobee](#LOK1)
+  * Extreme stage metrics (&gt; 16 Ft NGVD29, &gt;17 Ft, &lt; 10 Ft)
+  * [Ecological Stage Envelope](#LOK3)
+  * [Extreme event and duration](#LOK5)
+  * [Weekly Recession rates](#LOK6) (Snail Kite PM)
+
+* [New regulation schedule](#LORS_LOSOM)
+  
+---
+name: estuary1
+
+### Salinity Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/RECOVER_SalEnv_25.png" alt="Estuary salinity envelope 14-day event counts for each flow category for Caloosahatchee (top) and St. Lucie (bottom)." width="100%" /&gt;
+&lt;p class="caption"&gt;Estuary salinity envelope 14-day event counts for each flow category for Caloosahatchee (top) and St. Lucie (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: estuary2
+
+### Salinity Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/RECOVER_SalEnv_FWO_25.png" alt="Percent difference of estuary salinity envelope 14-day event counts for each flow category realtive to FWO (NA25f) for Caloosahatchee (top) and St. Lucie (bottom)." width="60%" /&gt;
+&lt;p class="caption"&gt;Percent difference of estuary salinity envelope 14-day event counts for each flow category realtive to FWO (NA25f) for Caloosahatchee (top) and St. Lucie (bottom).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: estuaryQ1
+
+### CRE Discharge 
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/MonthQ_S79_cat_25.png" alt="Calendar plot of monthly mean discharge from S-79 (to CRE) for existing condition (ECB19), future without (NA25f) and preferred alternative (PA25)." width="85%" /&gt;
+&lt;p class="caption"&gt;Calendar plot of monthly mean discharge from S-79 (to CRE) for existing condition (ECB19), future without (NA25f) and preferred alternative (PA25).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: estuaryQ2
+
+### SLE Discharge 
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/MonthQ_S80_cat_25.png" alt="Calendar plot of monthly mean discharge from S-80 + other tributaries (TMC, C24 &amp;amp; C23; to SLE) for existing condition (ECB19), future without (NA25f) and preferred alternative (PA25)." width="85%" /&gt;
+&lt;p class="caption"&gt;Calendar plot of monthly mean discharge from S-80 + other tributaries (TMC, C24 &amp; C23; to SLE) for existing condition (ECB19), future without (NA25f) and preferred alternative (PA25).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: estuaryextreme1
+
+### Salinity Envelope - Extreme
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/CRE_highQ_events_25.png" alt="Total (left) and Lake derived (right) extremem discharge events and duration for the Caloosahatchee River Estuary." width="80%" /&gt;
+&lt;p class="caption"&gt;Total (left) and Lake derived (right) extremem discharge events and duration for the Caloosahatchee River Estuary.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: estuaryextreme2
+
+### Salinity Envelope - Extreme
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/CRE_highQ_event1998_PA25.png" alt="Example of &amp;gt;90 Day (106 days) extreme event observed in the simulation period of record." width="80%" /&gt;
+&lt;p class="caption"&gt;Example of &gt;90 Day (106 days) extreme event observed in the simulation period of record.&lt;/p&gt;
+&lt;/div&gt;
+---
+name: estuaryextreme3
+
+### Salinity Envelope - Extreme
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/SLE_highQ_events_25.png" alt="Total (left) and Lake derived (right) extreme discharge events and duration for the St Lucie River Estuary." width="80%" /&gt;
+&lt;p class="caption"&gt;Total (left) and Lake derived (right) extreme discharge events and duration for the St Lucie River Estuary.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: regQ
+
+### Regulatory Discharges
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/iter3_PA_AvgFloodControl_25.png" alt="Regulatory/Flood control discharge for major Lake Okeechobee outlets." width="100%" /&gt;
+&lt;p class="caption"&gt;Regulatory/Flood control discharge for major Lake Okeechobee outlets.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: regQ2
+
+### Regulatory Discharges
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/Lakedischarge_Annualmean_25.png" alt="Lake sourced discharge to CRE (left) and SLE (right) during stress and damaging flow events." width="100%" /&gt;
+&lt;p class="caption"&gt;Lake sourced discharge to CRE (left) and SLE (right) during stress and damaging flow events.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+name: LOK1
+
+### Lake Okeechobee
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_stg_25.png" alt="Perent of time &amp;gt;17, &amp;gt;16 and &amp;lt;10 Ft NGVD during period of simulation" width="50%" /&gt;
+&lt;p class="caption"&gt;Perent of time &gt;17, &gt;16 and &lt;10 Ft NGVD during period of simulation&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LOK2
+
+
+### Lake Okeechobee
+
+&lt;img src="./Plots/Iteration3_Final/LOK_GT17_timeline_25.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/Iteration3_Final/LOK_GT17_recurrance_25.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+name: LOK3
+
+### Lake Okeechobee - Stage Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_Env_25.png" alt="Normal and recovery ecological stage envelope timeline for each alternative." width="100%" /&gt;
+&lt;p class="caption"&gt;Normal and recovery ecological stage envelope timeline for each alternative.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LOK4
+
+### Lake Okeechobee - Stage Envelope
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_EnvScore_AllYrs_25.png" alt="LOK ecological stage envelope total scores (all years)." width="80%" /&gt;
+&lt;p class="caption"&gt;LOK ecological stage envelope total scores (all years).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LOK5
+
+### Lake Okeechobee - Extreme Stage Events
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_highstg_events_25.png" alt="Lake Okeechobeee high stage events and duration." width="75%" /&gt;
+&lt;p class="caption"&gt;Lake Okeechobeee high stage events and duration.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LOK6
+
+### Lake Okeechobee - weekly recession
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_wkreccess_25.png" alt="Calendar plot of LOK weekly recession rates (all years and days)." width="100%" /&gt;
+&lt;p class="caption"&gt;Calendar plot of LOK weekly recession rates (all years and days).&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LOK7
+
+### Lake Okeechobee - weekly recession
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LOK_wkreccess_snki_25.png" alt="Calendar plot of LOK weekly recession rates specific to SNKI nesting period." width="100%" /&gt;
+&lt;p class="caption"&gt;Calendar plot of LOK weekly recession rates specific to SNKI nesting period.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: Sum
+
+### Performance Measure Summary
+
+
+&lt;template id="eff2564c-3ec9-4405-8f20-fc9f4d84f037"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-763872b2{border-collapse:collapse;}.cl-762dccfe{font-family:'Times New Roman';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-762dccff{font-family:'Times New Roman';font-size:6.6pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-762dcd00{font-family:'Times New Roman';font-size:9pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-762dcd01{font-family:'Arial';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-762dcd02{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-762df3dc{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-762df3dd{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-762df3de{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-762e408a{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e408b{width:126pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e408c{width:54pt;background-clip: padding-box;background-color:rgba(255, 106, 106, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e408d{width:54pt;background-clip: padding-box;background-color:rgba(144, 238, 144, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e408e{width:54pt;background-clip: padding-box;background-color:rgba(255, 106, 106, 1.00);vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e408f{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e4090{width:126pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e4091{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e4092{width:126pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e4093{width:54pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-762e4094{width:126pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-763872b2'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e4094"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dccfe"&gt;Performance Measure&lt;/span&gt;&lt;span class="cl-762dccff"&gt; 1 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e4093"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dccfe"&gt;ECB19&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e4093"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dccfe"&gt;NA25f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e4093"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dccfe"&gt;PA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e4093"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dccfe"&gt;% Diff.&lt;br&gt;FWO&lt;/span&gt;&lt;span class="cl-762dccff"&gt; 2 &lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Low Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;663&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;556&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;455&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-18.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Optimum Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;469&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;588&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;765&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;30.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Stress Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;184&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;183&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-63.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Damaging Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;198&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;187&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;81&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-56.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Extreme Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;66&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;57&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;72&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408c"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;26.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Low Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;109&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;107&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;183&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;71.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Optimum Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;831&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;865&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;912&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;5.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Stress Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;164&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;145&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;30&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-79.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Damaging Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;159&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;140&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;38&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-72.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Extreme Q Sal. Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;179&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;162&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;164&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;1.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;CRE - Extreme Q &amp;gt; 30 days&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408c"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;80.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;SLE - Extreme Q &amp;gt; 30 days&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408c"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;100.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;S77 Reg. Discharge&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;510.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;523.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;501.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-4.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;S271 Reg. Discharge&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;56.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;58.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;11.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-80.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;S308 Reg. Discharge&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;229.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;186.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;112.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-39.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;S351+S354 Reg. Discharge&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;60.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;60.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;205.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408d"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;242.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;LOK - Stage Env.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;31946&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;31774&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;43299&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408c"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;36.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e408b"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;LOK ≥ 17Ft&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;54&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;41&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408a"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;246&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408c"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;500.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-762e4090"&gt;&lt;p class="cl-762df3dc"&gt;&lt;span class="cl-762dcd00"&gt;LOK ≤ 10Ft&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408f"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;1220&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408f"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;1188&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408f"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;829&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-762e408e"&gt;&lt;p class="cl-762df3dd"&gt;&lt;span class="cl-762dcd00"&gt;-30.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="5"class="cl-762e4092"&gt;&lt;p class="cl-762df3de"&gt;&lt;span class="cl-762dcd01"&gt; 1 &lt;/span&gt;&lt;span class="cl-762dcd02"&gt;Units: Sal Env. = 14 Day periods; Extreme Q &amp;gt; 30 days = Events; Reg. Discharge = kAcFt Yr⁻¹; Stage Env. = Total Penalty Score; LOK ≥ 17Ft &amp;amp; ≤ 10Ft = Days during simulation&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="5"class="cl-762e4092"&gt;&lt;p class="cl-762df3de"&gt;&lt;span class="cl-762dcd01"&gt; 2 &lt;/span&gt;&lt;span class="cl-762dcd02"&gt;Percent difference relative to FWO (NA25f)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="430d205e-f30a-4d46-8228-b07c7a4ae828"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("430d205e-f30a-4d46-8228-b07c7a4ae828");
+var template = document.getElementById("eff2564c-3ec9-4405-8f20-fc9f4d84f037");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+---
+name: LORS_LOSOM
+
+### Lake Okeechobee Regulation Schedule
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/LORS_TSP.png" alt="Percent of time above, within, and below Zone D of the regulation schedule." width="100%" /&gt;
+&lt;p class="caption"&gt;Percent of time above, within, and below Zone D of the regulation schedule.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LORS_LOSOM2
+
+### Lake Okeechobee Regulation Schedule
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Final/TSP_S79Q_zones_25.png" alt="Distribution of daily discharge relative to Lake stages above, within and below Zone D." width="100%" /&gt;
+&lt;p class="caption"&gt;Distribution of daily discharge relative to Lake stages above, within and below Zone D.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: LORS_LOSOM3
+
+### Lake Okeechobee Regulation Schedule
+
+Under LOSOM "we" should see: 
+
+* Reduced low flow discharges to CRE
+
+--
+
+* Reduced stressful, and damaging discharges (from Lake) to CRE
+
+--
+
+* Increased optimal discharges to CRE
+
+--
+
+* .red[Increased extreme discharges to CRE]
+
+--
+
+* .red[Higher Lakes stages more frequently]
+
+--
+
+* Increased flows south
+
+--
+
+* Reduced regulatory volumes to CRE, SLE, and LWL.
+
+---
+name: LakeEval
+
+### Application of Hydrologic Restoration Goals for a Large Subtropical Lake *(In Prep.)*
+
+.pull-left[
+Based on methodology of Havens (2002). 
+
+Lake stage is a major driver in Lake ecology (see Conceptual Ecological Model).
+.small[
+* Extreme high lake stage (&gt;5.2 m/17 Ft NGVD29)
+
+* Moderate high lake stage (&gt;4.9 m/16 Ft NGVD29) &gt; 90 days
+
+* Moderate low lake stage (&lt;3.3 m/11 Ft NGVD29) &gt; 90 days
+
+* Extreme low lake stage (&lt;3.0 m/10 Ft NGVD29)
+
+* Spring/SNKI nest period recession
+  * March 1 - June 15
+  * weekly recession rate between -0.05 and 0.05 Ft/wk (0.02 m/wk) for more than 1/4th of nesting period.
+
+* Events per decade
+  
+  ]
+]
+
+--
+
+.pull-right[
+
+.red[**Preliminary results:**]
+
+
+&lt;template id="b2627148-9007-47eb-9c9f-a366085963cb"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-7679df4a{border-collapse:collapse;}.cl-76706fdc{font-family:'Times New Roman';font-size:12pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-76706fdd{font-family:'Times New Roman';font-size:10pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-76706fde{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-76706fdf{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:0.1pt;padding-top:0.1pt;padding-left:0.1pt;padding-right:0.1pt;line-height: 1;background-color:transparent;}.cl-7670bdb6{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7670bdb7{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7670bdb8{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7670bdb9{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7670bdba{width:72pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-7670bdbb{width:36pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-7679df4a'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-7670bdba"&gt;&lt;p class="cl-76706fde"&gt;&lt;span class="cl-76706fdc"&gt;Alternative&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-7670bdbb"&gt;&lt;p class="cl-76706fdf"&gt;&lt;span class="cl-76706fdc"&gt;Score&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-7670bdb6"&gt;&lt;p class="cl-76706fde"&gt;&lt;span class="cl-76706fdd"&gt;ECB19&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-7670bdb7"&gt;&lt;p class="cl-76706fdf"&gt;&lt;span class="cl-76706fdd"&gt;0.75&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-7670bdb6"&gt;&lt;p class="cl-76706fde"&gt;&lt;span class="cl-76706fdd"&gt;NA25f&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-7670bdb7"&gt;&lt;p class="cl-76706fdf"&gt;&lt;span class="cl-76706fdd"&gt;0.78&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-7670bdb8"&gt;&lt;p class="cl-76706fde"&gt;&lt;span class="cl-76706fdd"&gt;PA25&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-7670bdb9"&gt;&lt;p class="cl-76706fdf"&gt;&lt;span class="cl-76706fdd"&gt;0.53&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="2b843910-0f7f-4648-9dbc-dcabf18c1fab"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("2b843910-0f7f-4648-9dbc-dcabf18c1fab");
+var template = document.getElementById("b2627148-9007-47eb-9c9f-a366085963cb");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+
+
+* PA25 has higher Extreme &amp; Moderate high stage events .small[(see Extreme Event Analysis [slide](#LOK5))] lowering the score.
+
+* LOSOM is not a restoration plan but should take into account ecology of the system. 
+
+* Benefits to other parts of the system is balanced on the back of the Lake
+
+
+]
+
+
+.small[
+Havens (2002) Development and Application of Hydrologic Restoration Goals for a Large Subtropical Lake. Lake and Reservoir Management 18:285–292. doi: [10.1080/07438140209353934](http://www.tandfonline.com/doi/abs/10.1080/07438140209353934)
+
+]
+
+---
+
+name: LOSOMProcess
+
+### Where we are today...
+
+&lt;img src="./Plots/process/USACE_timeline_2.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+.small[
+*From USACE PDT 12 Jan 2022 meeting presentation*
+]
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "4:3"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

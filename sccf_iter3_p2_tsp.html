@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>SCCF LOSOM Iter 3</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Paul Julian" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/tabwid/tabwid.css" rel="stylesheet" />
+    <link rel="stylesheet" href="libs/WhiteBlue.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;span&gt;  &lt;/span&gt;
+&lt;/div&gt;
+
+---
+name: title
+class: left, middle
+
+### Lake Okeechobee System Operating Manual
+
+
+.pull-left[
+#### Iteration 3 - Phase 2 Batch Analysis
+
+*Sanibel-Captiva Conservation Foundation*
+
+*Conservancy of Southwest Florida*
+
+**DRAFT** - November 16, 2021 &lt;br&gt;(Updated: November 19, 2021 )
+
+]
+&lt;!-- this ends up being the title slide since seal = FALSE--&gt;
+  
+.pull-right[
+&lt;img src="./Plots/SCCF Logo knockout_c.png" width="40%" style="display: block; margin: auto;" /&gt;
+    
+&lt;img src="./Plots/ConSWFL.jpeg" width="40%" style="display: block; margin: auto;" /&gt;
+    
+]
+
+
+
+.footnote[
+&lt;!-- Paul Julian PhD&lt;br&gt;[<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-right:0.2em;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/></svg>](mailto: pjulian@sccf.org) .small[pjulian@sccf.org] --&gt;
+
+.small[Use cursor keys for navigation, press .red["O"] for a slide .red[O]verview]
+
+<a href="https://sccf-tech.github.io/slides/LOSOM/SCCF_iter3_p1_tsp.pdf">
+<button class="btn btn-primary btn-sm">Download PDF Version</button>
+</a>
+]
+
+---
+name: table
+
+
+### Iteration 3 - Phase 2
+
+
+
+.pull-left[
+
+&lt;template id="6a2e6b8e-bbdd-4021-ba3a-e42cc1c6036c"&gt;&lt;style&gt;
+.tabwid table{
+  border-collapse:collapse;
+  line-height:1;
+  margin-left:auto;
+  margin-right:auto;
+  border-width: 0;
+  display: table;
+  margin-top: 1.275em;
+  margin-bottom: 1.275em;
+  border-spacing: 0;
+  border-color: transparent;
+}
+.tabwid_left table{
+  margin-left:0;
+}
+.tabwid_right table{
+  margin-right:0;
+}
+.tabwid td {
+    padding: 0;
+}
+.tabwid a {
+  text-decoration: none;
+}
+.tabwid thead {
+    background-color: transparent;
+}
+.tabwid tfoot {
+    background-color: transparent;
+}
+.tabwid table tr {
+background-color: transparent;
+}
+&lt;/style&gt;&lt;div class="tabwid"&gt;&lt;style&gt;.cl-0c39ba86{border-collapse:collapse;}.cl-0c321e98{font-family:'Times New Roman';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0c321e99{font-family:'Times New Roman';font-size:6.6pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:3.3pt;}.cl-0c321e9a{font-family:'Times New Roman';font-size:8pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0c321e9b{font-family:'Times New Roman';font-size:4.8pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;position: relative;bottom:2.4pt;}.cl-0c321e9c{font-family:'Times New Roman';font-size:7pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-0c324594{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0c324595{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-0c324596{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-0c324597{margin:0;text-align:center;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:1pt;padding-top:1pt;padding-left:1pt;padding-right:1pt;line-height: 1;background-color:transparent;}.cl-0c329382{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329383{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329384{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329385{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329386{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329387{width:33.9pt;background-clip: padding-box;background-color:rgba(255, 255, 0, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329388{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c329389{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32938a{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32938b{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32938c{width:33.9pt;background-clip: padding-box;background-color:rgba(255, 255, 0, 1.00);vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba74{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba75{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba76{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba77{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba78{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba79{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba7a{width:24.4pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba7b{width:33.9pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-0c32ba7c{width:157.7pt;background-color:transparent;vertical-align: middle;border-bottom: 2pt solid rgba(102, 102, 102, 1.00);border-top: 2pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}&lt;/style&gt;&lt;table class='cl-0c39ba86'&gt;&lt;thead&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c32ba79"&gt;&lt;p class="cl-0c324594"&gt;&lt;span class="cl-0c321e98"&gt;&lt;/span&gt;&lt;span class="cl-0c321e99"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td  colspan="2"class="cl-0c32ba78"&gt;&lt;p class="cl-0c324595"&gt;&lt;span class="cl-0c321e98"&gt;Model Index&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c32ba7c"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9a"&gt;Performance Measure&lt;/span&gt;&lt;span class="cl-0c321e9b"&gt;&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32ba7a"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9a"&gt;CC&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32ba7b"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9a"&gt;260467&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Low (PM30)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-32.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-19.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Optimum (PM31)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;20.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32938c"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;30.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Stress from LOK (PM37)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;57.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32938c"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-62.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329386"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Damaging from LOK (PM38)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329385"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-16.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329387"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-55.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Extreme (PM36)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-1.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;27.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Low (PM80)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;61.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;74.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Optimum (PM81)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;7.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;5.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Stress from LOK (PM86)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-91.2&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32938c"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-78.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329386"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Damaging from LOK (PM87)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329385"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-88.0&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329387"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-73.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Extreme (PM85)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-8.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;4.3&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;CRE - Months &amp;gt;6500 cfs (PM79)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-15.8&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;31.6&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329382"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;SLE - Months &amp;gt;4000 cfs (PM117)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329384"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-2.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329383"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;11.9&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329386"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;S308 Regulatory Flow (PM88)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329385"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-61.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329387"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-37.4&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329386"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;S77 Regulatory Flow (PM40)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329385"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;9.5&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c329388"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;-3.1&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td class="cl-0c329389"&gt;&lt;p class="cl-0c324596"&gt;&lt;span class="cl-0c321e9c"&gt;LOK - Total Stage Envelope Penalty (PM10+PM11)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32938a"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;13.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;td class="cl-0c32938b"&gt;&lt;p class="cl-0c324597"&gt;&lt;span class="cl-0c321e9c"&gt;37.7&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;tfoot&gt;&lt;tr style="overflow-wrap:break-word;"&gt;&lt;td  colspan="3"class="cl-0c32ba76"&gt;&lt;p class="cl-0c324594"&gt;&lt;span class="cl-0c321e99"&gt;&lt;/span&gt;&lt;span class="cl-0c321e98"&gt;Percent Difference relative to FWO (NA25)&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tfoot&gt;&lt;/table&gt;&lt;/div&gt;&lt;/template&gt;
+&lt;div class="flextable-shadow-host" id="2f1b997f-209f-4a13-b602-7b746b9b57c0"&gt;&lt;/div&gt;
+&lt;script&gt;
+var dest = document.getElementById("2f1b997f-209f-4a13-b602-7b746b9b57c0");
+var template = document.getElementById("6a2e6b8e-bbdd-4021-ba3a-e42cc1c6036c");
+var caption = template.content.querySelector("caption");
+if(caption) {
+  caption.style.cssText = "display:block;text-align:center;";
+  var newcapt = document.createElement("p");
+  newcapt.appendChild(caption)
+  dest.parentNode.insertBefore(newcapt, dest.previousSibling);
+}
+var fantome = dest.attachShadow({mode: 'open'});
+var templateContent = template.content;
+fantome.appendChild(templateContent);
+&lt;/script&gt;
+]
+
+.pull-right[
+
+* The selected plan (Model Index 260467) provides substantial reduction in SLE regulatory discharges, SLE stress and damaging from the Lake salinity envelope counts.
+
+* This plan also increases CRE optimum and reduces CRE stress and damaging from the Lake salinity envelope counts.
+
+]
+---
+name: estuary
+
+
+### Salinity Envelope
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/SalEnv_BaselineTSP.png" width="64%" style="display: block; margin: auto;" /&gt;
+
+---
+name: estuary
+
+
+### Salinity Envelope - Baselines
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/SalEnv_BaselinePerDiff.png" width="64%" style="display: block; margin: auto;" /&gt;
+
+---
+name: estuary
+
+
+### Salinity Envelope - Extreme Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/Est_mo_extreme_cnt.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+name: estuary
+
+
+### Salinity Envelope - Extreme Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/CRE_highQ_events.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+name: estuary
+
+
+### Salinity Envelope - Extreme Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/CRE_highQ_events_TSP.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+* Based on daily discharges &gt;6500 cfs
+* Can have more counts of LOK events/duration than Basin + LOK (see event &gt;90 days)
+
+---
+name: estuary
+
+
+### Salinity Envelope - Extreme Discharges
+
+* Example of &gt;90 Day (106 days) extreme event observed in the simulation period of record.
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/CRE_highQ_event1998_TSP.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+name: estuary
+
+
+### Salinity Envelope - Extreme Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/SLE_highQ_events.png" width="75%" style="display: block; margin: auto;" /&gt;
+
+---
+name: reg flow
+
+### Regulatory Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/AvgFloodControl_BaselineTSP.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+name: reg flow
+
+
+### Regulatory Discharges
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/Lakedischarge_Annualmean.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+name: ZoneD
+
+### Lake Okeechobee Regulation Schedule
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Batch_TSP/LOK_Stage_RegSch.png" alt="Percent of time above, within, and below Zone D of the regulation schedule." width="90%" /&gt;
+&lt;p class="caption"&gt;Percent of time above, within, and below Zone D of the regulation schedule.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: ZoneD
+
+### Lake Okeechobee Regulation Schedule
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Batch_TSP/TSP_S79Q_zones.png" alt="Distribution of S79 (Lake + Basin) daily discharges relative to above, within, and below Zone D of the regulation schedule." width="65%" /&gt;
+&lt;p class="caption"&gt;Distribution of S79 (Lake + Basin) daily discharges relative to above, within, and below Zone D of the regulation schedule.&lt;/p&gt;
+&lt;/div&gt;
+
+---
+name: ZoneD
+
+### Lake Okeechobee Regulation Schedule
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="./Plots/Iteration3_Batch_TSP/TSP_S80Q_zones.png" alt="Distribution of S80 (Lake + Basin) daily discharges relative to above, within, and below Zone D of the regulation schedule." width="65%" /&gt;
+&lt;p class="caption"&gt;Distribution of S80 (Lake + Basin) daily discharges relative to above, within, and below Zone D of the regulation schedule.&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+name: Lake
+
+
+### Lake Okeechobee
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/LOK_BaselineTSP.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+---
+name: Lake
+
+
+### Lake Okeechobee
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/LOK_GT17_timeline.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/LOK_GT17_recurrance.png" width="90%" style="display: block; margin: auto;" /&gt;
+
+---
+name: Lake
+
+
+### Lake Okeechobee - High Stage Events
+
+&lt;img src="./Plots/Iteration3_Batch_TSP/LOK_highstg_events.png" width="80%" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current%",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "4:3"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
